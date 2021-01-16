@@ -43,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterViewI
 
     @Override
     public void userRegister() {
-
+        startActivity(new Intent(this,UserActivity.class));
+        finish();
     }
 }

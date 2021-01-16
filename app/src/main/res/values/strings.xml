@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EveryoneOnCampus</string>
+    <dimen name="DP90">90dp</dimen>
 </resources>

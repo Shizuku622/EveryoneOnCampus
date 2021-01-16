@@ -43,7 +43,6 @@ public class UserActivity extends AppCompatActivity implements UserViewInterface
         mBinding.txtRegister.setOnClickListener(v->{
             startActivity(new Intent(this, RegisterActivity.class));
         });
-
     }
 
     private void initViews(){
