@@ -3,6 +3,7 @@ package com.android.everyoneoncampus.view.user;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -22,13 +23,18 @@ public class UserActivity extends AppCompatActivity implements UserViewInterface
         View view = mBinding.getRoot();
         setContentView(view);
         //设置状态栏
-//        View decorView = getWindow().getDecorView();
-//        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-//        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        setStatusBar();
 
         mEocPresenter = new EocPresenter(this);
         initViews();
         initListener();
+    }
+
+    private void setStatusBar(){
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
     private void initListener() {
@@ -53,5 +59,15 @@ public class UserActivity extends AppCompatActivity implements UserViewInterface
     public void userLogin() {
         //登录跳转
         startActivity(new Intent());
+    }
+
+    @Override
+    public void showProgressLogin() {
+        mBinding.probarLogin.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressLogin() {
+        mBinding.probarLogin.setVisibility(View.GONE);
     }
 }

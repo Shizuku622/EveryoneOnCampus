@@ -81,7 +81,7 @@ public class MySQLModel {
                 }else{
                     returnSQL.onStatus(0);
                 }
-            } catch (SQLException throwables) {
+            } catch (Exception throwables) {
                 throwables.printStackTrace();
                 Log.e(TAG, throwables.getMessage());
                 returnSQL.onStatus(0);

@@ -147,6 +147,13 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/probar_regedit"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"

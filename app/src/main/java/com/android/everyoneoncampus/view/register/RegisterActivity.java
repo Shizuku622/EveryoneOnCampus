@@ -3,6 +3,7 @@ package com.android.everyoneoncampus.view.register;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -21,9 +22,19 @@ public class RegisterActivity extends AppCompatActivity implements RegisterViewI
         mBinding = ActivityRegisterBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
+        setStatusBar();
+
         mEocPresenter = new EocPresenter(this);
         initListener();
     }
+
+    private void setStatusBar(){
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+    }
+
 
     private void initListener() {
         mBinding.btnRegister.setOnClickListener(v->{
@@ -45,5 +56,15 @@ public class RegisterActivity extends AppCompatActivity implements RegisterViewI
     public void userRegister() {
         startActivity(new Intent(this,UserActivity.class));
         finish();
+    }
+
+    @Override
+    public void showRegisterProgress() {
+        mBinding.probarRegedit.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideRegisterProgress() {
+        mBinding.probarRegedit.setVisibility(View.GONE);
     }
 }
