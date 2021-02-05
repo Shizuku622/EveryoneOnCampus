@@ -11,17 +11,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EveryoneOnCampus">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <activity android:name=".view.personinfo.PersoninfoActivity">
+
+
+        </activity>
         <activity android:name=".TestActivity">
 
         </activity>
         <activity
-            android:name=".view.register.RegisterActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:name=".view.register.RegisterActivity"/>
         <activity
             android:name=".view.user.UserActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

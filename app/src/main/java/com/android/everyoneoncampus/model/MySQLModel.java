@@ -4,34 +4,33 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.view.ViewDebug;
-import android.widget.Toast;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
-import com.android.everyoneoncampus.EocApplication;
+import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
-import com.android.everyoneoncampus.model.entity.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.security.auth.login.LoginException;
-
 public class MySQLModel {
+    //sharedpre
+    private SPModel mSPModel = new SPModel();
+
     private static final String TAG = "MySQLModel";
     private final String DRIVER = "com.mysql.jdbc.Driver";
-    private final String USER = "root";
-    private final String PASSWD = "root";
-    private final String IP = "106.52.183.106";
+    private final String USER = "rrxymysql";
+    private final String PASSWD = "RRXY@mysql0204";
+    private final String IP = "49.235.216.56";
     private final String DBNAME = "rrxy";
-    private final String URL = "jdbc:mysql://"+IP+":3306/"+DBNAME;
+    //&characterEncoding=utf8&useUnicode=true
+    private final String OTHER = "?useSSL=false&serverTimezone=UTC";
+    private final String URL = "jdbc:mysql://"+IP+":2021/"+DBNAME;
 
     public Connection getConnector(){
         Connection conn = null;
@@ -53,6 +52,22 @@ public class MySQLModel {
                 ps.setString(2,passwd);
                 ResultSet resultSet = ps.executeQuery();
                 if(resultSet.next()){
+                    User userInfo = new User();
+                    userInfo.userID = resultSet.getInt("userID");
+                    userInfo.userPassword = resultSet.getString("userPassword");
+                    userInfo.userName = resultSet.getString("userName");
+                    userInfo.userSno = resultSet.getString("userSno");
+                    userInfo.userPhone = resultSet.getString("userPhone");
+                    userInfo.userSex = resultSet.getString("userSex");
+                    userInfo.userSchool = resultSet.getString("userSchool");
+                    userInfo.userPlace = resultSet.getString("userPlace");
+                    userInfo.userIdentity = resultSet.getString("userIdentity");
+                    userInfo.userIcon = resultSet.getString("userIcon");
+                    userInfo.userAutograph = resultSet.getString("userAutograph");
+                    userInfo.userLabel = resultSet.getString("userLabel");
+                    userInfo.mark = resultSet.getInt("mark");
+                    //保存
+                    mSPModel.saveUserInfo(userInfo);
                     returnSQL.onStatus(1);
                 }else{
                     returnSQL.onStatus(0);
@@ -89,6 +104,86 @@ public class MySQLModel {
             Looper.loop();
         }).start();
     }
+    //保存数据
+    public void  getLabelTitle(DataListener<Pair<List<String>,LabelAll>> dataListener){
+
+        new Thread(()->{
+            Pair<List<String>,LabelAll> label = new Pair<>(new ArrayList<>(),new LabelAll());
+            String sql1 = "SELECT * FROM labeltype";
+            String sql2 = "SELECT * FROM labelcontent";
+            try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql1);PreparedStatement ps2 = conn.prepareStatement(sql2)){
+                ResultSet resultSet1 = ps1.executeQuery();
+                ResultSet resultSet2 = ps2.executeQuery();
+                while (resultSet1.next()){
+                    String title = resultSet1.getString("typename");
+                    label.first.add(title);
+                }
+                while (resultSet2.next()){
+                    String typename = resultSet2.getString("typename");
+                    String labelname = resultSet2.getString("labelname");
+                    label.second.addLabel(typename.trim(),labelname.trim());
+                }
+                dataListener.onComplete(label);
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }).start();
+
+
+
+
+    }
+
+
+    //获取标签和内容
+//    public void  getLabelTitle(DataListener<Pair<List<String>,LabelAll>> dataListener){
+////        final List<Pair<List<String>,LabelAll>> pair = new ArrayList<>();
+////        Handler handler = new Handler(Looper.myLooper()){
+////            @Override
+////            public void handleMessage(@NonNull Message msg) {
+////                super.handleMessage(msg);
+////                switch (msg.what){
+////                    case 1:
+////                        Pair<List<String>,LabelAll> temp = (Pair<List<String>,LabelAll>)msg.obj;
+////                        pair.add(temp);
+////                        break;
+////                }
+////            }
+////        };
+//
+//        new Thread(()->{
+//            Looper.prepare();
+//            Pair<List<String>,LabelAll> label = new Pair<>(new ArrayList<>(),new LabelAll());
+//            String sql1 = "SELECT * FROM labeltype";
+//            String sql2 = "SELECT * FROM labelcontent";
+//            try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql1);PreparedStatement ps2 = conn.prepareStatement(sql2)){
+//                ResultSet resultSet1 = ps1.executeQuery();
+//                ResultSet resultSet2 = ps2.executeQuery();
+//                while (resultSet1.next()){
+//                    String title = resultSet1.getString("typename");
+//                    label.first.add(title);
+//                }
+//                while (resultSet2.next()){
+//                    String typename = resultSet2.getString("typename");
+//                    String labelname = resultSet2.getString("labelname");
+//                    label.second.addLabel(typename.trim(),labelname.trim());
+//                }
+////                Message message = Message.obtain();
+////                message.what = 1;
+////                message.obj = label;
+////                handler.sendMessage(message);
+//                dataListener.onComplete(label);
+//            }catch (Exception e){
+//                Log.d(TAG, e.getMessage());
+//            }
+//            Looper.loop();
+//        }).start();
+//
+//
+//
+//
+//    }
+
 
 
     //注册 学号和密码

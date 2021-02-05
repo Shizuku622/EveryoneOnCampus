@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/eoc_leftexit"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"/>
+<!--        <ImageView-->
+<!--            android:id="@+id/imageView"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/eoc_leftexit"-->
+<!--            android:layout_alignParentLeft="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginLeft="16dp"/>-->
 
         <TextView
+            android:layout_marginTop="@dimen/info_fragment_margintop"
+            android:layout_marginBottom="20dp"
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="快来选择属于你的标签吧！"
             android:textColor="@color/black"
             android:textSize="16dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/imageView"/>
+            android:layout_centerHorizontal="true"/>
 
         <LinearLayout
             android:orientation="vertical"
             android:id="@+id/llayout_label"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/textView3">
 
             <com.google.android.material.tabs.TabLayout
+                app:tabIndicatorFullWidth="false"
+                app:tabRippleColor="@android:color/transparent"
+                app:tabMode="scrollable"
+                android:id="@+id/tab_labletype"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="60dp"/>
 
 
             <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vp_lablecontent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="400dp"/>
 
 
         </LinearLayout>
@@ -66,19 +72,21 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/recycler_stroke"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="200dp"/>
 
 
         </LinearLayout>
 
         <Button
+            android:layout_centerHorizontal="true"
             android:layout_below="@+id/llayout_text"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:background="@drawable/btn_shape"
             android:text="完成"
             android:textColor="@color/white"
             android:textSize="@dimen/btn_fontsize"
-            android:layout_height="40dp"/>
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"/>
 
     </RelativeLayout>
 </ScrollView>

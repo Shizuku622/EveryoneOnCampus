@@ -1,27 +1,42 @@
 package com.android.everyoneoncampus.presenter;
 
 import android.graphics.MaskFilter;
+import android.icu.text.AlphabeticIndex;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Pair;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.android.everyoneoncampus.EocApplication;
+import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
+import com.android.everyoneoncampus.model.DbHelper;
+import com.android.everyoneoncampus.model.LabelAll;
 import com.android.everyoneoncampus.model.MySQLModel;
 import com.android.everyoneoncampus.model.UserModel;
 import com.android.everyoneoncampus.model.UserModelInterface;
+import com.android.everyoneoncampus.view.personinfo.PersoninfoViewInterface;
 import com.android.everyoneoncampus.view.register.RegisterViewInterface;
 import com.android.everyoneoncampus.view.user.UserViewInterface;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class EocPresenter {
     //view
     private UserViewInterface mUserView ;
     private RegisterViewInterface mRegisterView;
+    private PersoninfoViewInterface mPersoninfoView;
+
     //model
     private UserModelInterface mUserModel = new UserModel();
+    //sql
+    private DbHelper mDbHelper = new DbHelper();
+
     //MySQL API
     private MySQLModel mMySQLModel = new MySQLModel();
 
@@ -31,7 +46,9 @@ public class EocPresenter {
     public EocPresenter(RegisterViewInterface registerViewInterface){
         mRegisterView = registerViewInterface;
     }
-
+    public EocPresenter(PersoninfoViewInterface personinfoViewInterface){
+        mPersoninfoView = personinfoViewInterface;
+    }
 
     //登录
     public void userLogin(String user,String passwd){
@@ -49,7 +66,7 @@ public class EocPresenter {
 
 
         mUserView.showProgressLogin();
-       mMySQLModel.userLogin(user, passwd, new ReturnSQL() {
+        mMySQLModel.userLogin(user, passwd, new ReturnSQL() {
            @Override
            public void onStatus(int flag) {
                if(flag == 1){
@@ -93,5 +110,26 @@ public class EocPresenter {
             }
         });
     }
+
+    //保存数据
+    public void getAllLable(){
+        //获取标签
+         mMySQLModel.getLabelTitle(new DataListener<Pair<List<String>, LabelAll>>() {
+             @Override
+             public void onComplete(Pair<List<String>, LabelAll> result) {
+                 mDbHelper.insertLabelData(result.first,result.second);
+             }
+         });
+    }
+
+    //获取数据
+    public void getLabelContent(){
+        Pair<List<String>,LabelAll> label =  mDbHelper.readLabelData();
+
+        mPersoninfoView.setTitleContent(label.first,label.second);
+    }
+
+
+
 }
 

@@ -8,4 +8,5 @@
     <dimen name="xiaoxi_gongneng">12dp</dimen>
     <dimen name="pi_size">40dp</dimen>
     <dimen name="material_margin">10dp</dimen>
+    <dimen name="info_fragment_margintop">45dp</dimen>
 </resources>

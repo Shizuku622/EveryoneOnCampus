@@ -1,4 +1,4 @@
-package com.android.everyoneoncampus.model.entity;
+package com.android.everyoneoncampus.model;
 
 public class User {
     public int userID;
@@ -13,4 +13,5 @@ public class User {
     public String userIcon;
     public String userAutograph;
     public String userLabel;
+    public int mark;
 }

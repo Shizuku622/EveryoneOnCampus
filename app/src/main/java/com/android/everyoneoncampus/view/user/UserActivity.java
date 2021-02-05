@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.android.everyoneoncampus.databinding.ActivityUserBinding;
 import com.android.everyoneoncampus.presenter.EocPresenter;
+import com.android.everyoneoncampus.view.personinfo.PersoninfoActivity;
 import com.android.everyoneoncampus.view.register.RegisterActivity;
 
 public class UserActivity extends AppCompatActivity implements UserViewInterface{
@@ -26,6 +27,7 @@ public class UserActivity extends AppCompatActivity implements UserViewInterface
         setStatusBar();
 
         mEocPresenter = new EocPresenter(this);
+        mEocPresenter.getAllLable();
         initViews();
         initListener();
     }
@@ -52,13 +54,14 @@ public class UserActivity extends AppCompatActivity implements UserViewInterface
     }
 
     private void initViews(){
-        //登录
+
     }
 
     @Override
     public void userLogin() {
-        //登录跳转
-        startActivity(new Intent());
+        //获取登录用户信息是否跳转到填写信息 登录跳转
+        //已mark的不用登记，没有填写要登记。
+//        startActivity(new Intent(this, PersoninfoActivity.class));
     }
 
     @Override
