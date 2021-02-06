@@ -1,31 +1,25 @@
 package com.android.everyoneoncampus.view.personinfo;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 
 import com.android.everyoneoncampus.BaseActivity;
-import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.allinterface.OperateMethod;
 import com.android.everyoneoncampus.databinding.ActivityPersoninfoBinding;
 import com.android.everyoneoncampus.model.LabelAll;
-import com.android.everyoneoncampus.presenter.EocPresenter;
+import com.android.everyoneoncampus.presenter.LoginPresenter;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PersoninfoActivity extends BaseActivity implements PersoninfoViewInterface {
     private ActivityPersoninfoBinding mBinding;
     private LabelFragment mLabelFragment;
-    private EocPresenter mEocPresenter;
+    private LoginPresenter mLoginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +28,8 @@ public class PersoninfoActivity extends BaseActivity implements PersoninfoViewIn
         View view = mBinding.getRoot();
         setContentView(view);
         setStatusBar();
-        mEocPresenter = new EocPresenter(this);
-        mEocPresenter.getLabelContent();
+        mLoginPresenter = new LoginPresenter(this);
+        mLoginPresenter.getLabelContent();
         initViews();
     }
 
@@ -62,7 +56,7 @@ public class PersoninfoActivity extends BaseActivity implements PersoninfoViewIn
         fragmentsList.add(new LabelFragment(labelType, labelName, selectedLabel, new OperateMethod<String>() {
             @Override
             public void onOperate(String complete) {
-                mEocPresenter.selectLabel(complete);
+                mLoginPresenter.selectLabel(complete);
             }
         }));
         WriteInfoViewPageAdapter adapter = new WriteInfoViewPageAdapter(getSupportFragmentManager(),fragmentsList);

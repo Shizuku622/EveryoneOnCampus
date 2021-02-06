@@ -1,22 +1,19 @@
 package com.android.everyoneoncampus.view.register;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
 import com.android.everyoneoncampus.BaseActivity;
-import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.ActivityRegisterBinding;
-import com.android.everyoneoncampus.presenter.EocPresenter;
+import com.android.everyoneoncampus.presenter.LoginPresenter;
 import com.android.everyoneoncampus.view.user.UserActivity;
 
 public class RegisterActivity extends BaseActivity implements RegisterViewInterface{
 
     private ActivityRegisterBinding mBinding;
-    private EocPresenter mEocPresenter;
+    private LoginPresenter mLoginPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +22,7 @@ public class RegisterActivity extends BaseActivity implements RegisterViewInterf
         setContentView(view);
         setStatusBar();
 
-        mEocPresenter = new EocPresenter(this);
+        mLoginPresenter = new LoginPresenter(this);
         initListener();
     }
 
@@ -43,7 +40,7 @@ public class RegisterActivity extends BaseActivity implements RegisterViewInterf
             String passwd = mBinding.etPasswd.getText().toString();
             String confirmPasswd = mBinding.etConfirmpasswd.getText().toString();
             if(passwd.equals(confirmPasswd)){
-                mEocPresenter.userRegister(user,passwd);
+                mLoginPresenter.userRegister(user,passwd);
             }
         });
         mBinding.imgbtnLeftexit.setOnClickListener(v->{

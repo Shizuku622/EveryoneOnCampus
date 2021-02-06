@@ -13,25 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-<!--        <receiver android:name=".view.personinfo.LabelContentFragment$MofFragmentAdapter"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="true"-->
-<!--            tools:ignore="Instantiatable">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.mof.fragment"/>-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
-
-        <activity android:name=".view.personinfo.PersoninfoActivity">
-
-
-        </activity>
-        <activity android:name=".TestActivity">
-
-        </activity>
-        <activity
-            android:name=".view.register.RegisterActivity"/>
+        <activity android:name=".view.mainui.MainUIActivity"></activity>
+        <!-- <receiver android:name=".view.personinfo.LabelContentFragment$MofFragmentAdapter" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true" -->
+        <!-- tools:ignore="Instantiatable"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.mof.fragment"/> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <activity android:name=".view.personinfo.PersoninfoActivity"></activity>
+        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".view.register.RegisterActivity" />
         <activity
             android:name=".view.user.UserActivity"
             android:launchMode="singleTask">
@@ -41,7 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

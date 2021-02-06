@@ -14,7 +14,7 @@ import com.android.everyoneoncampus.view.personinfo.LabelFragment;
 import java.io.InterruptedIOException;
 import java.util.List;
 
-public class EocFragmentPresenter extends Fragment {
+public class WriteInfoPresenter extends Fragment {
 
     private DbHelper mDbHelper = new DbHelper();
     private SPModel mSpModel = new SPModel();
@@ -26,11 +26,11 @@ public class EocFragmentPresenter extends Fragment {
         return labelList;
     }
 
-    public EocFragmentPresenter(){
+    public WriteInfoPresenter(){
 
     }
 
-    public EocFragmentPresenter(LabelFragment labelFragment){
+    public WriteInfoPresenter(LabelFragment labelFragment){
         mLabelFragment = labelFragment;
     }
 
@@ -51,23 +51,25 @@ public class EocFragmentPresenter extends Fragment {
 
     //确定完善信息
     public void infoComplete(){
-
         if(mDbHelper.getLabelCount() != 0 && mSpModel.infoSexIdent()){
-            List<String> labelList = mDbHelper.getSelectedLabelData();
             StringBuilder sb = new StringBuilder();
-            for (int i = 0;i < labelList.size();i++){
-                sb.append(labelList.get(i)+",");
+            List<String> labelList = mDbHelper.getSelectedLabelData();
+            if(!labelList.isEmpty()){
+                int i;
+                for (i = 0;i < labelList.size()-1;i++){
+                    sb.append(labelList.get(i)+",");
+                }
+                sb.append(labelList.get(labelList.size()-1));
             }
             SharedPreferences sp = mSpModel.getSp();
             String ident = sp.getString("ident","无");
             String sex = sp.getString("sex","无");
-            String usersno = mSpModel.readUserInfo().userSno;
+            String usersno = mSpModel.readUserInfo();
             mMySQLModel.updateUserInfo(usersno,sex,ident,sb.toString());
             Toast.makeText(EocApplication.getContext(),"填写成功！",Toast.LENGTH_LONG).show();
         }else{
             Toast.makeText(EocApplication.getContext(), "请完善信息！", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 }

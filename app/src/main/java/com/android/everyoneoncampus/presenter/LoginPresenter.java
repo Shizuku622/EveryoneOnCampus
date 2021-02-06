@@ -30,7 +30,7 @@ import java.util.Map;
 
 import javax.crypto.MacSpi;
 
-public class EocPresenter {
+public class LoginPresenter {
     //view
     private UserViewInterface mUserView ;
     private RegisterViewInterface mRegisterView;
@@ -43,54 +43,60 @@ public class EocPresenter {
     //sp
     private SPModel mSpModel = new SPModel();
 
-    //MySQL API
+    //MySQL data
     private MySQLModel mMySQLModel = new MySQLModel();
 
-    public EocPresenter(UserViewInterface userViewInterface){
+    public LoginPresenter(UserViewInterface userViewInterface){
         mUserView = userViewInterface;
     }
-    public EocPresenter(RegisterViewInterface registerViewInterface){
+    public LoginPresenter(RegisterViewInterface registerViewInterface){
         mRegisterView = registerViewInterface;
     }
-    public EocPresenter(PersoninfoViewInterface personinfoViewInterface){
+    public LoginPresenter(PersoninfoViewInterface personinfoViewInterface){
         mPersoninfoView = personinfoViewInterface;
     }
-
     //登录
     public void userLogin(String user,String passwd){
         //handler
-        Handler handler = new Handler(Looper.myLooper()){
+//        Handler handler = new Handler(Looper.myLooper()){
+//            @Override
+//            public void handleMessage(@NonNull Message msg) {
+//                super.handleMessage(msg);
+//                switch (msg.what){
+//                    case 1:
+//                        mUserView.hideProgressLogin();
+//                        //转到登录
+//                        //判断是否已经mark了
+//                        User getUserInfo = mDbHelper.readUserInfo();
+//                        mUserView.userLogin(getUserInfo.mark);
+//                        //清除数据
+//                        mSpModel.clearSpEditor();
+//                        mDbHelper.clearSelectedLabel();
+//                }
+//            }
+//        };
+        mUserView.showProgressLogin();
+        mMySQLModel.getUserLogin(user, passwd, new DataListener<User>() {
             @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what){
-                    case 1:
-                        mUserView.hideProgressLogin();
-                        //转到登录
-                        //判断是否已经mark了
-                        User getUserInfo = mDbHelper.readUserInfo();
-                        mUserView.userLogin(getUserInfo.mark);
-                        //清除数据
+            public void onComplete(User result) {
+                if (result.userSno.equals(user)) {
+                    Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_LONG).show();
+                    mUserView.hideProgressLogin();
+                    mSpModel.saveUserInfo(result.userSno);
+                    if(result.mark.equals("0")){
+                        mUserView.userWriteUserInfo();
+                        //清除
                         mSpModel.clearSpEditor();
                         mDbHelper.clearSelectedLabel();
+                    }else{
+
+                    }
+                }else{
+                    Toast.makeText(EocApplication.getContext(), "登陆失败！", Toast.LENGTH_LONG).show();
                 }
             }
-        };
+        });
 
-        mUserView.showProgressLogin();
-        mMySQLModel.userLogin(user, passwd, new ReturnSQL() {
-           @Override
-           public void onStatus(int flag) {
-               if(flag == 1){
-                   Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_LONG).show();
-               }else{
-                   Toast.makeText(EocApplication.getContext(), "登陆失败！", Toast.LENGTH_LONG).show();
-               }
-               Message msg = Message.obtain();
-               msg.what = 1;
-               handler.sendMessage(msg);
-           }
-       });
     }
 
     //注册

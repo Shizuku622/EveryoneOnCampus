@@ -14,28 +14,15 @@ public class SPModel {
         return mWriteInfoSP;
     }
 
-    public void saveUserInfo(User user){
+    public void saveUserInfo(String userSno){
         SharedPreferences.Editor editor = mUserInfoSP.edit();
-        editor.putString("userSno",user.userSno);
-        editor.putInt("mark",user.mark);
+        editor.putString("usersno",userSno);
         editor.commit();
     }
 
-    public User readUserInfo(){
-        User user = new User();
-        user.userPassword = mUserInfoSP.getString("userPassword","");
-        user.userName = mUserInfoSP.getString("userName","");
-        user.userSno = mUserInfoSP.getString("userSno","");
-        user.userPhone = mUserInfoSP.getString("userPhone","");
-        user.userSex = mUserInfoSP.getString("userSex","");
-        user.userSchool = mUserInfoSP.getString("userSchool","");
-        user.userPlace = mUserInfoSP.getString("userPlace","");
-        user.userIdentity = mUserInfoSP.getString("userIdentity","");
-        user.userIcon = mUserInfoSP.getString("userIcon","");
-        user.userAutograph = mUserInfoSP.getString("userAutograph","");
-        user.userlabel = mUserInfoSP.getString("userLabel","");
-        user.mark = mUserInfoSP.getInt("mark",0);
-        return user;
+    public String readUserInfo(){
+        String userSno = mUserInfoSP.getString("usersno","0");
+        return userSno;
     }
     //填写用户信息
     public void writeSex(String sex){
@@ -64,7 +51,6 @@ public class SPModel {
 
     //查询是否已经填入
     public boolean infoSexIdent(){
-
         String ident = mWriteInfoSP.getString("ident","无");
         String sex = mWriteInfoSP.getString("sex","无");
         if (ident.equals("无") || sex.equals("无")) {

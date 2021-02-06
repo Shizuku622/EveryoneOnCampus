@@ -144,8 +144,7 @@ public class DbHelper {
             user.userIdentity = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userIdentity"));
             user.userIcon = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userIcon"));
             user.userAutograph = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userAutograph"));
-            user.userLabel = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userlabel"));
-            user.mark = cursorUserInfo.getInt(cursorUserInfo.getColumnIndex("mark"));
+            user.mark = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("mark"));
         }
         return user;
     }

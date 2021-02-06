@@ -17,4 +17,6 @@
     <color name="view_linear">#d3d3d3</color>
     <color name="ui_background">#F9F9F9</color>
     <color name="text_color">#101010</color>
+    <color name="eoc_text_color_green">#1FA361</color>
+    <color name="eoc_text_color_drak">#5B6B73</color>
 </resources>

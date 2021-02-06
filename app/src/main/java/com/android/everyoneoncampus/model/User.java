@@ -12,5 +12,23 @@ public class User {
     public String userIcon;
     public String userAutograph;
     public String userlabel;
-    public int mark;
+    public String mark;
+
+    public static User getUser(String... info){
+        User user = new User();
+        user.userPassword = info[0];  //密码
+        user.userName = info[1];
+        user.userSno = info[2]; //学号
+        user.userPhone = info[3];
+        user.userSex = info[4];
+        user.userSchool = info[5];
+        user.userPlace = info[6];
+        user.userIdentity = info[7];
+        user.userIcon = info[8];
+        user.userAutograph = info[9];
+        user.userlabel = info[10];
+        user.mark = info[11];
+        return user;
+    }
+
 }

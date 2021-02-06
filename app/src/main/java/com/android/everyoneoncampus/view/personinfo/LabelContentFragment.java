@@ -1,8 +1,5 @@
 package com.android.everyoneoncampus.view.personinfo;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +13,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.android.everyoneoncampus.allinterface.GetData;
 import com.android.everyoneoncampus.allinterface.OperateMethod;
 import com.android.everyoneoncampus.databinding.FragmentLabelContentBinding;
-import com.android.everyoneoncampus.presenter.EocFragmentPresenter;
+import com.android.everyoneoncampus.presenter.WriteInfoPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LabelContentFragment extends Fragment{
@@ -40,7 +36,7 @@ public class LabelContentFragment extends Fragment{
     private List<String> selectedList;
     private RecLabelAdapter mAdapter;
     private OperateMethod mOperateMethod;
-    private EocFragmentPresenter mEocFragmentPresenter;
+    private WriteInfoPresenter mWriteInfoPresenter;
 
     public LabelContentFragment(List<String> labelName, List<String> sl, OperateMethod operateMethod){
         this.labelName = labelName;
@@ -53,7 +49,7 @@ public class LabelContentFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentLabelContentBinding.inflate(inflater,container,false);
         View view = mBinding.getRoot();
-        mEocFragmentPresenter = new EocFragmentPresenter();
+        mWriteInfoPresenter = new WriteInfoPresenter();
 
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL);
         mBinding.recLabelname.setLayoutManager(staggeredGridLayoutManager);
@@ -66,7 +62,7 @@ public class LabelContentFragment extends Fragment{
         }, new GetData<List<String>>() {
             @Override
             public List<String> getData() {
-                return mEocFragmentPresenter.getAllSelectedLabel();
+                return mWriteInfoPresenter.getAllSelectedLabel();
             }
         });
 

@@ -1,5 +1,6 @@
 package com.android.everyoneoncampus.model;
 
+import android.database.Cursor;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -11,12 +12,14 @@ import androidx.annotation.NonNull;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
 
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 public class MySQLModel {
     //sharedpre
@@ -32,7 +35,7 @@ public class MySQLModel {
     //&characterEncoding=utf8&useUnicode=true
     private final String OTHER = "?useSSL=false&serverTimezone=UTC";
     private final String URL = "jdbc:mysql://"+IP+":2021/"+DBNAME;
-
+    //获取connector
     public Connection getConnector(){
         Connection conn = null;
         try{
@@ -43,6 +46,22 @@ public class MySQLModel {
         }
         return conn;
     }
+//    String sqlUser = String.format("INSERT INTO userinfo(userPassword,userName,userSno," +
+//                            "userPhone,userSex,userSchool," +
+//                            "userPlace,userIdentity,userIcon,userAutograph,userlabel,mark) " +
+//                            "VALUES('%s','%s','%s','%s','%s'" +
+//                            ",1,'%s','%s','%s','%s','%s',%d);",resultSet.getString("userPassword"),
+//                            resultSet.getString("userName"),
+//                            resultSet.getString("userSno"),
+//                            resultSet.getString("userPhone"),
+//                            resultSet.getString("userSex")
+//                            ,resultSet.getString("userPlace"),
+//                            resultSet.getString("userIdentity"),
+//                            resultSet.getString("userIcon"),
+//                            resultSet.getString("userAutograph"),
+//                            resultSet.getString("userlabel"),
+//                            resultSet.getInt("mark"));
+//                    mDbHelper.insertData(sqlUser);
     //登录
     public void userLogin(String user, String passwd, ReturnSQL returnSQL){
         new Thread(()->{
@@ -53,37 +72,10 @@ public class MySQLModel {
                 ps.setString(2,passwd);
                 ResultSet resultSet = ps.executeQuery();
                 if(resultSet.next()){
-                    User userInfo = new User();
-                    userInfo.userPassword = resultSet.getString("userPassword");
-                    userInfo.userName = resultSet.getString("userName");
-                    userInfo.userSno = resultSet.getString("userSno");
-                    userInfo.userPhone = resultSet.getString("userPhone");
-                    userInfo.userSex = resultSet.getString("userSex");
-                    userInfo.userSchool = resultSet.getString("userSchool");
-                    userInfo.userPlace = resultSet.getString("userPlace");
-                    userInfo.userIdentity = resultSet.getString("userIdentity");
-                    userInfo.userIcon = resultSet.getString("userIcon");
-                    userInfo.userAutograph = resultSet.getString("userAutograph");
-                    userInfo.userlabel = resultSet.getString("userLabel");
-                    userInfo.mark = resultSet.getInt("mark");
+                   String usersno = resultSet.getString("userSno");
                     //保存
-                    mSPModel.saveUserInfo(userInfo);
-                    String sqlUser = String.format("INSERT INTO userinfo(userPassword,userName,userSno," +
-                            "userPhone,userSex,userSchool," +
-                            "userPlace,userIdentity,userIcon,userAutograph,userlabel,mark) " +
-                            "VALUES('%s','%s','%s','%s','%s'" +
-                            ",1,'%s','%s','%s','%s','%s',%d);",resultSet.getString("userPassword"),
-                            resultSet.getString("userName"),
-                            resultSet.getString("userSno"),
-                            resultSet.getString("userPhone"),
-                            resultSet.getString("userSex")
-                            ,resultSet.getString("userPlace"),
-                            resultSet.getString("userIdentity"),
-                            resultSet.getString("userIcon"),
-                            resultSet.getString("userAutograph"),
-                            resultSet.getString("userlabel"),
-                            resultSet.getInt("mark"));
-                    mDbHelper.insertData(sqlUser);
+                    mSPModel.saveUserInfo(usersno);
+//
                     returnSQL.onStatus(1);
                 }else{
                     returnSQL.onStatus(0);
@@ -95,6 +87,85 @@ public class MySQLModel {
             Looper.loop();
         }).start();
     }
+    //获取用户信息
+    public void getUserLogin(String user,String passwd,DataListener dataListener){
+
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((User)msg.obj);
+                        break;
+                }
+            }
+        };
+
+        new Thread(()->{
+            String SQL = "select * from user where userSno = ? and userPassword = ?";
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
+                ps.setString(1,user);
+                ps.setString(2,passwd);
+                ResultSet resultSet = ps.executeQuery();
+                Message message = Message.obtain();
+                User userInfo;
+                if(resultSet.next()){
+                    userInfo = User.getUser(resultSet.getString("userPassword"),
+                            resultSet.getString("userName"),
+                            resultSet.getString("userSno"),
+                            resultSet.getString("userPhone"),
+                            resultSet.getString("userSex"),
+                            resultSet.getString("userSchool"),
+                            resultSet.getString("userPlace"),
+                            resultSet.getString("userIdentity"),
+                            resultSet.getString("userIcon"),
+                            resultSet.getString("userAutograph"),
+                            resultSet.getString("userlabel"),
+                            resultSet.getString("mark"));
+                }else{
+                    userInfo = null;
+                }
+                message.what = 1;
+                message.obj = userInfo;
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
+    //获取当前用户信息
+    public void getCurrentUserInfo(DataListener dataListener){
+        String userSno = mSPModel.readUserInfo();
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((String)msg.obj);
+                        break;
+                }
+            }
+        };
+        new Thread(()->{
+            String SQL = "select * from user";
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
+                ResultSet resultSet = ps.executeQuery();
+                while(resultSet.next()){
+                    String sno = resultSet.getString("userSno");
+                    Message msg = Message.obtain();
+                    msg.what = 1;
+                    msg.obj = sno;
+                    handler.sendMessage(msg);
+                }
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
 
     //注册
     public void registerUser(String user,String passwd,ReturnSQL returnSQL){
@@ -155,8 +226,6 @@ public class MySQLModel {
             }catch (Exception e){
                 Log.d(TAG, e.getMessage());
             }
-
-
         }).start();
     }
 

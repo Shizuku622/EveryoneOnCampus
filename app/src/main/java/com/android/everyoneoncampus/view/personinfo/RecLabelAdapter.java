@@ -1,12 +1,8 @@
 package com.android.everyoneoncampus.view.personinfo;
 
-import android.graphics.Color;
-import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +13,6 @@ import com.android.everyoneoncampus.allinterface.GetData;
 import com.android.everyoneoncampus.allinterface.OperateMethod;
 import com.android.everyoneoncampus.model.DbHelper;
 import com.android.everyoneoncampus.model.SPModel;
-import com.android.everyoneoncampus.presenter.EocFragmentPresenter;
 
 import java.util.List;
 
