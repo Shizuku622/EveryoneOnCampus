@@ -10,27 +10,19 @@ public class SPModel {
     private SharedPreferences mWriteInfoSP = EocApplication.getContext().getSharedPreferences("writeinfo",Context.MODE_PRIVATE);
 
 
+    public SharedPreferences getSp(){
+        return mWriteInfoSP;
+    }
+
     public void saveUserInfo(User user){
         SharedPreferences.Editor editor = mUserInfoSP.edit();
-        editor.putInt("userID",user.userID);
-        editor.putString("userPassword",user.userPassword);
-        editor.putString("userName",user.userName);
         editor.putString("userSno",user.userSno);
-        editor.putString("userSex",user.userSex);
-        editor.putString("userSchool",user.userSchool);
-        editor.putString("userPlace",user.userPlace);
-        editor.putString("userIdentity",user.userIdentity);
-        editor.putString("userIcon",user.userIcon);
-        editor.putString("userAutograph",user.userAutograph);
-        editor.putString("userLabel",user.userLabel);
-        editor.putString("userPhone",user.userPhone);
         editor.putInt("mark",user.mark);
         editor.commit();
     }
 
     public User readUserInfo(){
         User user = new User();
-        user.userID = mUserInfoSP.getInt("userID",0);
         user.userPassword = mUserInfoSP.getString("userPassword","");
         user.userName = mUserInfoSP.getString("userName","");
         user.userSno = mUserInfoSP.getString("userSno","");
@@ -41,7 +33,7 @@ public class SPModel {
         user.userIdentity = mUserInfoSP.getString("userIdentity","");
         user.userIcon = mUserInfoSP.getString("userIcon","");
         user.userAutograph = mUserInfoSP.getString("userAutograph","");
-        user.userLabel = mUserInfoSP.getString("userLabel","");
+        user.userlabel = mUserInfoSP.getString("userLabel","");
         user.mark = mUserInfoSP.getInt("mark",0);
         return user;
     }
@@ -63,6 +55,23 @@ public class SPModel {
         editor.commit();
     }
 
+    public void clearSpEditor(){
+        SharedPreferences.Editor editor = mWriteInfoSP.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+
+    //查询是否已经填入
+    public boolean infoSexIdent(){
+
+        String ident = mWriteInfoSP.getString("ident","无");
+        String sex = mWriteInfoSP.getString("sex","无");
+        if (ident.equals("无") || sex.equals("无")) {
+            return false;
+        }
+        return true;
+    }
 
 
 

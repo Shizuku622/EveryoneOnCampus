@@ -21,6 +21,7 @@ import java.util.List;
 public class MySQLModel {
     //sharedpre
     private SPModel mSPModel = new SPModel();
+    private DbHelper mDbHelper = new DbHelper();
 
     private static final String TAG = "MySQLModel";
     private final String DRIVER = "com.mysql.jdbc.Driver";
@@ -53,7 +54,6 @@ public class MySQLModel {
                 ResultSet resultSet = ps.executeQuery();
                 if(resultSet.next()){
                     User userInfo = new User();
-                    userInfo.userID = resultSet.getInt("userID");
                     userInfo.userPassword = resultSet.getString("userPassword");
                     userInfo.userName = resultSet.getString("userName");
                     userInfo.userSno = resultSet.getString("userSno");
@@ -64,10 +64,26 @@ public class MySQLModel {
                     userInfo.userIdentity = resultSet.getString("userIdentity");
                     userInfo.userIcon = resultSet.getString("userIcon");
                     userInfo.userAutograph = resultSet.getString("userAutograph");
-                    userInfo.userLabel = resultSet.getString("userLabel");
+                    userInfo.userlabel = resultSet.getString("userLabel");
                     userInfo.mark = resultSet.getInt("mark");
                     //保存
                     mSPModel.saveUserInfo(userInfo);
+                    String sqlUser = String.format("INSERT INTO userinfo(userPassword,userName,userSno," +
+                            "userPhone,userSex,userSchool," +
+                            "userPlace,userIdentity,userIcon,userAutograph,userlabel,mark) " +
+                            "VALUES('%s','%s','%s','%s','%s'" +
+                            ",1,'%s','%s','%s','%s','%s',%d);",resultSet.getString("userPassword"),
+                            resultSet.getString("userName"),
+                            resultSet.getString("userSno"),
+                            resultSet.getString("userPhone"),
+                            resultSet.getString("userSex")
+                            ,resultSet.getString("userPlace"),
+                            resultSet.getString("userIdentity"),
+                            resultSet.getString("userIcon"),
+                            resultSet.getString("userAutograph"),
+                            resultSet.getString("userlabel"),
+                            resultSet.getInt("mark"));
+                    mDbHelper.insertData(sqlUser);
                     returnSQL.onStatus(1);
                 }else{
                     returnSQL.onStatus(0);
@@ -128,126 +144,20 @@ public class MySQLModel {
                 Log.d(TAG, e.getMessage());
             }
         }).start();
-
-
-
-
     }
+    //更新用户信息
+    public void updateUserInfo(String user,String sex,String ident,String label){
+        String sql = String.format("update user set userSex='%s',userIdentity='%s',userlabel='%s' where userSno = '%s'",sex,ident,label,user);
+        new Thread(()->{
+            try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
+                int i = ps1.executeUpdate();
+                Log.d(TAG, i+"条影响");
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
 
 
-    //获取标签和内容
-//    public void  getLabelTitle(DataListener<Pair<List<String>,LabelAll>> dataListener){
-////        final List<Pair<List<String>,LabelAll>> pair = new ArrayList<>();
-////        Handler handler = new Handler(Looper.myLooper()){
-////            @Override
-////            public void handleMessage(@NonNull Message msg) {
-////                super.handleMessage(msg);
-////                switch (msg.what){
-////                    case 1:
-////                        Pair<List<String>,LabelAll> temp = (Pair<List<String>,LabelAll>)msg.obj;
-////                        pair.add(temp);
-////                        break;
-////                }
-////            }
-////        };
-//
-//        new Thread(()->{
-//            Looper.prepare();
-//            Pair<List<String>,LabelAll> label = new Pair<>(new ArrayList<>(),new LabelAll());
-//            String sql1 = "SELECT * FROM labeltype";
-//            String sql2 = "SELECT * FROM labelcontent";
-//            try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql1);PreparedStatement ps2 = conn.prepareStatement(sql2)){
-//                ResultSet resultSet1 = ps1.executeQuery();
-//                ResultSet resultSet2 = ps2.executeQuery();
-//                while (resultSet1.next()){
-//                    String title = resultSet1.getString("typename");
-//                    label.first.add(title);
-//                }
-//                while (resultSet2.next()){
-//                    String typename = resultSet2.getString("typename");
-//                    String labelname = resultSet2.getString("labelname");
-//                    label.second.addLabel(typename.trim(),labelname.trim());
-//                }
-////                Message message = Message.obtain();
-////                message.what = 1;
-////                message.obj = label;
-////                handler.sendMessage(message);
-//                dataListener.onComplete(label);
-//            }catch (Exception e){
-//                Log.d(TAG, e.getMessage());
-//            }
-//            Looper.loop();
-//        }).start();
-//
-//
-//
-//
-//    }
-
-
-
-    //注册 学号和密码
-//    public boolean registerUser(String user,String passwd){
-//        final List<Boolean> flag = new ArrayList<>();
-//        flag.add(false);
-//        new Thread(()->{
-//            String sql = "insert into user(userSno,userPassword) values(?,?)";
-//            try(Connection conn = getConnector();
-//                PreparedStatement ps = conn.prepareStatement(sql);)
-//            {
-//                ps.setString(1,user);
-//                ps.setString(2,passwd);
-//                int i = ps.executeUpdate();
-//                if(i != 0){
-//                    flag.set(0,true);
-//                }else
-//                    flag.set(0,false);
-//            } catch (SQLException throwables) {
-//                throwables.printStackTrace();
-//                Log.e(TAG, throwables.getMessage());
-//                flag.set(0,false);
-//            }
-//        }).start();
-//        return flag.get(0);
-//    }
-
-    //登录
-//    public boolean userLogin(String user,String passwd){
-//        final List<Boolean> flag = new ArrayList<>();
-//        flag.add(false);
-//        Handler handler = new Handler(Looper.myLooper()){
-//            @Override
-//            public void handleMessage(@NonNull Message msg) {
-//                super.handleMessage(msg);
-//                switch (msg.what){
-//                    case 1:
-//                        if(msg.arg1 == 0){
-//                            flag.set(0,false);
-//                        }
-//                        else{
-//                            flag.set(0,true);
-//                        }
-//                        break;
-//                }
-//            }
-//        };
-//        new Thread(()->{
-//            Message msg = Message.obtain();
-//            msg.what = 1;
-//            String sql = "select * from user";
-//            try(Connection conn = getConnector(); PreparedStatement ps = conn.prepareStatement(sql)){
-//                ResultSet rs =  ps.executeQuery();
-//                if(rs.getRow() > 0){
-//                    msg.arg1 = 1;
-//                }else
-//                    msg.arg1 = 0;
-//            }catch (Exception e){
-//                Log.e(TAG, e.getMessage() );
-//                msg.arg1 = 0;
-//            }
-//            handler.sendMessage(msg);
-//        }).start();
-//        return  flag.get(0);
-//    }
+        }).start();
+    }
 
 }

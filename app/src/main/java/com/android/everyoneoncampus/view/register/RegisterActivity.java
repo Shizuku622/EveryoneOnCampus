@@ -7,12 +7,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.ActivityRegisterBinding;
 import com.android.everyoneoncampus.presenter.EocPresenter;
 import com.android.everyoneoncampus.view.user.UserActivity;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterViewInterface{
+public class RegisterActivity extends BaseActivity implements RegisterViewInterface{
 
     private ActivityRegisterBinding mBinding;
     private EocPresenter mEocPresenter;

@@ -9,7 +9,9 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 
+import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.R;
+import com.android.everyoneoncampus.allinterface.OperateMethod;
 import com.android.everyoneoncampus.databinding.ActivityPersoninfoBinding;
 import com.android.everyoneoncampus.model.LabelAll;
 import com.android.everyoneoncampus.presenter.EocPresenter;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PersoninfoActivity extends AppCompatActivity implements PersoninfoViewInterface {
+public class PersoninfoActivity extends BaseActivity implements PersoninfoViewInterface {
     private ActivityPersoninfoBinding mBinding;
     private LabelFragment mLabelFragment;
     private EocPresenter mEocPresenter;
@@ -57,7 +59,12 @@ public class PersoninfoActivity extends AppCompatActivity implements PersoninfoV
         List<Fragment> fragmentsList = new ArrayList<>();
         fragmentsList.add(new SexFragment());
         fragmentsList.add(new IdentFragment());
-        fragmentsList.add(new LabelFragment(labelType,labelName));
+        fragmentsList.add(new LabelFragment(labelType, labelName, selectedLabel, new OperateMethod<String>() {
+            @Override
+            public void onOperate(String complete) {
+                mEocPresenter.selectLabel(complete);
+            }
+        }));
         WriteInfoViewPageAdapter adapter = new WriteInfoViewPageAdapter(getSupportFragmentManager(),fragmentsList);
         mBinding.vpageUserinfo.setAdapter(adapter);
     }

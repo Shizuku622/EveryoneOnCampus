@@ -16,6 +16,8 @@ import com.android.everyoneoncampus.allinterface.ReturnSQL;
 import com.android.everyoneoncampus.model.DbHelper;
 import com.android.everyoneoncampus.model.LabelAll;
 import com.android.everyoneoncampus.model.MySQLModel;
+import com.android.everyoneoncampus.model.SPModel;
+import com.android.everyoneoncampus.model.User;
 import com.android.everyoneoncampus.model.UserModel;
 import com.android.everyoneoncampus.model.UserModelInterface;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoViewInterface;
@@ -25,6 +27,8 @@ import com.android.everyoneoncampus.view.user.UserViewInterface;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.crypto.MacSpi;
 
 public class EocPresenter {
     //view
@@ -36,6 +40,8 @@ public class EocPresenter {
     private UserModelInterface mUserModel = new UserModel();
     //sql
     private DbHelper mDbHelper = new DbHelper();
+    //sp
+    private SPModel mSpModel = new SPModel();
 
     //MySQL API
     private MySQLModel mMySQLModel = new MySQLModel();
@@ -60,19 +66,25 @@ public class EocPresenter {
                 switch (msg.what){
                     case 1:
                         mUserView.hideProgressLogin();
+                        //转到登录
+                        //判断是否已经mark了
+                        User getUserInfo = mDbHelper.readUserInfo();
+                        mUserView.userLogin(getUserInfo.mark);
+                        //清除数据
+                        mSpModel.clearSpEditor();
+                        mDbHelper.clearSelectedLabel();
                 }
             }
         };
-
 
         mUserView.showProgressLogin();
         mMySQLModel.userLogin(user, passwd, new ReturnSQL() {
            @Override
            public void onStatus(int flag) {
                if(flag == 1){
-                   Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_LONG).show();
                }else{
-                   Toast.makeText(EocApplication.getContext(), "登陆失败！", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(EocApplication.getContext(), "登陆失败！", Toast.LENGTH_LONG).show();
                }
                Message msg = Message.obtain();
                msg.what = 1;
@@ -122,14 +134,16 @@ public class EocPresenter {
          });
     }
 
-    //获取数据
+    //获取标签数据
     public void getLabelContent(){
         Pair<List<String>,LabelAll> label =  mDbHelper.readLabelData();
-
-        mPersoninfoView.setTitleContent(label.first,label.second);
+        List<String> labelList = mDbHelper.getSelectedLabelData();
+        mPersoninfoView.setTitleContent(label.first,label.second,labelList);
     }
-
-
+    //选择一个标签
+    public void selectLabel(String labelName){
+        mDbHelper.SelectLable(labelName);
+    }
 
 }
 

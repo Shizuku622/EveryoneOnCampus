@@ -1,5 +1,6 @@
 package com.android.everyoneoncampus.model;
 
+import android.app.job.JobInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.strictmode.SqliteObjectLeakedViolation;
@@ -7,6 +8,7 @@ import android.util.Pair;
 
 import com.android.everyoneoncampus.EocApplication;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class DbHelper {
     private EOCDatabaseHelper mDbHelper;
 
     public  DbHelper(){
-        mDbHelper = new EOCDatabaseHelper(EocApplication.getContext(),"EocDB",2);
+        mDbHelper = new EOCDatabaseHelper(EocApplication.getContext(),"EocDB",4);
         mDbHelper.getWritableDatabase();
     }
 
@@ -22,10 +24,25 @@ public class DbHelper {
         return mDbHelper.getWritableDatabase();
     }
 
+    //保存用户数据
+    public void saveUserInfo(User user){
+
+    }
+
     //添加数据
-    private void insertData(String sql){
+    public void insertData(String sql){
         SQLiteDatabase db = getSQLiteDatabase();
         db.execSQL(sql);
+    }
+
+    //查询是否存在
+    private boolean selectDataExist(String sql){
+        SQLiteDatabase db = getSQLiteDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        if (cursor.moveToFirst()){
+            return true;
+        }
+        return false;
     }
 
     //查询数据
@@ -80,13 +97,56 @@ public class DbHelper {
     //已选的标签
     public List<String> getSelectedLabelData(){
         Cursor label = selectData("select * from selectedlabel");
+        List<String> labelList = new ArrayList<>();
+        labelList.clear();
         if(label.moveToFirst()){
             do{
                 String ln = label.getString(label.getColumnIndex("labelname"));
+                labelList.add(ln);
             }while(label.moveToNext());
+        }
+        return labelList;
+    }
+    //删除一个标签
+    public void deleteSelectedLabel(String labelName){
+        deleteData("delete from selectedlabel" + " where labelname='"+labelName+"'");
+    }
+    //选择一个标签
+    public void SelectLable(String labelName){
+        if(!selectDataExist("select * from selectedlabel where labelname='"+labelName+"'")){
+            insertData("insert into selectedlabel values('"+labelName+"')");
         }
     }
 
+    //计数
+    public int getLabelCount(){
+        Cursor cursorCount = selectData("select * from selectedlabel");
+        int count = cursorCount.getCount();
+        return count;
+    }
+    //清除数据
+    public void clearSelectedLabel(){
+        deleteData("delete from selectedlabel");
+    }
 
 
+    public User readUserInfo() {
+        Cursor cursorUserInfo = selectData("select * from userinfo");
+        User user = new User();
+        if(cursorUserInfo.moveToFirst()){
+            user.userPassword = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userPassword"));
+            user.userName = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userName"));
+            user.userSno = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userSno"));
+            user.userPhone = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userPhone"));
+            user.userSex = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userSex"));
+            user.userSchool = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userSchool"));
+            user.userPlace = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userPlace"));
+            user.userIdentity = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userIdentity"));
+            user.userIcon = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userIcon"));
+            user.userAutograph = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userAutograph"));
+            user.userLabel = cursorUserInfo.getString(cursorUserInfo.getColumnIndex("userlabel"));
+            user.mark = cursorUserInfo.getInt(cursorUserInfo.getColumnIndex("mark"));
+        }
+        return user;
+    }
 }

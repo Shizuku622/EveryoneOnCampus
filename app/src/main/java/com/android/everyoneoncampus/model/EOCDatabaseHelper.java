@@ -19,6 +19,7 @@ public class EOCDatabaseHelper extends SQLiteOpenHelper {
     private String createLabelType = "create table labeltype(typename text primary key)";
     private String createLabelcontent = "create table labelcontent(labelname text primary key,typename text)";
     private String createSelected = "create table selectedlabel(labelname text)";
+    private String createUserInfo = "create table userinfo(userPassword text,userName text,userSno,userPhone,userSex,userSchool integer,userPlace text,userIdentity text,userIcon text,userAutograph text,userlabel text,mark integer)";
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createLabelcontent);
@@ -28,12 +29,8 @@ public class EOCDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(createSelected);
-        db.execSQL("insert into selectedlabel values('轻音乐')");
-        db.execSQL("insert into selectedlabel values('乡村')");
-        db.execSQL("insert into selectedlabel values('古典')");
-        db.execSQL("insert into selectedlabel values('摇滚')");
-        db.execSQL("insert into selectedlabel values('流行')");
+        db.execSQL("drop table if exists userinfo");
+        db.execSQL(createUserInfo);
         Toast.makeText(EocApplication.getContext(),"更新成功!",Toast.LENGTH_LONG).show();
     }
 }

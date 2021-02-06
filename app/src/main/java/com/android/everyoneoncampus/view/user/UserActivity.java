@@ -7,12 +7,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.databinding.ActivityUserBinding;
 import com.android.everyoneoncampus.presenter.EocPresenter;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoActivity;
 import com.android.everyoneoncampus.view.register.RegisterActivity;
 
-public class UserActivity extends AppCompatActivity implements UserViewInterface{
+public class UserActivity extends BaseActivity implements UserViewInterface{
 
     private ActivityUserBinding mBinding;
     private EocPresenter mEocPresenter;
@@ -58,10 +59,16 @@ public class UserActivity extends AppCompatActivity implements UserViewInterface
     }
 
     @Override
-    public void userLogin() {
+    public void userLogin(int mark) {
         //获取登录用户信息是否跳转到填写信息 登录跳转
         //已mark的不用登记，没有填写要登记。
-//        startActivity(new Intent(this, PersoninfoActivity.class));
+        if(mark == 0){
+            startActivity(new Intent(this, PersoninfoActivity.class));
+
+        }else{
+            //跳转到主页面
+        }
+        finish();
     }
 
     @Override
