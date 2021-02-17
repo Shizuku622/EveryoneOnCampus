@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout android:orientation="vertical"
+    android:id="@+id/llayout_index_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:background="@color/nav_back_color"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp">
 
         <ImageView
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/eoc_menu"
             android:layout_gravity="center"
             android:layout_width="@dimen/index_img_size"
             android:layout_height="@dimen/index_img_size"/>
         <LinearLayout
+            android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/index_search"
@@ -26,20 +28,23 @@
             android:layout_width="0dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:layout_height="40dp">
+            android:layout_height="35dp">
 
             <ImageView
                 android:layout_gravity="center"
                 android:src="@drawable/eoc_index_search"
-                android:layout_width="25dp"
-                android:layout_height="25dp"/>
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
             <EditText
+                android:hint="搜索"
+                android:textSize="12dp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
         <ImageView
+            android:layout_marginRight="10dp"
             android:src="@drawable/eoc_inform"
             android:layout_gravity="center"
             android:layout_width="@dimen/index_img_size"
@@ -48,12 +53,18 @@
     </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
+        app:tabIndicatorFullWidth="false"
+        app:tabMode="scrollable"
+        android:id="@+id/tab_index"
+        android:background="@color/nav_back_color"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_index"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <androidx.viewpager.widget.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
 
 </LinearLayout>

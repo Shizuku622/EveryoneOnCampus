@@ -6,20 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.android.everyoneoncampus.BaseActivity;
-import com.android.everyoneoncampus.databinding.ActivityUserBinding;
+import com.android.everyoneoncampus.databinding.ActivityUserloginBinding;
 import com.android.everyoneoncampus.presenter.LoginPresenter;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoActivity;
 import com.android.everyoneoncampus.view.register.RegisterActivity;
 
 public class UserActivity extends BaseActivity implements UserViewInterface{
 
-    private ActivityUserBinding mBinding;
+    private ActivityUserloginBinding mBinding;
     private LoginPresenter mLoginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = ActivityUserBinding.inflate(getLayoutInflater());
+        mBinding = ActivityUserloginBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
         //设置状态栏

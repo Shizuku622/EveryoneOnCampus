@@ -12,11 +12,12 @@
     <color name="txt_color">#59A970</color>
     <color name="storke_color">#EDEDF0</color>
     <color name="label_color">#1FA361</color>
-    <color name="search_back_color">#F1F0F5</color>
     <color name="stroke_color">#F7F7F7</color>
     <color name="view_linear">#d3d3d3</color>
     <color name="ui_background">#F9F9F9</color>
     <color name="text_color">#101010</color>
     <color name="eoc_text_color_green">#1FA361</color>
     <color name="eoc_text_color_drak">#5B6B73</color>
+    <color name="nav_back_color">#F9F9F9</color>
+    <color name="search_back_color">#F1F0F5</color>
 </resources>

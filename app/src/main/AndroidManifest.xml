@@ -13,8 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".view.mainui.MainUIActivity"></activity>
-        <!-- <receiver android:name=".view.personinfo.LabelContentFragment$MofFragmentAdapter" -->
+        <activity android:name=".view.mainui.SendDynamicActivity"></activity>
+        <activity android:name=".view.mainui.MainUIActivity"></activity> <!-- <receiver android:name=".view.personinfo.LabelContentFragment$MofFragmentAdapter" -->
         <!-- android:enabled="true" -->
         <!-- android:exported="true" -->
         <!-- tools:ignore="Instantiatable"> -->
@@ -22,8 +22,8 @@
         <!-- <action android:name="com.mof.fragment"/> -->
         <!-- </intent-filter> -->
         <!-- </receiver> -->
-        <activity android:name=".view.personinfo.PersoninfoActivity"></activity>
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".view.personinfo.PersoninfoActivity" />
+        <activity android:name=".TestActivity" />
         <activity android:name=".view.register.RegisterActivity" />
         <activity
             android:name=".view.user.UserActivity"

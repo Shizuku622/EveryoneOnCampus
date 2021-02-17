@@ -24,6 +24,7 @@ public class EOCDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createLabelcontent);
         db.execSQL(createLabelType);
+        db.execSQL(createSelected);
         Toast.makeText(EocApplication.getContext(),"创建成功",Toast.LENGTH_LONG).show();
     }
 

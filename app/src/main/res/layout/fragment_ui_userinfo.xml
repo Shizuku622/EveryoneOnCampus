@@ -16,8 +16,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:src="@drawable/eoc_sys"
-            android:layout_width="@dimen/pi_size"
-            android:layout_height="@dimen/pi_size"/>
+            android:layout_width="@dimen/index_img_size"
+            android:layout_height="@dimen/index_img_size"/>
 
         <TextView
             android:layout_centerInParent="true"
@@ -31,14 +31,14 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/eoc_setting"
-            android:layout_width="30dp"
-            android:layout_height="30dp"/>
+            android:layout_width="@dimen/index_img_size"
+            android:layout_height="@dimen/index_img_size"/>
 
     </RelativeLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_margin="@dimen/material_margin"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:textColor="@color/black"
                     android:text="星辰大海"/>
 
@@ -81,8 +81,8 @@
                     android:src="@drawable/eoc_mof"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="2dp"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"/>
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"/>
 
                 <TextView
                     android:layout_alignParentRight="true"
@@ -98,8 +98,8 @@
                     android:layout_margin="4dp"
                     android:src="@drawable/eoc_sex_man"
                     android:layout_toRightOf="@id/txt_name"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"/>
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"/>
 
             </RelativeLayout>
 
@@ -207,7 +207,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -320,6 +320,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
@@ -361,6 +362,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:layout_marginRight="5dp"
+                    android:textSize="12dp"
                     android:text="详细查看 >"/>
 
             </RelativeLayout>
@@ -400,7 +402,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -438,6 +440,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
+                    android:textSize="12dp"
                     android:text="查看全部 >"/>
 
             </RelativeLayout>
