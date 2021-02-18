@@ -10,4 +10,5 @@
     <dimen name="material_margin">12dp</dimen>
     <dimen name="info_fragment_margintop">45dp</dimen>
     <dimen name="dynamic_margin">20dp</dimen>
+    <dimen name="tuijian_picsize">14dp</dimen>
 </resources>

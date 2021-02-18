@@ -3,9 +3,12 @@ package com.android.everyoneoncampus.view.mainui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.ActivityMainUseruiBinding;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.UIIndexFragment;
@@ -15,12 +18,14 @@ import com.android.everyoneoncampus.view.mainui.uifrag.UIUserInfoFragment;
 
 public class MainUIActivity extends AppCompatActivity {
     ActivityMainUseruiBinding mBinding;
+    private static final String TAG = "MainUIActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityMainUseruiBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
+        EocTools.setStatusBar(this);
         initViews();
 
     }
@@ -30,6 +35,7 @@ public class MainUIActivity extends AppCompatActivity {
         UIStudyFragment uiStudyFragment = new UIStudyFragment();
         UIMessageFragment uiMessageFragment = new UIMessageFragment();
         UIUserInfoFragment uiUserInfoFragment = new UIUserInfoFragment();
+
         mBinding.rgMainuiNav.setOnCheckedChangeListener((g,cid)->{
             Fragment fragment = null;
             switch (cid){
@@ -38,6 +44,10 @@ public class MainUIActivity extends AppCompatActivity {
                     break;
                 case R.id.radiobtn_study:
                     fragment = uiStudyFragment;
+                    break;
+                case R.id.radiobtn_add_dynamic:
+                    startActivity(new Intent(this,SendDynamicActivity.class));
+                    Log.d(TAG, "不出现");
                     break;
                 case R.id.radiobtn_message:
                     fragment = uiMessageFragment;
@@ -54,5 +64,9 @@ public class MainUIActivity extends AppCompatActivity {
         mBinding.radiobtnIndex.setChecked(true);
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mBinding.radiobtnIndex.setChecked(true);
+    }
 }

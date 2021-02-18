@@ -15,7 +15,30 @@ public class SendDynamicActivity extends AppCompatActivity {
         mBinding = ActivityAddDynamicStateBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
+        initViews();
+        initListeners();
+    }
 
+    private void initListeners() {
+        mBinding.imgExit.setOnClickListener(v->{
+            finish();
+        });
+        mBinding.llayoutThings.setOnClickListener(v->{
+            ReleaseActivity.actionActivity(this,"things");
+        });
+        mBinding.llayoutProblem.setOnClickListener(v->{
+            ReleaseActivity.actionActivity(this,"problem");
+        });
+        mBinding.llayoutLose.setOnClickListener(v->{
+            ReleaseActivity.actionActivity(this,"lose");
+        });
+        mBinding.llayoutSign.setOnClickListener(v->{
+            ReleaseActivity.actionActivity(this,"sign");
+        });
+
+    }
+
+    private void initViews() {
 
     }
 }

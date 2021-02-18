@@ -50,7 +50,7 @@ public class WriteInfoPresenter extends Fragment {
     }
 
     //确定完善信息
-    public void infoComplete(){
+    public boolean infoComplete(){
         if(mDbHelper.getLabelCount() != 0 && mSpModel.infoSexIdent()){
             StringBuilder sb = new StringBuilder();
             List<String> labelList = mDbHelper.getSelectedLabelData();
@@ -67,8 +67,10 @@ public class WriteInfoPresenter extends Fragment {
             String usersno = mSpModel.readUserInfo();
             mMySQLModel.updateUserInfo(usersno,sex,ident,sb.toString());
             Toast.makeText(EocApplication.getContext(),"填写成功！",Toast.LENGTH_LONG).show();
+            return true;
         }else{
             Toast.makeText(EocApplication.getContext(), "请完善信息！", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 

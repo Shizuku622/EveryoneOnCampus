@@ -1,5 +1,6 @@
 package com.android.everyoneoncampus.view.personinfo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.allinterface.OperateMethod;
 import com.android.everyoneoncampus.databinding.FragmentLabelBinding;
 import com.android.everyoneoncampus.model.LabelAll;
 import com.android.everyoneoncampus.presenter.WriteInfoPresenter;
+import com.android.everyoneoncampus.view.mainui.MainUIActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +78,6 @@ public class LabelFragment extends Fragment {
             public int getCount() {
                 return mFragments.size();
             }
-
-
             @Nullable
             @Override
             public CharSequence getPageTitle(int position) {
@@ -92,7 +93,9 @@ public class LabelFragment extends Fragment {
         mBinding.recDeleteLabel.setAdapter(mAdapter);
 
         mBinding.btnComplete.setOnClickListener(v->{
-            mWriteInfoPresenter.infoComplete();
+            if(mWriteInfoPresenter.infoComplete()){
+                getActivity().startActivity(new Intent(EocApplication.getContext(), MainUIActivity.class));
+            }
         });
 
     }

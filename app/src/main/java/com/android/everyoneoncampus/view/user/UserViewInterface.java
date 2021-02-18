@@ -5,4 +5,5 @@ public interface UserViewInterface {
     void userMainUserUI();
     void showProgressLogin();
     void hideProgressLogin();
+    void loginMainUI();
 }

@@ -11,6 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.android.everyoneoncampus.databinding.FragmentUiIndexStudyBinding;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.GuanzhuIndexFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.HuatiIndexFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TalkIndexFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TuijianIndexFragment;
 
 import java.util.ArrayList;
 import java.util.List;

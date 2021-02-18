@@ -1,13 +1,16 @@
 package com.android.everyoneoncampus.view.user;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.databinding.ActivityUserloginBinding;
 import com.android.everyoneoncampus.presenter.LoginPresenter;
+import com.android.everyoneoncampus.view.mainui.MainUIActivity;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoActivity;
 import com.android.everyoneoncampus.view.register.RegisterActivity;
 
@@ -44,6 +47,10 @@ public class UserActivity extends BaseActivity implements UserViewInterface{
             String user = mBinding.etUser.getText().toString();
             String passwd = mBinding.etPasswd.getText().toString();
             mLoginPresenter.userLogin(user,passwd);
+            InputMethodManager manager = ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE));
+            if(manager != null){
+                manager.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         });
 
         //注册按钮
@@ -54,6 +61,11 @@ public class UserActivity extends BaseActivity implements UserViewInterface{
 
     private void initViews(){
 
+    }
+    @Override
+    public void loginMainUI(){
+        startActivity(new Intent(this, MainUIActivity.class));
+        finish();
     }
 
     @Override

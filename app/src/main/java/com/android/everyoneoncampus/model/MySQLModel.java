@@ -6,9 +6,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.util.Pair;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
 
@@ -98,6 +100,9 @@ public class MySQLModel {
                     case 1:
                         dataListener.onComplete((User)msg.obj);
                         break;
+                    case 2:
+                        dataListener.onComplete(null);
+                        break;
                 }
             }
         };
@@ -111,7 +116,8 @@ public class MySQLModel {
                 Message message = Message.obtain();
                 User userInfo;
                 if(resultSet.next()){
-                    userInfo = User.getUser(resultSet.getString("userPassword"),
+                    userInfo = User.getUser(
+                            resultSet.getString("userPassword"),
                             resultSet.getString("userName"),
                             resultSet.getString("userSno"),
                             resultSet.getString("userPhone"),
@@ -122,12 +128,13 @@ public class MySQLModel {
                             resultSet.getString("userIcon"),
                             resultSet.getString("userAutograph"),
                             resultSet.getString("userlabel"),
-                            resultSet.getString("mark"));
+                            resultSet.getString("mark"),
+                            resultSet.getString("userID"));
+                    message.what = 1;
+                    message.obj = userInfo;
                 }else{
-                    userInfo = null;
+                    message.what = 2;
                 }
-                message.what = 1;
-                message.obj = userInfo;
                 handler.sendMessage(message);
             }catch (Exception e){
                 Log.e(TAG, e.getMessage());
@@ -218,11 +225,75 @@ public class MySQLModel {
     }
     //更新用户信息
     public void updateUserInfo(String user,String sex,String ident,String label){
-        String sql = String.format("update user set userSex='%s',userIdentity='%s',userlabel='%s' where userSno = '%s'",sex,ident,label,user);
+        String sql = String.format("update user set userSex='%s',userIdentity='%s',userlabel='%s',mark='%s' " +
+                "where userSno = '%s'",sex,ident,label,"1",user);
         new Thread(()->{
             try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
                 int i = ps1.executeUpdate();
                 Log.d(TAG, i+"条影响");
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
+
+    public void getThingsAllApi(DataListener<List<Things>> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((List<Things>)msg.obj);
+                        break;
+                    case 2:
+                        dataListener.onComplete(null);
+                }
+            }
+        };
+
+        String sql = "select * from things";
+        new Thread(()->{
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
+                ResultSet resultSet = ps.executeQuery();
+                List<Things> thingsList = new ArrayList<>();
+                if(resultSet.first()){
+                    do{
+                        String userID = resultSet.getString("userID");
+                        String thingsContent = resultSet.getString("thingsContent");
+                        String thingsDate = resultSet.getString("thingsDate");
+                        thingsList.add(new Things(userID,thingsDate,thingsContent));
+                    }while(resultSet.next());
+                }
+                Message msg = Message.obtain();
+                if(thingsList.isEmpty()){
+                    msg.what = 2;
+                }else{
+                    msg.what = 1;
+                    msg.obj = thingsList;
+                }
+                handler.sendMessage(msg);
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }).start();
+    }
+    //发送
+    public void sendNewSomethingApi(String sql){
+
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                Toast.makeText(EocApplication.getContext(),"发送成功!",Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        new Thread(()->{
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
+                int resultSet = ps.executeUpdate();
+                handler.sendMessage(Message.obtain());
             }catch (Exception e){
                 Log.d(TAG, e.getMessage());
             }

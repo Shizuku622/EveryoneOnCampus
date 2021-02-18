@@ -1,6 +1,7 @@
 package com.android.everyoneoncampus.model;
 
 public class User {
+    public String userID;
     public String userPassword;  //密码
     public String userName;
     public String userSno; //学号
@@ -28,6 +29,7 @@ public class User {
         user.userAutograph = info[9];
         user.userlabel = info[10];
         user.mark = info[11];
+        user.userID = info[12];
         return user;
     }
 

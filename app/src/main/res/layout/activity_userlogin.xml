@@ -73,6 +73,7 @@
                         android:layout_gravity="center"/>
 
                     <EditText
+                        android:text="11"
                         android:id="@+id/et_user"
                         android:hint="请输入学号"
                         android:textSize="14dp"
@@ -99,6 +100,7 @@
                         android:layout_gravity="center"/>
 
                     <EditText
+                        android:text="11"
                         android:id="@+id/et_passwd"
                         android:textSize="14dp"
                         android:padding="10dp"
@@ -136,6 +138,8 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:textColor="@drawable/txt_press_color_selector"
+                android:clickable="true"
                 android:id="@+id/txt_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

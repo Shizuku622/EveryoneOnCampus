@@ -20,6 +20,7 @@ import com.android.everyoneoncampus.model.SPModel;
 import com.android.everyoneoncampus.model.User;
 import com.android.everyoneoncampus.model.UserModel;
 import com.android.everyoneoncampus.model.UserModelInterface;
+import com.android.everyoneoncampus.view.personinfo.IdentFragment;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoViewInterface;
 import com.android.everyoneoncampus.view.register.RegisterViewInterface;
 import com.android.everyoneoncampus.view.user.UserViewInterface;
@@ -57,43 +58,32 @@ public class LoginPresenter {
     }
     //登录
     public void userLogin(String user,String passwd){
-        //handler
-//        Handler handler = new Handler(Looper.myLooper()){
-//            @Override
-//            public void handleMessage(@NonNull Message msg) {
-//                super.handleMessage(msg);
-//                switch (msg.what){
-//                    case 1:
-//                        mUserView.hideProgressLogin();
-//                        //转到登录
-//                        //判断是否已经mark了
-//                        User getUserInfo = mDbHelper.readUserInfo();
-//                        mUserView.userLogin(getUserInfo.mark);
-//                        //清除数据
-//                        mSpModel.clearSpEditor();
-//                        mDbHelper.clearSelectedLabel();
-//                }
-//            }
-//        };
         mUserView.showProgressLogin();
         mMySQLModel.getUserLogin(user, passwd, new DataListener<User>() {
             @Override
             public void onComplete(User result) {
-                if (result.userSno.equals(user)) {
-                    Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_LONG).show();
-                    mUserView.hideProgressLogin();
-                    mSpModel.saveUserInfo(result.userSno);
-                    if(result.mark.equals("0")){
-                        mUserView.userWriteUserInfo();
-                        //清除
-                        mSpModel.clearSpEditor();
-                        mDbHelper.clearSelectedLabel();
+                if(result != null){
+                    if (result.userSno.equals(user)) {
+                        Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_LONG).show();
+                        mUserView.hideProgressLogin();
+                        mSpModel.saveUserInfo(result.userSno);
+                        String userID = result.userID;
+                        EocApplication.setUserID(userID);
+                        if(result.mark.equals("0")){
+                            mUserView.userWriteUserInfo();
+                            //清除
+                            mSpModel.clearSpEditor();
+                            mDbHelper.clearSelectedLabel();
+                        }else{
+                            mUserView.loginMainUI();
+                        }
                     }else{
-
+                        Toast.makeText(EocApplication.getContext(), "账号或者密码错误！", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(EocApplication.getContext(), "登陆失败！", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EocApplication.getContext(), "账号或者密码错误！", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
