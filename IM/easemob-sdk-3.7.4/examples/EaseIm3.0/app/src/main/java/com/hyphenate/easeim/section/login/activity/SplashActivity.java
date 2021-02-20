@@ -74,6 +74,7 @@ public class SplashActivity extends BaseInitActivity {
     }
 
     private void loginSDK() {
+
         model.getLoginData().observe(this, response -> {
             parseResource(response, new OnResourceParseCallback<Boolean>(true) {
                 @Override
@@ -90,7 +91,7 @@ public class SplashActivity extends BaseInitActivity {
                     finish();
                 }
             });
-
         });
+
     }
 }

@@ -9,7 +9,7 @@ public abstract class BaseInitActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
+        setContentView(getLayoutId());//是必须提供的
         initSystemFit();
         initIntent(getIntent());
         initView(savedInstanceState);

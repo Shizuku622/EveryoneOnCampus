@@ -31,6 +31,12 @@ android {
         viewBinding true
     }
 
+    sourceSets{
+        main{
+            jniLibs.srcDirs=['libs']
+        }
+    }
+
 }
 
 dependencies {
@@ -44,9 +50,9 @@ dependencies {
     implementation 'mysql:mysql-connector-java:5.1.49'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
-    //环信
-    implementation 'com.hyphenate:hyphenate-sdk-lite:3.5.0'
 
+    //环信
+    implementation files('libs\\hyphenatechat_3.7.4.jar')
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

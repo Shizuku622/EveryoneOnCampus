@@ -262,6 +262,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
+    
     /**
      * 通用页面设置
      */

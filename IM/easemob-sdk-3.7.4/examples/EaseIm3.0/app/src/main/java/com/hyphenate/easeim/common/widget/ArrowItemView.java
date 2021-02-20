@@ -135,7 +135,9 @@ public class ArrowItemView extends ConstraintLayout {
         return tvTitle;
     }
 
-    public EaseImageView getAvatar() { return avatar; }
+    public EaseImageView getAvatar() {
+        return avatar;
+    }
 
     /**
      * sp to px

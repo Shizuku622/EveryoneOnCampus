@@ -59,6 +59,7 @@ public class LoginPresenter {
     //登录
     public void userLogin(String user,String passwd){
         mUserView.showProgressLogin();
+
         mMySQLModel.getUserLogin(user, passwd, new DataListener<User>() {
             @Override
             public void onComplete(User result) {
