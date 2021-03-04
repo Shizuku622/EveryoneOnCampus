@@ -51,8 +51,14 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 
-    //环信
-    implementation files('libs\\hyphenatechat_3.7.4.jar')
+
+    //leancloud
+    implementation project(path: ':leancloudchatkit')
+
+    implementation 'cn.leancloud:storage-android:7.2.2'
+    //即时通讯服务
+    implementation 'cn.leancloud:realtime-android:7.2.2'
+
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
