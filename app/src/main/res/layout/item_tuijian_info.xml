@@ -73,8 +73,8 @@
                 </RelativeLayout>
 
                 <Button
+                    android:id="@+id/btn_tuijian_info_follow"
                     android:textSize="10dp"
-                    android:id="@+id/btn_tuijian_info_atten"
                     android:layout_width="35dp"
                     android:layout_height="20dp"
                     android:layout_toLeftOf="@id/txt_delete"
@@ -99,18 +99,20 @@
                 android:id="@+id/txt_things_text"
                 android:layout_width="match_parent"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="8dp"
                 android:textColor="@color/black"
+                android:textSize="15dp"
                 android:layout_height="wrap_content"/>
 
             <ImageView
+                android:id="@+id/img_things_pic"
                 android:src="@drawable/eoc_backgroundpic"
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
                 android:layout_height="200dp"/>
 
             <RelativeLayout
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

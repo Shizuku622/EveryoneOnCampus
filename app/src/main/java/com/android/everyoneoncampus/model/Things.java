@@ -1,15 +1,34 @@
 package com.android.everyoneoncampus.model;
 
-public class Things {
-    public String userName;
-    public String date;
-    public String thingsText;
-    public String event;
+import android.provider.UserDictionary;
 
-    public Things(String n,String e,String d,String txt){
-        userName = n;
-        date = d;
-        thingsText = txt;
-        event = e;
+public class Things {
+    public String thingsID;
+    public String userID;
+    public String userNicheng;
+    public String event;
+    public String thingsContent;
+    public String thingsDate;
+    public byte[] image;
+    public byte[] headPic;
+
+
+    public Things(String id,String event,String date,String content){
+        userID = id;
+        thingsDate = date;
+        thingsContent = content;
+        event = event;
     }
+
+    public Things(String tid,String uid,String unicheng,String e,String tcontent,String tdate,byte[] img,byte[] hpic){
+        thingsID = tid;
+        userID = uid;
+        userNicheng = unicheng;
+        event = e;
+        thingsContent = tcontent;
+        thingsDate = tdate;
+        image = img;
+        headPic = hpic;
+    }
+
 }

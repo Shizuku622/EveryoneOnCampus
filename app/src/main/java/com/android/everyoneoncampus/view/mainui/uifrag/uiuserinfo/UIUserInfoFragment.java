@@ -35,6 +35,8 @@ public class UIUserInfoFragment extends Fragment {
         mFragmentPresenter = new FragmentPresenter(this);
         setUserOtherInfo();
         mFragmentPresenter.setHeadPic();
+        mFragmentPresenter.setFollow();
+        mFragmentPresenter.setDynamicInfo();
         Log.d(TAG, "重建Fragment");
         return view;
     }

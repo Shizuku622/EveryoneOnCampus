@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.WeakHashMap;
 
+import io.reactivex.internal.schedulers.ImmediateThinScheduler;
+
 public class MySQLModel {
     //sharedpre
     private SPModel mSPModel = new SPModel();
@@ -428,6 +430,54 @@ public class MySQLModel {
         }).start();
     }
 
+    //获得所有的事件
+
+    public void getThingsApi(DataListener<List<Things>> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((List<Things>)msg.obj);
+                        break;
+                    case 2:
+                        dataListener.onComplete(null);
+                }
+            }
+        };
+
+        String sql = "SELECT things.thingsID,things.userID,`user`.userNicheng,things.`event`,things.thingsContent,things.thingsDate,things.thingsImage,`user`.headPic  FROM `things` inner JOIN `user` on things.userID = `user`.userID ";
+        new Thread(()->{
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
+                ResultSet resultSet = ps.executeQuery();
+                List<Things> thingsList = new ArrayList<>();
+                if(resultSet.first()){
+                    do{
+                        String thingsID = resultSet.getString("thingsID");
+                        String userID = resultSet.getString("userID");
+                        String userNicheng = resultSet.getString("userNicheng");
+                        String event = resultSet.getString("event");
+                        String thingsContent = resultSet.getString("thingsContent");
+                        String thingsDate = resultSet.getString("thingsDate");
+                        byte[] thingsImage = resultSet.getBytes("thingsImage");
+                        byte[] headPic = resultSet.getBytes("headPic");
+                        thingsList.add(new Things(thingsID,userID,userNicheng,event, thingsContent,thingsDate,thingsImage,headPic));
+                    }while(resultSet.next());
+                }
+                Message msg = Message.obtain();
+                if(thingsList.isEmpty()){
+                    msg.what = 2;
+                }else{
+                    msg.what = 1;
+                    msg.obj = thingsList;
+                }
+                handler.sendMessage(msg);
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }).start();
+    }
 
     public void getThingsAllApi(DataListener<List<Things>> dataListener){
         Handler handler = new Handler(Looper.myLooper()){

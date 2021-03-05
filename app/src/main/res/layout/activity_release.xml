@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -84,6 +85,20 @@
         android:textSize="14dp"
         android:paddingBottom="2dp"/>
 
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/img_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -94,15 +109,19 @@
         android:layout_height="40dp">
 
         <ImageView
+            android:id="@+id/img_choose_things_pic"
             android:src="@drawable/eoc_small_pic"
             style="@style/gongneng_pic" />
         <ImageView
+            android:visibility="gone"
             style="@style/gongneng_pic"
             android:src="@drawable/eoc_aite"/>
         <ImageView
+            android:visibility="gone"
             style="@style/gongneng_pic"
             android:src="@drawable/eoc_huati_pic"/>
         <ImageView
+            android:visibility="gone"
             style="@style/gongneng_pic"
             android:src="@drawable/eoc_face"/>
 
@@ -110,4 +129,4 @@
 
 
 
-</RelativeLayout>
+</LinearLayout>

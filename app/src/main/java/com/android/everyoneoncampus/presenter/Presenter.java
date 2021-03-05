@@ -30,7 +30,7 @@ public class Presenter {
     //获得新鲜事
     public void getThingsAll(){
         mTuijianIndexFragmentView.startRefresh();
-        mMySQLModel.getThingsAllApi(new DataListener<List<Things>>() {
+        mMySQLModel.getThingsApi(new DataListener<List<Things>>() {
             @Override
             public void onComplete(List<Things> result) {
                 mTuijianIndexFragmentView.refreshTuijian(result);

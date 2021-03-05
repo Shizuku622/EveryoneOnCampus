@@ -52,6 +52,8 @@ public class ReleaseActivity extends AppCompatActivity {
                 mPresenter.sendNewSomething(mMainTitle,content);
             }
         });
+        
+
     }
 
     private void initViews() {
