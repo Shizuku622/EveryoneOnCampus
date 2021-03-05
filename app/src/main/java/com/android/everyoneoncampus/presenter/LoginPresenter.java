@@ -5,6 +5,7 @@ import android.icu.text.AlphabeticIndex;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.android.everyoneoncampus.view.personinfo.IdentFragment;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoViewInterface;
 import com.android.everyoneoncampus.view.register.RegisterViewInterface;
 import com.android.everyoneoncampus.view.user.UserViewInterface;
+import com.bumptech.glide.util.LogTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +65,20 @@ public class LoginPresenter {
             @Override
             public void onComplete(User result) {
                 if(result != null){
+                    if(result.userSpeci.isEmpty()){
+                        return;
+                    }
 
                     if (result.userSno.equals(user)) {
                         Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_LONG).show();
                         mUserView.hideProgressLogin();
+
+                        //shape保存信息
                         mSpModel.saveUserInfo(result.userID);
+
                         String userID = result.userID;
-                        EocApplication.setUserID(userID);
+                        EocApplication.setUserInfo(result);
+
                         if(result.mark.trim().equals("0")){
                             mUserView.userWriteUserInfo();
                             //清除
@@ -84,7 +93,6 @@ public class LoginPresenter {
                 }else{
                     Toast.makeText(EocApplication.getContext(), "账号或者密码错误！", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 

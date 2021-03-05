@@ -29,6 +29,7 @@ public class Presenter {
 
     //获得新鲜事
     public void getThingsAll(){
+        mTuijianIndexFragmentView.startRefresh();
         mMySQLModel.getThingsAllApi(new DataListener<List<Things>>() {
             @Override
             public void onComplete(List<Things> result) {
@@ -42,20 +43,24 @@ public class Presenter {
     public void sendNewSomething(String t,String content){
         switch (t){
             case "things":
-                mMySQLModel.sendNewSomethingApi("insert into things(userID,thingsContent) " +
-                        "values('"+ EocApplication.getUserID() +"','"+content+"')");
+                String sql1 = String.format("insert into things(userID,event,thingsContent) " +
+                        "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"新鲜事",content);
+                mMySQLModel.sendNewSomethingApi(sql1);
                 break;
             case "problem":
-                mMySQLModel.sendNewSomethingApi("insert into problem(userID,problemContent) " +
-                        "values('"+ EocApplication.getUserID() +"','"+content+"')");
+                String sql2 = String.format("insert into things(userID,event,thingsContent) " +
+                        "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"提问",content);
+                mMySQLModel.sendNewSomethingApi(sql2);
                 break;
             case "lose":
-                mMySQLModel.sendNewSomethingApi("insert into lose(userID,loseContent) " +
-                        "values('"+ EocApplication.getUserID() +"','"+content+"')");
+                String sql3 = String.format("insert into things(userID,event,thingsContent) " +
+                        "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"丢失",content);
+                mMySQLModel.sendNewSomethingApi(sql3);
                 break;
             case "sign":
-                mMySQLModel.sendNewSomethingApi("insert into sign(userID,signContent) " +
-                        "values('"+ EocApplication.getUserID() +"','"+content+"')");
+                String sql4 = String.format("insert into things(userID,event,thingsContent) " +
+                        "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"签到",content);
+                mMySQLModel.sendNewSomethingApi(sql4);
                 break;
         }
     }

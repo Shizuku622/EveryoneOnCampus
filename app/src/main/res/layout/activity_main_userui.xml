@@ -6,14 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-
-        android:id="@+id/fl_frag_container"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_mian_ui"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </FrameLayout>
+        android:layout_weight="1"/>
 
     <RadioGroup
         android:id="@+id/rg_mainui_nav"
@@ -27,29 +24,34 @@
         <RadioButton
             android:textSize="13dp"
             android:id="@+id/radiobtn_index"
+            android:background="@color/color_transparent"
             android:drawableTop="@drawable/main_ui_index_selector"
             android:text="首页"
             style="@style/RadioGroupButtonStyle"/>
         <RadioButton
             android:textSize="13dp"
+            android:background="@color/color_transparent"
             android:id="@+id/radiobtn_study"
             android:drawableTop="@drawable/main_ui_study_selector"
             android:text="学吧"
             style="@style/RadioGroupButtonStyle"/>
 
         <RadioButton
+            android:background="@color/color_transparent"
             android:id="@+id/radiobtn_add_dynamic"
             android:drawableTop="@drawable/eoc_nvc_add_pic"
             style="@style/RadioGroupButtonStyle"/>
 
         <RadioButton
             android:textSize="13dp"
+            android:background="@color/color_transparent"
             android:id="@+id/radiobtn_message"
             android:drawableTop="@drawable/main_ui_message_selector"
             android:text="消息"
             style="@style/RadioGroupButtonStyle"/>
         <RadioButton
             android:textSize="13dp"
+            android:background="@color/color_transparent"
             android:id="@+id/radiobtn_userinfo"
             android:drawableTop="@drawable/main_ui_my_selector"
             android:text="我的"

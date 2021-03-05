@@ -24,6 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_user_headpic"
                     android:src="@drawable/eoc_pic"
@@ -32,6 +34,7 @@
                     android:layout_height="45dp"/>
 
                 <RelativeLayout
+                    android:id="@+id/rlayout_namedate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -39,13 +42,28 @@
                     android:layout_toRightOf="@+id/img_user_headpic">
 
                     <TextView
+                        android:id="@+id/txt_event"
+                        android:layout_toRightOf="@+id/txt_user_name"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/txt_event_border"
+                        android:textColor="@color/white"
+                        android:padding="3dp"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="新鲜事"/>
+
+                    <TextView
                         android:id="@+id/txt_user_name"
+                        android:text="星辰大海"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#3A3939"
                         android:layout_margin="2dp"/>
 
                     <TextView
+                        android:text="2021-3-4"
+                        android:layout_marginTop="4dp"
                         android:id="@+id/txt_release_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

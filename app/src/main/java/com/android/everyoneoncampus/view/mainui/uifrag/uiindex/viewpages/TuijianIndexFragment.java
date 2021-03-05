@@ -38,7 +38,7 @@ public class TuijianIndexFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mThingsList.add(new Things("","",""));
+//        mThingsList.add(new Things("","",""));
         mAdapter = new TuiJianAdapter(mThingsList);
         mBinding.recThings.setAdapter(mAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
@@ -58,6 +58,9 @@ public class TuijianIndexFragment extends Fragment {
 
     public void stopRefresh(){
         mBinding.swpTuijian.setRefreshing(false);
+    }
+    public void startRefresh(){
+        mBinding.swpTuijian.setRefreshing(true);
     }
 
 }

@@ -1,12 +1,17 @@
 package com.android.everyoneoncampus.view.mainui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
@@ -14,7 +19,10 @@ import com.android.everyoneoncampus.databinding.ActivityMainUseruiBinding;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.UIIndexFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.UIMessageFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uistudy.UIStudyFragment;
-import com.android.everyoneoncampus.view.mainui.uifrag.UIUserInfoFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UIUserInfoFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainUIActivity extends AppCompatActivity {
     ActivityMainUseruiBinding mBinding;
@@ -31,42 +39,101 @@ public class MainUIActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        UIIndexFragment uiIndexFragment = new UIIndexFragment();
-        UIStudyFragment uiStudyFragment = new UIStudyFragment();
-        UIMessageFragment uiMessageFragment = new UIMessageFragment();
-        UIUserInfoFragment uiUserInfoFragment = new UIUserInfoFragment();
+        List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(new UIIndexFragment());
+        fragmentList.add(new UIStudyFragment());
+        fragmentList.add(new UIMessageFragment());
+        fragmentList.add(new UIUserInfoFragment());
 
-        mBinding.rgMainuiNav.setOnCheckedChangeListener((g,cid)->{
-            Fragment fragment = null;
-            switch (cid){
-                case R.id.radiobtn_index:
-                    fragment = uiIndexFragment;
-                    break;
-                case R.id.radiobtn_study:
-                    fragment = uiStudyFragment;
-                    break;
-                case R.id.radiobtn_add_dynamic:
-                    startActivity(new Intent(this,SendDynamicActivity.class));
-                    Log.d(TAG, "不出现");
-                    break;
-                case R.id.radiobtn_message:
-                    fragment = uiMessageFragment;
-                    break;
-                case R.id.radiobtn_userinfo:
-                    fragment = uiUserInfoFragment;
-                    break;
+        //先设置ViewPager的fragment
+        mBinding.vpMianUi.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(),FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+            @NonNull
+            @Override
+            public Fragment getItem(int position) {
+                return fragmentList.get(position);
             }
-            if(fragment != null){
-                getSupportFragmentManager().beginTransaction().replace(R.id.fl_frag_container,fragment).commit();
+
+            @Override
+            public int getCount() {
+                return fragmentList.size();
             }
         });
+        //设置事件
+        mBinding.vpMianUi.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                RadioButton radioButton;
+                if(position>1){
+                    radioButton = (RadioButton)mBinding.rgMainuiNav.getChildAt(position+1);
+                }else {
+                    radioButton = (RadioButton)mBinding.rgMainuiNav.getChildAt(position);
+                }
+                radioButton.setChecked(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        mBinding.rgMainuiNav.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.radiobtn_index:
+                        mBinding.vpMianUi.setCurrentItem(0);
+                        break;
+                    case R.id.radiobtn_study:
+                        mBinding.vpMianUi.setCurrentItem(1);
+                        break;
+                    case R.id.radiobtn_add_dynamic:
+                        startActivity(new Intent(MainUIActivity.this,SendDynamicActivity.class));
+                        Log.d(TAG, "不出现");
+                        break;
+                    case R.id.radiobtn_message:
+                        mBinding.vpMianUi.setCurrentItem(2);
+                        break;
+                    case R.id.radiobtn_userinfo:
+                        mBinding.vpMianUi.setCurrentItem(3);
+                        break;
+                }
+            }
+        });
+        mBinding.vpMianUi.setOffscreenPageLimit(fragmentList.size());
+//        mBinding.rgMainuiNav.setOnCheckedChangeListener((g,cid)->{
+//            Fragment fragment = null;
+//            switch (cid){
+//                case R.id.radiobtn_index:
+//                    fragment = uiIndexFragment;
+//                    break;
+//                case R.id.radiobtn_study:
+//                    fragment = uiStudyFragment;
+//                    break;
+//                case R.id.radiobtn_add_dynamic:
+//                    startActivity(new Intent(this,SendDynamicActivity.class));
+//                    Log.d(TAG, "不出现");
+//                    break;
+//                case R.id.radiobtn_message:
+//                    fragment = uiMessageFragment;
+//                    break;
+//                case R.id.radiobtn_userinfo:
+//                    fragment = uiUserInfoFragment;
+//                    break;
+//            }
+//            if(fragment != null){
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fl_frag_container,fragment).commit();
+//            }
         mBinding.radiobtnIndex.setChecked(true);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mBinding.radiobtnIndex.setChecked(true);
+//        mBinding.radiobtnIndex.setChecked(true);
     }
 }

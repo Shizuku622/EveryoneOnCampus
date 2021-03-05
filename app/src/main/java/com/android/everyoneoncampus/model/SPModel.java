@@ -12,6 +12,9 @@ public class SPModel {
     public final String QIANMING = "qianming";
     public final String NICHENG = "nicheng";
     public final String XINGMING = "xingming";
+    public final String ZHUANYE = "zhuanye";
+
+    private final String SAVEUSERINFO = "userSno";
 
     public SharedPreferences getWriteInfoSp(){
         return mWriteInfoSP;
@@ -19,12 +22,12 @@ public class SPModel {
 
     public void saveUserInfo(String userID){
         SharedPreferences.Editor editor = mUserInfoSP.edit();
-        editor.putString("userID",userID);
+        editor.putString(SAVEUSERINFO,userID);
         editor.commit();
     }
 
     public String readUserInfo(){
-        String userSno = mUserInfoSP.getString("userID","0");
+        String userSno = mUserInfoSP.getString(SAVEUSERINFO,"0");
         return userSno;
     }
     //填写用户信息
@@ -53,12 +56,17 @@ public class SPModel {
         editor.putString(NICHENG,nicheng);
         editor.commit();
     }
-
-    public void writelabel(String label){
+    public void writeZhuanYe(String zhuanye){
         SharedPreferences.Editor editor = mWriteInfoSP.edit();
-        editor.putString("label",label);
+        editor.putString(ZHUANYE,zhuanye);
         editor.commit();
     }
+
+//    public void writelabel(String label){
+//        SharedPreferences.Editor editor = mWriteInfoSP.edit();
+//        editor.putString("label",label);
+//        editor.commit();
+//    }
 
     public void clearSpEditor(){
         SharedPreferences.Editor editor = mWriteInfoSP.edit();
@@ -74,8 +82,9 @@ public class SPModel {
         String qianming = mWriteInfoSP.getString(QIANMING,"无");
         String xingming = mWriteInfoSP.getString(XINGMING,"无");
         String nicheng = mWriteInfoSP.getString(NICHENG,"无");
+        String zhuanye = mWriteInfoSP.getString(ZHUANYE,"无");
 
-        if (ident.equals("无") || sex.equals("无") || qianming.equals("无") || xingming.equals("无") || nicheng.equals("无")) {
+        if (zhuanye.equals("无") || ident.equals("无") || sex.equals("无") || qianming.equals("无") || xingming.equals("无") || nicheng.equals("无")) {
             return false;
         }
         return true;

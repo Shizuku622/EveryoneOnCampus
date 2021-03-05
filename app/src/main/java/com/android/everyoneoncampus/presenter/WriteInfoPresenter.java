@@ -73,8 +73,9 @@ public class WriteInfoPresenter extends Fragment {
             String nicheng = sp.getString(mSpModel.NICHENG,"无");
             String xingming = sp.getString(mSpModel.XINGMING,"无");
             String qianming = sp.getString(mSpModel.QIANMING,"无");
+            String zhuanye = sp.getString(mSpModel.ZHUANYE,"无");
             String usersno = mSpModel.readUserInfo();
-            mMySQLModel.updateUserInfo(usersno,sex,ident,sb.toString(),nicheng,xingming,qianming);
+            mMySQLModel.updateUserInfo(usersno,sex,ident,sb.toString(),nicheng,xingming,qianming,zhuanye);
             Toast.makeText(EocApplication.getContext(),"填写成功！",Toast.LENGTH_LONG).show();
             return true;
         }else{

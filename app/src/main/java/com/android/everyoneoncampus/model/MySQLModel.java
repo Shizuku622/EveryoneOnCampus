@@ -15,6 +15,7 @@ import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
 
 import java.io.StringWriter;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -50,12 +51,164 @@ public class MySQLModel {
     }
 
     /*
-    * 最新的方法
+    * 最上面是最新的方法
     *
     * */
+    public void testUploadPic(byte[] img){
+        new Thread(()->{
+            String sql = String.format("insert into test(pic) values(?)");
+            try(Connection conn = getConnector(); PreparedStatement ps = conn.prepareStatement(sql))
+            {
+                ps.setBytes(1,img);
+                int i = ps.executeUpdate();
+                Log.d(TAG, "插入图片影响："+i);
+            } catch (Exception throwables) {
+                throwables.printStackTrace();
+                Log.e(TAG, throwables.getMessage());
+            }
+        }).start();
+    }
+    public void testGetPic(DataListener<byte[]> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((byte[]) msg.obj);
+                        break;
+                }
+            }
+        };
 
-    //获取动态、关注、被关注数量
-    public void getDynamicFollow(DataListener<String> dataListener){
+        new Thread(()->{
+            String SQL1 = String.format("select pic from test");
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL1)) {
+                ResultSet resultSet = ps.executeQuery();
+                Message message = Message.obtain();
+                message.what = 1;
+                if(resultSet.next()){
+                    message.obj = resultSet.getBytes("pic");
+                }
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
+    //获取头像
+    public void getPic(DataListener<byte[]> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((byte[]) msg.obj);
+                        break;
+                }
+            }
+        };
+
+        new Thread(()->{
+            String SQL1 = String.format("select headpic from user where userId='%s'",EocApplication.getUserInfo().userID);
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL1)) {
+                ResultSet resultSet = ps.executeQuery();
+                Message message = Message.obtain();
+                message.what = 1;
+                if(resultSet.next()){
+                    message.obj = resultSet.getBytes("headpic");
+                }
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
+    //上传图片
+    public void uploadPic(byte[] img){
+        new Thread(()->{
+            String sql = String.format("update user set headpic=? where userID='%s'",EocApplication.getUserInfo().userID);
+            try(Connection conn = getConnector(); PreparedStatement ps = conn.prepareStatement(sql);)
+            {
+                Blob blob = conn.createBlob();
+                blob.setBytes(1,img);
+                ps.setBlob(1,blob);
+                int i = ps.executeUpdate();
+                Log.d(TAG, "插入图片影响："+i);
+            } catch (Exception throwables) {
+                throwables.printStackTrace();
+                Log.e(TAG, throwables.getMessage());
+            }
+        }).start();
+    }
+
+    //获得被关注
+    public void getFollowed(DataListener<String> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((String)msg.obj);
+                        break;
+                }
+            }
+        };
+
+        new Thread(()->{
+            String SQL1 = String.format("select count(userIDed) as userIDedfollow from follow where userIDed='%s'",EocApplication.getUserInfo().userID);
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL1)) {
+                ResultSet resultSet = ps.executeQuery();
+                Message message = Message.obtain();
+                message.what = 1;
+                if(resultSet.next()){
+                    message.obj = resultSet.getString("userIDedfollow");
+                }
+
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
+    //获得关注数量
+    public void getFollow(DataListener<String> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((String)msg.obj);
+                        break;
+                }
+            }
+        };
+
+        new Thread(()->{
+            String SQL1 = String.format("select count(userID) as userIDfollow from follow where userID='%s'",EocApplication.getUserInfo().userID);
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL1)) {
+                ResultSet resultSet = ps.executeQuery();
+                Message message = Message.obtain();
+                message.what = 1;
+                if(resultSet.next()){
+                    message.obj = resultSet.getString("userIDfollow");
+                }
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
+
+    //获取动态数量
+    public void getDynamicNumber(DataListener<String> dataListener){
 
         Handler handler = new Handler(Looper.myLooper()){
             @Override
@@ -70,21 +223,14 @@ public class MySQLModel {
         };
 
         new Thread(()->{
-            String SQL1 = String.format("select * from things where userID='%s'",mSPModel.readUserInfo());
-            String SQL2 = String.format("select * from problem where userID='%s'",mSPModel.readUserInfo());
-            String SQL3 = String.format("select * from lose where userID='%s'",mSPModel.readUserInfo());
+            String SQL1 = String.format("select count(userID) as userIDNumber from things where userID='%s'",EocApplication.getUserInfo().userID);
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL1)) {
-                int dynamicNumber = 0;
-                int followNumber = 0;
-                int followedNumber = 0;
                 ResultSet resultSet = ps.executeQuery();
-                dynamicNumber += resultSet.getRow();
-                ps.close();
-
-
-
-
                 Message message = Message.obtain();
+                message.what = 1;
+                if(resultSet.next()){
+                    message.obj = resultSet.getString("userIDNumber");
+                }
 
                 handler.sendMessage(message);
             }catch (Exception e){
@@ -93,7 +239,7 @@ public class MySQLModel {
         }).start();
     }
 
-    //获取用户信息
+    //登录 获取用户信息
     public void getUserLogin(String user,String passwd,DataListener dataListener){
 
         Handler handler = new Handler(Looper.myLooper()){
@@ -120,8 +266,9 @@ public class MySQLModel {
                 Message message = Message.obtain();
                 User userInfo;
                 if(resultSet.next()){
-                    userInfo = User.getUser(
-                            resultSet.getString("userPassword"),
+                    userInfo = new  User(
+                            resultSet.getString("userID"),
+                            "23333",
                             resultSet.getString("userName"),
                             resultSet.getString("userSno"),
                             resultSet.getString("userPhone"),
@@ -133,11 +280,11 @@ public class MySQLModel {
                             resultSet.getString("userAutograph"),
                             resultSet.getString("userlabel"),
                             resultSet.getString("mark"),
-                            resultSet.getString("userID"),
                             resultSet.getString("userNicheng"),
                             resultSet.getString("dynamicNumber"),
                             resultSet.getString("followNumber"),
-                            resultSet.getString("followedNumber"));
+                            resultSet.getString("followedNumber"),
+                            resultSet.getString("userSpeci"));
                     message.what = 1;
                     message.obj = userInfo;
                 }else{
@@ -151,28 +298,47 @@ public class MySQLModel {
     }
 
     //获取当前用户信息
-    public void getCurrentUserInfo(DataListener dataListener){
+    public void getCurrentUserInfo(DataListener<User> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what){
                     case 1:
-                        dataListener.onComplete((String)msg.obj);
+                        dataListener.onComplete((User)msg.obj);
                         break;
                 }
             }
         };
         String userSno = mSPModel.readUserInfo();
         new Thread(()->{
-            String SQL = String.format("select * from user where userSno='%s'",userSno);
+            String SQL = String.format("select * from user where userID='%s'",EocApplication.getUserInfo().userID);
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
                 ResultSet resultSet = ps.executeQuery();
+                User userInfo = new User();
                 while(resultSet.next()){
-                    String sno = resultSet.getString("userSno");
+                    userInfo = new User(
+                            resultSet.getString("userID"),
+                            resultSet.getString("userPassword"),
+                            resultSet.getString("userName"),
+                            resultSet.getString("userSno"),
+                            resultSet.getString("userPhone"),
+                            resultSet.getString("userSex"),
+                            resultSet.getString("userSchool"),
+                            resultSet.getString("userPlace"),
+                            resultSet.getString("userIdentity"),
+                            resultSet.getString("userIcon"),
+                            resultSet.getString("userAutograph"),
+                            resultSet.getString("userlabel"),
+                            resultSet.getString("mark"),
+                            resultSet.getString("userNicheng"),
+                            resultSet.getString("dynamicNumber"),
+                            resultSet.getString("followNumber"),
+                            resultSet.getString("followedNumber"),
+                            resultSet.getString("userSpeci"));
                     Message msg = Message.obtain();
                     msg.what = 1;
-                    msg.obj = sno;
+                    msg.obj = userInfo;
                     handler.sendMessage(msg);
                 }
             }catch (Exception e){
@@ -232,9 +398,9 @@ public class MySQLModel {
         }).start();
     }
     //更新用户信息
-    public void updateUserInfo(String user,String sex,String ident,String label,String nicheng,String xingming,String qianming){
-        String sql = String.format("update user set userSex='%s',userIdentity='%s',userlabel='%s',mark='%s',userName='%s',userAutograph='%s',userNicheng='%s'" +
-                "where userSno = '%s'",sex,ident,label,"1",xingming,qianming,nicheng,user);
+    public void updateUserInfo(String user,String sex,String ident,String label,String nicheng,String xingming,String qianming,String zhuanye){
+        String sql = String.format("update user set userSex='%s',userIdentity='%s',userlabel='%s',mark='%s',userName='%s',userAutograph='%s',userNicheng='%s',userSpeci='%s'" +
+                "where userSno = '%s'",sex,ident,label,"1",xingming,qianming,nicheng,zhuanye,user);
         new Thread(()->{
             try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
                 int i = ps1.executeUpdate();
@@ -271,7 +437,8 @@ public class MySQLModel {
                         String userID = resultSet.getString("userID");
                         String thingsContent = resultSet.getString("thingsContent");
                         String thingsDate = resultSet.getString("thingsDate");
-                        thingsList.add(new Things(userID,thingsDate,thingsContent));
+                        String event = resultSet.getString("event");
+                        thingsList.add(new Things(userID,event,thingsDate,thingsContent));
                     }while(resultSet.next());
                 }
                 Message msg = Message.obtain();
@@ -289,7 +456,6 @@ public class MySQLModel {
     }
     //发送
     public void sendNewSomethingApi(String sql){
-
         Handler handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {

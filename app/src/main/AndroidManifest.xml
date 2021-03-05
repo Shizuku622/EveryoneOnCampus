@@ -2,19 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.android.everyoneoncampus">
-<!--    外网权限-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-<!--    访问网络状态权限-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<!--    访问WIFI状态权限-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-<!--    相机权限-->
-    <uses-permission android:name="android.permission.CAMERA"/>
-<!--    外部存储写入权限-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-<!--    外部存储读取权限-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- 外网权限 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 访问网络状态权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 访问WIFI状态权限 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 外部存储写入权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 外部存储读取权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".EocApplication"
@@ -24,24 +18,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
+        <activity android:name=".view.mainui.uifrag.uiuserinfo.UserInfoActivity"></activity>
         <!-- 即时通讯和推送 START -->
         <!-- 即时通讯和推送都需要 PushService -->
-        <service android:name="cn.leancloud.push.PushService"/>
+        <service android:name="cn.leancloud.push.PushService" />
+
         <receiver android:name="cn.leancloud.push.AVBroadcastReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
-
-        <activity android:name=".view.mainui.SendDynamicActivity"></activity>
-        <activity android:name=".view.mainui.ReleaseActivity">
-
-        </activity>
-        <activity android:name=".view.mainui.MainUIActivity"></activity> <!-- <receiver android:name=".view.personinfo.LabelContentFragment$MofFragmentAdapter" -->
+        <activity android:name=".view.mainui.SendDynamicActivity" />
+        <activity android:name=".view.mainui.ReleaseActivity"></activity>
+        <activity android:name=".view.mainui.MainUIActivity" /> <!-- <receiver android:name=".view.personinfo.LabelContentFragment$MofFragmentAdapter" -->
         <!-- android:enabled="true" -->
         <!-- android:exported="true" -->
         <!-- tools:ignore="Instantiatable"> -->
@@ -50,7 +42,7 @@
         <!-- </intent-filter> -->
         <!-- </receiver> -->
         <activity android:name=".view.personinfo.PersoninfoActivity" />
-        <activity android:name=".TestActivity" >
+        <activity android:name=".TestActivity">
 
         </activity>
         <activity android:name=".view.register.RegisterActivity" />

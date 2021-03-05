@@ -46,7 +46,7 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/info"
+                android:id="@+id/rlayout_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -76,6 +76,7 @@
                     android:layout_marginTop="10dp"
                     android:text="简介:"/>
                 <ImageView
+                    android:visibility="gone"
                     android:layout_toRightOf="@+id/txt_jianjie"
                     android:layout_alignTop="@+id/txt_jianjie"
                     android:src="@drawable/eoc_mof"
@@ -107,7 +108,7 @@
             <LinearLayout
                 android:layout_marginBottom="10dp"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/info"
+                android:layout_below="@+id/rlayout_info"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

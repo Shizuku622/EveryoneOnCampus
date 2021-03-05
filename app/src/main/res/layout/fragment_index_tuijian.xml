@@ -139,6 +139,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_margin="5dp"
                 android:nestedScrollingEnabled="false"
                 android:id="@+id/rec_things"
                 android:layout_width="match_parent"

@@ -36,6 +36,7 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
         holder.userName.setText(things.userName);
         holder.thingsText.setText(things.thingsText);
         holder.realaseDate.setText(things.date);
+        holder.event.setText(things.event);
     }
 
     @Override
@@ -47,11 +48,13 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
         TextView userName;
         TextView realaseDate;
         TextView thingsText;
+        TextView event;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.txt_user_name);
             realaseDate = itemView.findViewById(R.id.txt_release_date);
             thingsText = itemView.findViewById(R.id.txt_things_text);
+            event = itemView.findViewById(R.id.txt_event);
         }
     }
 

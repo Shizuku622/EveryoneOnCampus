@@ -15,8 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="基本资料"
-            android:textColor="@color/black"
-            android:textSize="18dp"/>
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:layout_alignParentRight="true"
@@ -42,16 +42,16 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17dp"
+            android:textSize="15dp"
             android:textColor="@color/text_color"
             android:text="信息: "/>
         <TextView
+            android:id="@+id/txt_userinfo"
+            android:layout_marginLeft="15dp"
             android:layout_gravity="center"
-            android:textColor="@color/text_color"
-            android:textSize="17dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="男 20 "/>
+            android:text="男 20"/>
 
     </LinearLayout>
 
@@ -70,13 +70,13 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17dp"
+            android:textSize="15dp"
             android:textColor="@color/text_color"
             android:text="简介: "/>
         <TextView
+            android:id="@+id/txt_jianjie"
+            android:layout_marginLeft="15dp"
             android:layout_gravity="center"
-            android:textColor="@color/text_color"
-            android:textSize="17dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="潮起潮落"/>
@@ -98,13 +98,13 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17dp"
+            android:textSize="15dp"
             android:textColor="@color/text_color"
             android:text="专业: "/>
         <TextView
+            android:id="@+id/txt_zhuanye"
+            android:layout_marginLeft="15dp"
             android:layout_gravity="center"
-            android:textColor="@color/text_color"
-            android:textSize="17dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="计算机科学与技术"/>
@@ -128,7 +128,11 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/storke_color"/>
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rec_my_label"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 
 </LinearLayout>
