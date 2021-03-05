@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.databinding.FragmentUiInfoIndexBinding;
 import com.android.everyoneoncampus.model.User;
 import com.android.everyoneoncampus.presenter.FragmentPresenter;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class UiInfoIndexFragment  extends Fragment implements UserInfo {
+public class UiInfoIndexFragment  extends Fragment {
     private FragmentUiInfoIndexBinding mBinding;
     private UserInfoPresenter mUserInfoPresenter;
     private List<String> mLabelList = new ArrayList<>();
@@ -36,28 +37,25 @@ public class UiInfoIndexFragment  extends Fragment implements UserInfo {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mUserInfoPresenter = new UserInfoPresenter(this);
+        initView();
+        setUserOtherInfo();
+    }
+
+    private void initView() {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL);
         mBinding.recMyLabel.setLayoutManager(layoutManager);
         mRecAdapter = new MyLableAdapter(mLabelList);
         mBinding.recMyLabel.setAdapter(mRecAdapter);
-        initView();
-    }
-
-    private void initView() {
-        mUserInfoPresenter = new UserInfoPresenter(this);
-
-        mUserInfoPresenter.setUserInfo();
     }
 
 
     //设置用户信息
-    @Override
-    public void setUserInfo(User user){
-        mBinding.txtUserinfo.setText(user.userSex+"  "+"  "+user.userPlace);
-        mBinding.txtJianjie.setText(user.userAutograph);
-        mBinding.txtZhuanye.setText(user.userSpeci);
-
-        String labelString = user.userlabel;
+    public void setUserOtherInfo(){
+        mBinding.txtUserinfo.setText(EocApplication.getUserInfo().userSex+"  "+"  "+EocApplication.getUserInfo().userPlace);
+        mBinding.txtJianjie.setText(EocApplication.getUserInfo().userAutograph);
+        mBinding.txtZhuanye.setText(EocApplication.getUserInfo().userSpeci);
+        String labelString = EocApplication.getUserInfo().userlabel;
         List<String> labelArray = new ArrayList<>();
         String[] strings = labelString.split(",");
         for(String s:strings){
@@ -69,5 +67,6 @@ public class UiInfoIndexFragment  extends Fragment implements UserInfo {
             mRecAdapter.notifyDataSetChanged();
         }
     }
+
 
 }

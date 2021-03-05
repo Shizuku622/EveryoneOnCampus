@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.databinding.ActivityUiInfoindexBinding;
 import com.android.everyoneoncampus.model.User;
 import com.android.everyoneoncampus.presenter.UserInfoPresenter;
@@ -31,7 +32,11 @@ public class UserInfoActivity extends AppCompatActivity  {
         initListener();
         mUserInfoPresenter = new UserInfoPresenter(this);
         mUserInfoPresenter.setUserHeadPic();
-        mUserInfoPresenter.setUserNicheng();
+        setUserOther();
+    }
+
+    public void setUserOther(){
+        mBinding.txtName.setText(EocApplication.getUserInfo().userNicheng);
     }
 
     private void initListener() {
@@ -76,10 +81,5 @@ public class UserInfoActivity extends AppCompatActivity  {
     public void setHeadPic(Bitmap headPic){
         mBinding.imgHeadpic.setImageBitmap(headPic);
     }
-
-    public void setUserNicheng(User user){
-        mBinding.txtName.setText(user.userNicheng);
-    }
-
 
 }

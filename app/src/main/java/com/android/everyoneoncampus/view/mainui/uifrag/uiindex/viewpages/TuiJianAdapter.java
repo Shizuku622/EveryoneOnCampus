@@ -35,7 +35,7 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
         Things things = mThingsList.get(position);
         holder.userName.setText(things.userName);
         holder.thingsText.setText(things.thingsText);
-        holder.realaseDate.setText(things.date);
+        holder.realaseDate.setText(things.date.substring(5,16));
         holder.event.setText(things.event);
     }
 

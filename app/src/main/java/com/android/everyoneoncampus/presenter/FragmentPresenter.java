@@ -55,12 +55,15 @@ public class FragmentPresenter {
         });
     }
 
-    public void getCurrentUser(){
+    //获得当前用户的信息
+    public void getCurrentUserUpdate(){
         mMySQLModel.getCurrentUserInfo(new DataListener<User>() {
             @Override
             public void onComplete(User result) {
                 if(result != null){
-                    mUiUserInfoFragment.setUserInfo(result);
+                    EocApplication.setUserInfo(result);
+                    mUiUserInfoFragment.setUserOtherInfo();
+                    mUiUserInfoFragment.stopRefresh();
                 }
             }
         });

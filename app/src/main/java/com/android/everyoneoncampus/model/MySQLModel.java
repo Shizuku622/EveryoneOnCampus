@@ -398,9 +398,26 @@ public class MySQLModel {
         }).start();
     }
     //更新用户信息
-    public void updateUserInfo(String user,String sex,String ident,String label,String nicheng,String xingming,String qianming,String zhuanye){
-        String sql = String.format("update user set userSex='%s',userIdentity='%s',userlabel='%s',mark='%s',userName='%s',userAutograph='%s',userNicheng='%s',userSpeci='%s'" +
-                "where userSno = '%s'",sex,ident,label,"1",xingming,qianming,nicheng,zhuanye,user);
+    public void updateUserInfo(String lable){
+        String sql = String.format("update user set " +
+                "userNicheng='%s' ," +
+                "userName='%s'," +
+                "userAutograph='%s'," +
+                "userSpeci='%s'," +
+                "userSex='%s'," +
+                "userIdentity='%s'," +
+                "userlabel='%s'," +
+                "mark='%s' " +
+                "where userID = '%s'",
+                EocApplication.getUserInfo().userNicheng,
+                EocApplication.getUserInfo().userName,
+                EocApplication.getUserInfo().userAutograph,
+                EocApplication.getUserInfo().userSpeci,
+                EocApplication.getUserInfo().userSex,
+                EocApplication.getUserInfo().userIdentity,
+                lable,
+                "1",
+                EocApplication.getUserInfo().userID);
         new Thread(()->{
             try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
                 int i = ps1.executeUpdate();

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.FragmentIdenBinding;
 import com.android.everyoneoncampus.model.SPModel;
@@ -29,8 +30,8 @@ public class IdentFragment  extends Fragment {
 
             mbinding.rlayoutTeacher.setBackgroundResource(R.drawable.layout_border);
             mbinding.txtTeacher.setTextColor(Color.parseColor("#000000"));
-
-            mSPModel.writeIdent("学生");
+//            mSPModel.writeIdent("学生");
+            EocApplication.getUserInfo().userIdentity = "学生";
         });
         mbinding.rlayoutTeacher.setOnClickListener(v->{
             mbinding.rlayoutTeacher.setBackgroundResource(R.drawable.select_ident);
@@ -38,8 +39,8 @@ public class IdentFragment  extends Fragment {
 
             mbinding.rlayoutStudent.setBackgroundResource(R.drawable.layout_border);
             mbinding.txtStudent.setTextColor(Color.parseColor("#000000"));
-
-            mSPModel.writeIdent("老师");
+//            mSPModel.writeIdent("老师");
+            EocApplication.getUserInfo().userIdentity = "老师";
         });
 
 

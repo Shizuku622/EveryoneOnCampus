@@ -66,6 +66,7 @@ public class PersonInfoFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 //                mSpModel.writeNiCheng(s.toString());
+                EocApplication.getUserInfo().userNicheng = s.toString();
             }
 
             @Override
@@ -82,7 +83,8 @@ public class PersonInfoFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mSpModel.writeXingMing(s.toString());
+//                mSpModel.writeXingMing(s.toString());
+                EocApplication.getUserInfo().userName = s.toString();
             }
 
             @Override
@@ -99,9 +101,9 @@ public class PersonInfoFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mSpModel.writeQianMing(s.toString());
+//                mSpModel.writeQianMing(s.toString());
+                EocApplication.getUserInfo().userAutograph = s.toString();
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -113,12 +115,11 @@ public class PersonInfoFragment extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mSpModel.writeZhuanYe(s.toString());
+//                mSpModel.writeZhuanYe(s.toString());
+                EocApplication.getUserInfo().userSpeci = s.toString();
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 

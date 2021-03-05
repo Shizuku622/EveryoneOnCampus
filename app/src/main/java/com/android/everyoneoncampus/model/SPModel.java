@@ -75,7 +75,13 @@ public class SPModel {
     }
 
 
+
+
     //查询是否已经填入
+
+
+
+
     public boolean infoSexIdent(){
         String ident = mWriteInfoSP.getString("ident","无");
         String sex = mWriteInfoSP.getString("sex","无");

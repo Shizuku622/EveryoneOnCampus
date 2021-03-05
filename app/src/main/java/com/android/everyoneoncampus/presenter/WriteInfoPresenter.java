@@ -57,7 +57,10 @@ public class WriteInfoPresenter extends Fragment {
 
     //确定完善信息
     public boolean infoComplete(){
-        if(mDbHelper.getLabelCount() != 0 && mSpModel.infoSexIdent()){
+        //判断 label和 其他信息
+        if(mDbHelper.getLabelCount() != 0 && EocApplication.confirmUserInfo()){
+            EocApplication.getUserInfo();
+            //切割label，用，分开
             StringBuilder sb = new StringBuilder();
             List<String> labelList = mDbHelper.getSelectedLabelData();
             if(!labelList.isEmpty()){
@@ -67,15 +70,15 @@ public class WriteInfoPresenter extends Fragment {
                 }
                 sb.append(labelList.get(labelList.size()-1));
             }
-            SharedPreferences sp = mSpModel.getWriteInfoSp();
-            String ident = sp.getString("ident","无");
-            String sex = sp.getString("sex","无");
-            String nicheng = sp.getString(mSpModel.NICHENG,"无");
-            String xingming = sp.getString(mSpModel.XINGMING,"无");
-            String qianming = sp.getString(mSpModel.QIANMING,"无");
-            String zhuanye = sp.getString(mSpModel.ZHUANYE,"无");
-            String usersno = mSpModel.readUserInfo();
-            mMySQLModel.updateUserInfo(usersno,sex,ident,sb.toString(),nicheng,xingming,qianming,zhuanye);
+//            SharedPreferences sp = mSpModel.getWriteInfoSp();
+//            String ident = sp.getString("ident","无");
+//            String sex = sp.getString("sex","无");
+//            String nicheng = sp.getString(mSpModel.NICHENG,"无");
+//            String xingming = sp.getString(mSpModel.XINGMING,"无");
+//            String qianming = sp.getString(mSpModel.QIANMING,"无");
+//            String zhuanye = sp.getString(mSpModel.ZHUANYE,"无");
+//            String usersno = mSpModel.readUserInfo();
+            mMySQLModel.updateUserInfo(sb.toString());
             Toast.makeText(EocApplication.getContext(),"填写成功！",Toast.LENGTH_LONG).show();
             return true;
         }else{

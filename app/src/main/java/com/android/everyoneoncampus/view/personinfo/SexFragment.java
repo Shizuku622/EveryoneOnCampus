@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.FragmentSexBinding;
 import com.android.everyoneoncampus.model.SPModel;
@@ -27,12 +28,14 @@ public class SexFragment extends Fragment {
         mbinding.llayoutNan.setOnClickListener(v->{
             mbinding.llayoutNan.setBackgroundResource(R.drawable.select_info);
             mbinding.llayoutNv.setBackgroundResource(R.drawable.select_sex_no);
-            mSPModel.writeSex("男");
+//            mSPModel.writeSex("男");
+            EocApplication.getUserInfo().userSex = "男";
         });
         mbinding.imgbtnNv.setOnClickListener(v->{
             mbinding.llayoutNan.setBackgroundResource(R.drawable.select_sex_no);
             mbinding.llayoutNv.setBackgroundResource(R.drawable.select_info);
-            mSPModel.writeSex("女");
+//            mSPModel.writeSex("女");
+            EocApplication.getUserInfo().userSex = "女";
         });
 
         return view;

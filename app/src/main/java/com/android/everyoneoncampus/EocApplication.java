@@ -55,7 +55,12 @@ public class EocApplication extends Application {
 
     }
 
-
+    public static boolean confirmUserInfo(){
+        if(EocApplication.getUserInfo().userNicheng.equals("") || EocApplication.getUserInfo().userName.equals("") || EocApplication.getUserInfo().userAutograph.equals("") || EocApplication.getUserInfo().userSpeci.equals("")||EocApplication.getUserInfo().userSex.equals("")||EocApplication.getUserInfo().userIdentity.equals("")){
+            return false;
+        }
+        return true;
+    }
 
     public static Context getContext(){
         return context;

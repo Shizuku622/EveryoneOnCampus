@@ -53,26 +53,4 @@ public class UserInfoPresenter {
         }
     }
 
-    //设置昵称
-    public void setUserNicheng(){
-        mMySQLModel.getCurrentUserInfo(new DataListener<User>() {
-            @Override
-            public void onComplete(User result) {
-                mUserInfoActivity.setUserNicheng(result);
-            }
-        });
-    }
-
-    //设置用户信息
-    public void setUserInfo(){
-        mMySQLModel.getCurrentUserInfo(new DataListener<User>() {
-            @Override
-            public void onComplete(User result) {
-                mUiInfoIndexFragment.setUserInfo(result);
-            }
-        });
-    }
-
-
-
 }

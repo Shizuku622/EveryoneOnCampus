@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.allinterface.OperateMethod;
@@ -63,7 +64,7 @@ public class PersoninfoActivity extends BaseActivity implements PersoninfoViewIn
         }));
         WriteInfoViewPageAdapter adapter = new WriteInfoViewPageAdapter(getSupportFragmentManager(),fragmentsList);
         mBinding.vpageUserinfo.setAdapter(adapter);
-
+        mBinding.vpageUserinfo.setOffscreenPageLimit(fragmentsList.size());
 
     }
 

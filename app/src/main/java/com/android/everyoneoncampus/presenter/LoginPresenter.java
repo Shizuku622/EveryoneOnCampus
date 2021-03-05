@@ -65,9 +65,6 @@ public class LoginPresenter {
             @Override
             public void onComplete(User result) {
                 if(result != null){
-                    if(result.userSpeci.isEmpty()){
-                        return;
-                    }
 
                     if (result.userSno.equals(user)) {
                         Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_LONG).show();

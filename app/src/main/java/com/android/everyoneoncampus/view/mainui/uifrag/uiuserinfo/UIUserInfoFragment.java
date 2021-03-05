@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.FragmentUiUserInfoBinding;
 import com.android.everyoneoncampus.model.User;
@@ -31,10 +33,7 @@ public class UIUserInfoFragment extends Fragment {
         mBinding = FragmentUiUserInfoBinding.inflate(inflater,container,false);
         View view = mBinding.getRoot();
         mFragmentPresenter = new FragmentPresenter(this);
-
-        mFragmentPresenter.setFollow();
-        mFragmentPresenter.setDynamicInfo();
-        mFragmentPresenter.getCurrentUser();
+        setUserOtherInfo();
         mFragmentPresenter.setHeadPic();
         Log.d(TAG, "重建Fragment");
         return view;
@@ -43,8 +42,36 @@ public class UIUserInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        initListener();
+        setUserOtherInfo();
+        mBinding.swipUserInfo.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mFragmentPresenter.setFollow();
+                mFragmentPresenter.setDynamicInfo();
+                mFragmentPresenter.getCurrentUserUpdate();
+                mFragmentPresenter.setHeadPic();
+            }
+        });
     }
+
+    //设置信息
+    public void setUserOtherInfo(){
+        mBinding.txtName.setText(EocApplication.getUserInfo().userName);
+        mBinding.txtJianjie.setText("简介："+EocApplication.getUserInfo().userAutograph);
+        String sex = EocApplication.getUserInfo().userSex;
+        if(sex.equals("男")){
+            mBinding.imgSex.setImageResource(R.drawable.eoc_sex_man);
+        }else{
+            mBinding.imgSex.setImageResource(R.drawable.eoc_sex_gril);
+        }
+    }
+
+    //停止刷新
+    public void stopRefresh(){
+        mBinding.swipUserInfo.setRefreshing(false);
+    }
+
 
     private void initListener() {
         mBinding.rlayoutInfo.setOnClickListener(v->{
@@ -53,29 +80,6 @@ public class UIUserInfoFragment extends Fragment {
         });
     }
 
-    public void setUserInfo(User newUserInfo){
-        mBinding.txtName.setText(newUserInfo.userNicheng);
-        mBinding.txtJianjie.setText("简介："+newUserInfo.userAutograph);
-        initListener();
-        String sex = newUserInfo.userSex;
-        if(sex.equals("男")){
-            mBinding.imgSex.setImageResource(R.drawable.eoc_sex_man);
-        }else{
-            mBinding.imgSex.setImageResource(R.drawable.eoc_sex_gril);
-        }
-//        String touxiangFilePath = getActivity().getExternalFilesDir("").getAbsoluteFile()+File.separator+"touxiang";
-//        File touxiang = new File(touxiangFilePath);
-//        if(touxiang.exists()){
-//            Glide.with(getActivity()).load(touxiangFilePath).into(mBinding.imgHeadpic);
-//        }else{
-//            mBinding.imgHeadpic.setImageResource(R.drawable.eoc_touxiang);
-//        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     public void setDynamic(String dynamic){
         mBinding.txtDynamic.setText(dynamic);
@@ -91,4 +95,6 @@ public class UIUserInfoFragment extends Fragment {
     public void setHeadPic(Bitmap bitmap){
         mBinding.imgHeadpic.setImageBitmap(bitmap);
     }
+
+
 }
