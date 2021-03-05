@@ -3,6 +3,7 @@ package com.android.everyoneoncampus;
 import android.app.Application;
 import android.content.Context;
 
+import com.android.everyoneoncampus.model.User;
 import com.mysql.fabric.Server;
 
 import cn.leancloud.AVOSCloud;
@@ -15,6 +16,8 @@ public class EocApplication extends Application {
     private final String APP_ID = "LmuXlj2lu5JzK1ynPyKwngml-gzGzoHsz";
     private final String APP_KEY = "v4njrqhhEREfqnKj1V3VNyVT";
     private final String SERVER_URL = "https://lmuxlj2l.lc-cn-n1-shared.com";
+
+    public static User EocUser;
 
     //设置ui
     public static String getUserID() {

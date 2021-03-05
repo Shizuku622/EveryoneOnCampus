@@ -73,7 +73,7 @@
                         android:layout_gravity="center"/>
 
                     <EditText
-                        android:text="11"
+                        android:text="1813"
                         android:id="@+id/et_user"
                         android:hint="请输入学号"
                         android:textSize="14dp"
@@ -100,7 +100,7 @@
                         android:layout_gravity="center"/>
 
                     <EditText
-                        android:text="11"
+                        android:text="123"
                         android:id="@+id/et_passwd"
                         android:textSize="14dp"
                         android:padding="10dp"

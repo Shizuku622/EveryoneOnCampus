@@ -9,19 +9,22 @@ public class SPModel {
     private SharedPreferences mUserInfoSP = EocApplication.getContext().getSharedPreferences("userinfo", Context.MODE_PRIVATE);
     private SharedPreferences mWriteInfoSP = EocApplication.getContext().getSharedPreferences("writeinfo",Context.MODE_PRIVATE);
 
+    public final String QIANMING = "qianming";
+    public final String NICHENG = "nicheng";
+    public final String XINGMING = "xingming";
 
-    public SharedPreferences getSp(){
+    public SharedPreferences getWriteInfoSp(){
         return mWriteInfoSP;
     }
 
-    public void saveUserInfo(String userSno){
+    public void saveUserInfo(String userID){
         SharedPreferences.Editor editor = mUserInfoSP.edit();
-        editor.putString("usersno",userSno);
+        editor.putString("userID",userID);
         editor.commit();
     }
 
     public String readUserInfo(){
-        String userSno = mUserInfoSP.getString("usersno","0");
+        String userSno = mUserInfoSP.getString("userID","0");
         return userSno;
     }
     //填写用户信息
@@ -33,6 +36,21 @@ public class SPModel {
     public void writeIdent(String ident){
         SharedPreferences.Editor editor = mWriteInfoSP.edit();
         editor.putString("ident",ident);
+        editor.commit();
+    }
+    public void writeQianMing(String qianming){
+        SharedPreferences.Editor editor = mWriteInfoSP.edit();
+        editor.putString(QIANMING,qianming);
+        editor.commit();
+    }
+    public void writeXingMing(String xingming){
+        SharedPreferences.Editor editor = mWriteInfoSP.edit();
+        editor.putString(XINGMING,xingming);
+        editor.commit();
+    }
+    public void writeNiCheng(String nicheng){
+        SharedPreferences.Editor editor = mWriteInfoSP.edit();
+        editor.putString(NICHENG,nicheng);
         editor.commit();
     }
 
@@ -53,7 +71,11 @@ public class SPModel {
     public boolean infoSexIdent(){
         String ident = mWriteInfoSP.getString("ident","无");
         String sex = mWriteInfoSP.getString("sex","无");
-        if (ident.equals("无") || sex.equals("无")) {
+        String qianming = mWriteInfoSP.getString(QIANMING,"无");
+        String xingming = mWriteInfoSP.getString(XINGMING,"无");
+        String nicheng = mWriteInfoSP.getString(NICHENG,"无");
+
+        if (ident.equals("无") || sex.equals("无") || qianming.equals("无") || xingming.equals("无") || nicheng.equals("无")) {
             return false;
         }
         return true;

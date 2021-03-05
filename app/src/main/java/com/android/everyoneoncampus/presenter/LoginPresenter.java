@@ -59,18 +59,18 @@ public class LoginPresenter {
     //登录
     public void userLogin(String user,String passwd){
         mUserView.showProgressLogin();
-
         mMySQLModel.getUserLogin(user, passwd, new DataListener<User>() {
             @Override
             public void onComplete(User result) {
                 if(result != null){
+
                     if (result.userSno.equals(user)) {
                         Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_LONG).show();
                         mUserView.hideProgressLogin();
-                        mSpModel.saveUserInfo(result.userSno);
+                        mSpModel.saveUserInfo(result.userID);
                         String userID = result.userID;
                         EocApplication.setUserID(userID);
-                        if(result.mark.equals("0")){
+                        if(result.mark.trim().equals("0")){
                             mUserView.userWriteUserInfo();
                             //清除
                             mSpModel.clearSpEditor();

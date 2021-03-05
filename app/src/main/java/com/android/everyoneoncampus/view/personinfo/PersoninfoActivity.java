@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
@@ -51,6 +52,7 @@ public class PersoninfoActivity extends BaseActivity implements PersoninfoViewIn
     public void setTitleContent(List<String> labelType, LabelAll labelName,List<String> selectedLabel) {
         Log.d(TAG, "到这里");
         List<Fragment> fragmentsList = new ArrayList<>();
+        fragmentsList.add(new PersonInfoFragment());
         fragmentsList.add(new SexFragment());
         fragmentsList.add(new IdentFragment());
         fragmentsList.add(new LabelFragment(labelType, labelName, selectedLabel, new OperateMethod<String>() {
@@ -61,6 +63,8 @@ public class PersoninfoActivity extends BaseActivity implements PersoninfoViewIn
         }));
         WriteInfoViewPageAdapter adapter = new WriteInfoViewPageAdapter(getSupportFragmentManager(),fragmentsList);
         mBinding.vpageUserinfo.setAdapter(adapter);
+
+
     }
 
 }

@@ -10,6 +10,7 @@ import com.android.everyoneoncampus.model.DbHelper;
 import com.android.everyoneoncampus.model.MySQLModel;
 import com.android.everyoneoncampus.model.SPModel;
 import com.android.everyoneoncampus.view.personinfo.LabelFragment;
+import com.android.everyoneoncampus.view.personinfo.PersonInfoFragment;
 
 import java.io.InterruptedIOException;
 import java.util.List;
@@ -19,6 +20,7 @@ public class WriteInfoPresenter extends Fragment {
     private DbHelper mDbHelper = new DbHelper();
     private SPModel mSpModel = new SPModel();
     private LabelFragment mLabelFragment;
+    private PersonInfoFragment mPersonInfoFragment;
     private MySQLModel mMySQLModel = new MySQLModel();
     //获取全部的已选的标签
     public List<String> getAllSelectedLabel(){
@@ -32,6 +34,10 @@ public class WriteInfoPresenter extends Fragment {
 
     public WriteInfoPresenter(LabelFragment labelFragment){
         mLabelFragment = labelFragment;
+    }
+
+    public WriteInfoPresenter(PersonInfoFragment personInfoFragment){
+        mPersonInfoFragment = personInfoFragment;
     }
 
 
@@ -61,11 +67,14 @@ public class WriteInfoPresenter extends Fragment {
                 }
                 sb.append(labelList.get(labelList.size()-1));
             }
-            SharedPreferences sp = mSpModel.getSp();
+            SharedPreferences sp = mSpModel.getWriteInfoSp();
             String ident = sp.getString("ident","无");
             String sex = sp.getString("sex","无");
+            String nicheng = sp.getString(mSpModel.NICHENG,"无");
+            String xingming = sp.getString(mSpModel.XINGMING,"无");
+            String qianming = sp.getString(mSpModel.QIANMING,"无");
             String usersno = mSpModel.readUserInfo();
-            mMySQLModel.updateUserInfo(usersno,sex,ident,sb.toString());
+            mMySQLModel.updateUserInfo(usersno,sex,ident,sb.toString(),nicheng,xingming,qianming);
             Toast.makeText(EocApplication.getContext(),"填写成功！",Toast.LENGTH_LONG).show();
             return true;
         }else{

@@ -48,47 +48,51 @@ public class MySQLModel {
         }
         return conn;
     }
-//    String sqlUser = String.format("INSERT INTO userinfo(userPassword,userName,userSno," +
-//                            "userPhone,userSex,userSchool," +
-//                            "userPlace,userIdentity,userIcon,userAutograph,userlabel,mark) " +
-//                            "VALUES('%s','%s','%s','%s','%s'" +
-//                            ",1,'%s','%s','%s','%s','%s',%d);",resultSet.getString("userPassword"),
-//                            resultSet.getString("userName"),
-//                            resultSet.getString("userSno"),
-//                            resultSet.getString("userPhone"),
-//                            resultSet.getString("userSex")
-//                            ,resultSet.getString("userPlace"),
-//                            resultSet.getString("userIdentity"),
-//                            resultSet.getString("userIcon"),
-//                            resultSet.getString("userAutograph"),
-//                            resultSet.getString("userlabel"),
-//                            resultSet.getInt("mark"));
-//                    mDbHelper.insertData(sqlUser);
-    //登录
-    public void userLogin(String user, String passwd, ReturnSQL returnSQL){
-        new Thread(()->{
-            Looper.prepare();
-            String SQL = "select * from user where userSno = ? and userPassword = ?";
-            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
-                ps.setString(1,user);
-                ps.setString(2,passwd);
-                ResultSet resultSet = ps.executeQuery();
-                if(resultSet.next()){
-                   String usersno = resultSet.getString("userSno");
-                    //保存
-                    mSPModel.saveUserInfo(usersno);
-//
-                    returnSQL.onStatus(1);
-                }else{
-                    returnSQL.onStatus(0);
+
+    /*
+    * 最新的方法
+    *
+    * */
+
+    //获取动态、关注、被关注数量
+    public void getDynamicFollow(DataListener<String> dataListener){
+
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((String)msg.obj);
+                        break;
                 }
+            }
+        };
+
+        new Thread(()->{
+            String SQL1 = String.format("select * from things where userID='%s'",mSPModel.readUserInfo());
+            String SQL2 = String.format("select * from problem where userID='%s'",mSPModel.readUserInfo());
+            String SQL3 = String.format("select * from lose where userID='%s'",mSPModel.readUserInfo());
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL1)) {
+                int dynamicNumber = 0;
+                int followNumber = 0;
+                int followedNumber = 0;
+                ResultSet resultSet = ps.executeQuery();
+                dynamicNumber += resultSet.getRow();
+                ps.close();
+
+
+
+
+                Message message = Message.obtain();
+
+                handler.sendMessage(message);
             }catch (Exception e){
                 Log.e(TAG, e.getMessage());
-                returnSQL.onStatus(0);
             }
-            Looper.loop();
         }).start();
     }
+
     //获取用户信息
     public void getUserLogin(String user,String passwd,DataListener dataListener){
 
@@ -129,7 +133,11 @@ public class MySQLModel {
                             resultSet.getString("userAutograph"),
                             resultSet.getString("userlabel"),
                             resultSet.getString("mark"),
-                            resultSet.getString("userID"));
+                            resultSet.getString("userID"),
+                            resultSet.getString("userNicheng"),
+                            resultSet.getString("dynamicNumber"),
+                            resultSet.getString("followNumber"),
+                            resultSet.getString("followedNumber"));
                     message.what = 1;
                     message.obj = userInfo;
                 }else{
@@ -144,7 +152,6 @@ public class MySQLModel {
 
     //获取当前用户信息
     public void getCurrentUserInfo(DataListener dataListener){
-        String userSno = mSPModel.readUserInfo();
         Handler handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -156,8 +163,9 @@ public class MySQLModel {
                 }
             }
         };
+        String userSno = mSPModel.readUserInfo();
         new Thread(()->{
-            String SQL = "select * from user";
+            String SQL = String.format("select * from user where userSno='%s'",userSno);
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
                 ResultSet resultSet = ps.executeQuery();
                 while(resultSet.next()){
@@ -224,9 +232,9 @@ public class MySQLModel {
         }).start();
     }
     //更新用户信息
-    public void updateUserInfo(String user,String sex,String ident,String label){
-        String sql = String.format("update user set userSex='%s',userIdentity='%s',userlabel='%s',mark='%s' " +
-                "where userSno = '%s'",sex,ident,label,"1",user);
+    public void updateUserInfo(String user,String sex,String ident,String label,String nicheng,String xingming,String qianming){
+        String sql = String.format("update user set userSex='%s',userIdentity='%s',userlabel='%s',mark='%s',userName='%s',userAutograph='%s',userNicheng='%s'" +
+                "where userSno = '%s'",sex,ident,label,"1",xingming,qianming,nicheng,user);
         new Thread(()->{
             try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
                 int i = ps1.executeUpdate();

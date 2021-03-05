@@ -2,11 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.android.everyoneoncampus">
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<!--    外网权限-->
     <uses-permission android:name="android.permission.INTERNET"/>
+<!--    访问网络状态权限-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<!--    访问WIFI状态权限-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+<!--    相机权限-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+<!--    外部存储写入权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+<!--    外部存储读取权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".EocApplication"
@@ -43,17 +51,17 @@
         <!-- </receiver> -->
         <activity android:name=".view.personinfo.PersoninfoActivity" />
         <activity android:name=".TestActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".view.register.RegisterActivity" />
         <activity
             android:name=".view.user.UserActivity"
             android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

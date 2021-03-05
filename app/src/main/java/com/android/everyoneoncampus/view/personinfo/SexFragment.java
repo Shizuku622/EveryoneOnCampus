@@ -35,7 +35,6 @@ public class SexFragment extends Fragment {
             mSPModel.writeSex("女");
         });
 
-
         return view;
     }
 

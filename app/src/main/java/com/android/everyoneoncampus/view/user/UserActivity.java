@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -13,12 +15,18 @@ import com.android.everyoneoncampus.presenter.LoginPresenter;
 import com.android.everyoneoncampus.view.mainui.MainUIActivity;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoActivity;
 import com.android.everyoneoncampus.view.register.RegisterActivity;
+import com.bumptech.glide.util.LogTime;
+
+import java.io.File;
+
+import io.reactivex.internal.operators.flowable.FlowableElementAtSingle;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class UserActivity extends BaseActivity implements UserViewInterface{
 
     private ActivityUserloginBinding mBinding;
     private LoginPresenter mLoginPresenter;
-
+    private static final String TAG = "UserActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +40,15 @@ public class UserActivity extends BaseActivity implements UserViewInterface{
         mLoginPresenter.getAllLable();
         initViews();
         initListener();
+
+        File files = Environment.getExternalStorageDirectory().getAbsoluteFile();
+        Log.d(TAG,Environment.getExternalStoragePublicDirectory("").getAbsolutePath());
+
+        File[] twofile = getExternalFilesDirs(Environment.MEDIA_MOUNTED);
+        for(File file:twofile){
+            Log.d(TAG, file.toString());
+        }
+
     }
 
     private void setStatusBar(){

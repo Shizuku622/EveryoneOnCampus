@@ -1,6 +1,7 @@
 package com.android.everyoneoncampus.view.mainui.uifrag.uistudy;
 
 import android.os.Bundle;
+import android.service.quickaccesswallet.QuickAccessWalletService;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +31,16 @@ public class UIStudyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String[] titles = {"精选","期末考试","考研","四六级","教师资格证","计算机二级",};
+        String[] titles = {"精选","期末考试","考研","四六级","教师资格证","计算机二级"};
         List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new NullFragment());
+        fragments.add(new QimoKaoshiStudyFragment());
+        fragments.add(new NullFragment());
+        fragments.add(new NullFragment());
+        fragments.add(new NullFragment());
+        fragments.add(new NullFragment());
         for(int i =0;i <titles.length;i++){
             mBindg.tabIndex.addTab(mBindg.tabIndex.newTab().setText(titles[i]));
-            fragments.add(new QimoKaoshiStudyFragment());
         }
         mBindg.vpIndex.setAdapter(new FragmentPagerAdapter(getChildFragmentManager(),FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull
@@ -56,6 +62,6 @@ public class UIStudyFragment extends Fragment {
         });
 
         mBindg.tabIndex.setupWithViewPager(mBindg.vpIndex,false);
-
+        mBindg.vpIndex.setCurrentItem(1);
     }
 }

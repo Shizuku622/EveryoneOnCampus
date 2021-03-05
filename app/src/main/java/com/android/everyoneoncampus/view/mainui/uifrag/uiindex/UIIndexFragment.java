@@ -34,12 +34,12 @@ public class UIIndexFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String[] titles = {"关注","推荐","说吧","话题"};
+        String[] titles = {"关注","推荐","说吧"};
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new GuanzhuIndexFragment());
         fragments.add(new TuijianIndexFragment());
         fragments.add(new TalkIndexFragment());
-        fragments.add(new HuatiIndexFragment());
+//        fragments.add(new HuatiIndexFragment());
         for(int i =0;i <titles.length;i++){
             mBinding.tabIndex.addTab(mBinding.tabIndex.newTab().setText(titles[i]));
         }
@@ -63,6 +63,6 @@ public class UIIndexFragment extends Fragment {
         });
 
         mBinding.tabIndex.setupWithViewPager(mBinding.vpIndex,false);
-
+        mBinding.vpIndex.setCurrentItem(1);
     }
 }
