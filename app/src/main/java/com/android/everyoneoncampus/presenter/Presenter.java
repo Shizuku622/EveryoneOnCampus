@@ -10,6 +10,7 @@ import com.android.everyoneoncampus.model.MySQLModel;
 import com.android.everyoneoncampus.model.Things;
 import com.android.everyoneoncampus.view.mainui.ReleaseActivity;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TuijianIndexFragment;
+import com.mysql.jdbc.Blob;
 import com.mysql.jdbc.authentication.MysqlClearPasswordPlugin;
 
 import java.util.List;
@@ -40,27 +41,27 @@ public class Presenter {
     }
 
     //发送
-    public void sendNewSomething(String t,String content){
+    public void sendNewSomething(String t, String content, byte[] thingsImage){
         switch (t){
             case "things":
-                String sql1 = String.format("insert into things(userID,event,thingsContent) " +
-                        "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"新鲜事",content);
-                mMySQLModel.sendNewSomethingApi(sql1);
+                String sql1 = String.format("insert into things(userID,event,thingsContent,thingsImage) " +
+                        "values('%s','%s','%s',?)",EocApplication.getUserInfo().userID,"新鲜事",content);
+                mMySQLModel.sendNewSomethingApi(sql1,thingsImage);
                 break;
             case "problem":
                 String sql2 = String.format("insert into things(userID,event,thingsContent) " +
                         "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"提问",content);
-                mMySQLModel.sendNewSomethingApi(sql2);
+                //mMySQLModel.sendNewSomethingApi(sql2);
                 break;
             case "lose":
                 String sql3 = String.format("insert into things(userID,event,thingsContent) " +
                         "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"丢失",content);
-                mMySQLModel.sendNewSomethingApi(sql3);
+                //mMySQLModel.sendNewSomethingApi(sql3);
                 break;
             case "sign":
                 String sql4 = String.format("insert into things(userID,event,thingsContent) " +
                         "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"签到",content);
-                mMySQLModel.sendNewSomethingApi(sql4);
+                //mMySQLModel.sendNewSomethingApi(sql4);
                 break;
         }
     }

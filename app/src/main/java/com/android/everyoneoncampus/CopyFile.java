@@ -1,4 +1,4 @@
-package com.android.everyoneoncampus.view.personinfo;
+package com.android.everyoneoncampus;
 
 import android.util.Log;
 

@@ -12,38 +12,23 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.hardware.biometrics.BiometricManager;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.everyoneoncampus.allinterface.DataListener;
-import com.android.everyoneoncampus.allinterface.ReturnSQL;
 import com.android.everyoneoncampus.model.MySQLModel;
-import com.android.everyoneoncampus.view.personinfo.CopyFile;
 import com.android.everyoneoncampus.view.personinfo.FileUtil;
 import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.leancloud.im.v2.AVIMClient;
-import cn.leancloud.im.v2.AVIMException;
-import cn.leancloud.im.v2.callback.AVIMClientCallback;
 
 public class TestActivity extends AppCompatActivity {
     private static final String TAG = "TestActivity";

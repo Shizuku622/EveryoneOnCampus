@@ -56,6 +56,25 @@ public class MySQLModel {
     * 最上面是最新的方法
     *
     * */
+    //上传事件的图片
+    public void uploadThingsPic(byte[] img,String thingsID){
+        new Thread(()->{
+            String sql = String.format("update things set thingsImage=? where userID='%s'",EocApplication.getUserInfo().userID);
+            try(Connection conn = getConnector(); PreparedStatement ps = conn.prepareStatement(sql);)
+            {
+                Blob blob = conn.createBlob();
+                blob.setBytes(1,img);
+                ps.setBlob(1,blob);
+                int i = ps.executeUpdate();
+                Log.d(TAG, "插入图片影响："+i);
+            } catch (Exception throwables) {
+                throwables.printStackTrace();
+                Log.e(TAG, throwables.getMessage());
+            }
+        }).start();
+    }
+
+
     public void testUploadPic(byte[] img){
         new Thread(()->{
             String sql = String.format("insert into test(pic) values(?)");
@@ -129,7 +148,7 @@ public class MySQLModel {
         }).start();
     }
 
-    //上传图片
+    //上传头像
     public void uploadPic(byte[] img){
         new Thread(()->{
             String sql = String.format("update user set headpic=? where userID='%s'",EocApplication.getUserInfo().userID);
@@ -521,8 +540,9 @@ public class MySQLModel {
             }
         }).start();
     }
+
     //发送
-    public void sendNewSomethingApi(String sql){
+    public void sendNewSomethingApi(String sql,byte[] thingsImage){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -533,7 +553,11 @@ public class MySQLModel {
 
         new Thread(()->{
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
+                Blob imageBlob = conn.createBlob();
+                imageBlob.setBytes(1,thingsImage);
+                ps.setBlob(1,imageBlob);
                 int resultSet = ps.executeUpdate();
+                Log.d(TAG, "插入事件影响" + resultSet + "条");
                 handler.sendMessage(Message.obtain());
             }catch (Exception e){
                 Log.d(TAG, e.getMessage());
