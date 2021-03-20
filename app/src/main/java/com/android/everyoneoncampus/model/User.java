@@ -2,6 +2,8 @@ package com.android.everyoneoncampus.model;
 
 import com.android.everyoneoncampus.EocApplication;
 
+import java.sql.Blob;
+
 public class User {
     public String userID;
     public String userPassword;  //密码
@@ -21,6 +23,7 @@ public class User {
     public String followNumber;
     public String followedNumber;
     public String userSpeci;
+    public byte[] headPic;
 
     public User(String uid,String upass, String uname, String usno, String uphone, String usex, String uschool, String uplace, String uiden, String uicon, String uauto, String ulabel, String m, String unicheng, String dn, String fn, String fedn, String usp){
         userID = uid;

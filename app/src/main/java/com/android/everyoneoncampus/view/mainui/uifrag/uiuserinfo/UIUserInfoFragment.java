@@ -18,6 +18,7 @@ import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.FragmentUiUserInfoBinding;
 import com.android.everyoneoncampus.model.User;
 import com.android.everyoneoncampus.presenter.FragmentPresenter;
+import com.android.everyoneoncampus.view.follow.FollowListActivity;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
@@ -78,6 +79,16 @@ public class UIUserInfoFragment extends Fragment {
     private void initListener() {
         mBinding.rlayoutInfo.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(),UserInfoActivity.class);
+            startActivity(intent);
+        });
+        mBinding.llayoutMyFollow.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), FollowListActivity.class);
+            intent.putExtra("followchoose",1);
+            startActivity(intent);
+        });
+        mBinding.llayoutFollowMe.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), FollowListActivity.class);
+            intent.putExtra("followchoose",2);
             startActivity(intent);
         });
     }

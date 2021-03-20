@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.android.everyoneoncampus.EocApplication;
+import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
 
@@ -56,6 +57,97 @@ public class MySQLModel {
     * 最上面是最新的方法
     *
     * */
+
+    public void getFollowInfo(String userID,DataListener<User> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dataListener.onComplete((User)msg.obj);
+                Log.d(TAG, "传递List<User>");
+            }
+        };
+        new Thread(()->{
+            String sql = String.format("SELECT * FROM `user` where userID=%s",userID);
+            //我关注的sql
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)) {
+                ResultSet resultSet = ps.executeQuery();
+                //列表
+                Message message = Message.obtain();
+                if(resultSet.next()){
+                    User temp = new User();
+                    temp.headPic = resultSet.getBytes("headPic");
+                    temp.userNicheng = resultSet.getString("userNicheng");
+                    temp.userAutograph = resultSet.getString("userAutograph");
+                    temp.userName = resultSet.getString("userName");
+                    temp.userSex = resultSet.getString("userSex");
+                    temp.userSchool = resultSet.getString("userSchool");
+                    temp.userSno = resultSet.getString("userSno");
+                    temp.userPhone = resultSet.getString("userPhone");
+                    temp.userPlace = resultSet.getString("userPlace");
+                    temp.userSpeci = resultSet.getString("userSpeci");
+                    temp.userIdentity = resultSet.getString("userIdentity");
+                    message.obj = temp;
+                }
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+
+        }).start();
+    }
+
+
+    //获取关注和被关注的列表
+    public void getTwoFollowList(int followChoose,DataListener<List<User>> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dataListener.onComplete((List<User>)msg.obj);
+                Log.d(TAG, "传递List<User>");
+            }
+        };
+        new Thread(()->{
+            String sql = "";
+            //我关注的sql
+            if(followChoose == 1){
+                sql = String.format("select * " +
+                        "from follow " +
+                        "join  `user` " +
+                        "on `user`.userID = follow.userIDed and follow.userID = %s", EocApplication.getUserInfo().userID);
+            }else{//被关注的
+                sql = String.format("select * " +
+                        "from follow " +
+                        "join  `user` " +
+                        "on `user`.userID = follow.userID and follow.userIDed = %s", EocApplication.getUserInfo().userID);
+            }
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)) {
+                ResultSet resultSet = ps.executeQuery();
+                //列表
+                List<User> followUserList = new ArrayList<>();
+                while(resultSet.next()){
+                    User temp = new User();
+                    if(followChoose == 1){
+                        temp.userID = resultSet.getString("userIDed");
+                    }else{
+                        temp.userID = resultSet.getString("userID");
+                    }
+                    temp.userNicheng = resultSet.getString("userNicheng");
+                    temp.userAutograph = resultSet.getString("userAutograph");
+                    temp.headPic = resultSet.getBytes("headPic");
+                    followUserList.add(temp);
+                }
+                Message message = Message.obtain();
+                message.obj = followUserList;
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+
+        }).start();
+    }
+
     //上传事件的图片
     public void uploadThingsPic(byte[] img,String thingsID){
         new Thread(()->{

@@ -90,7 +90,7 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/llayout_text"
             android:layout_width="150dp"
-            android:background="@drawable/btn_shape"
+            android:background="@drawable/btn_eoc_shape"
             android:text="完成"
             android:textColor="@color/white"
             android:textSize="@dimen/btn_fontsize"

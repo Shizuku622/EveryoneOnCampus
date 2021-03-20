@@ -160,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:textColor="@color/white"
-            android:background="@drawable/btn_shape"
+            android:background="@drawable/btn_eoc_shape"
             android:textSize="17dp"
             android:text="注册"/>
 

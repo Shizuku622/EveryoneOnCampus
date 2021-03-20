@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_followlist_headpic"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/eoc_margin_left"
+        android:layout_width="@dimen/headpic_size_small"
+        android:layout_height="@dimen/headpic_size_small"
+        android:src="@drawable/eoc_pic"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/view_linear"
+        android:layout_alignParentBottom="true"/>
+
+    <TextView
+        android:id="@+id/txt_followlist_nicheng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="昵称"
+        android:layout_toRightOf="@+id/img_followlist_headpic"
+        android:layout_alignTop="@+id/img_followlist_headpic"
+        android:textColor="@color/eoc_text_color_drak"
+        android:layout_margin="6dp"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/txt_followlist_qianming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_followlist_nicheng"
+        android:layout_alignLeft="@id/txt_followlist_nicheng"
+        android:textColor="@color/eoc_text_color_drak"
+        android:textSize="14sp"
+        android:text="签名"/>
+
+
+
+
+
+</RelativeLayout>

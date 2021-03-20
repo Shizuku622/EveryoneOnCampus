@@ -18,8 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".view.mainui.uifrag.uiuserinfo.UserInfoActivity"></activity>
-        <!-- 即时通讯和推送 START -->
+        <activity android:name=".view.follow.FollowListActivity"></activity>
+        <activity android:name=".view.follow.FollowInfoActivity" />
+        <activity android:name=".view.mainui.uifrag.uiuserinfo.UserInfoActivity" /> <!-- 即时通讯和推送 START -->
         <!-- 即时通讯和推送都需要 PushService -->
         <service android:name="cn.leancloud.push.PushService" />
 
@@ -32,7 +33,7 @@
         </receiver>
 
         <activity android:name=".view.mainui.SendDynamicActivity" />
-        <activity android:name=".view.mainui.ReleaseActivity"></activity>
+        <activity android:name=".view.mainui.ReleaseActivity" />
         <activity android:name=".view.mainui.MainUIActivity" /> <!-- <receiver android:name=".view.personinfo.LabelContentFragment$MofFragmentAdapter" -->
         <!-- android:enabled="true" -->
         <!-- android:exported="true" -->
@@ -42,9 +43,7 @@
         <!-- </intent-filter> -->
         <!-- </receiver> -->
         <activity android:name=".view.personinfo.PersoninfoActivity" />
-        <activity android:name=".TestActivity">
-
-        </activity>
+        <activity android:name=".TestActivity" />
         <activity android:name=".view.register.RegisterActivity" />
         <activity
             android:name=".view.user.UserActivity"

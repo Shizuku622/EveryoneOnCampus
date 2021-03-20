@@ -141,6 +141,7 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/llayout_my_follow"
                         android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -162,6 +163,7 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/llayout_follow_me"
                         android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_weight="1"
