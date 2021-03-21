@@ -8,20 +8,24 @@ import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.model.MySQLModel;
+import com.android.everyoneoncampus.model.Things;
 import com.android.everyoneoncampus.model.User;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UIUserInfoFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UiInfoDynamicFragment;
 import com.android.everyoneoncampus.view.personinfo.PersonInfoFragment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 public class FragmentPresenter {
 
     private UIUserInfoFragment mUiUserInfoFragment;
-    private MySQLModel mMySQLModel = new MySQLModel();
+    private UiInfoDynamicFragment mUiInfoDynamicFragment;
     private PersonInfoFragment mPersonInfoFragment;
+    private MySQLModel mMySQLModel = new MySQLModel();
 
     public FragmentPresenter(UIUserInfoFragment uiUserInfoFragment){
         this.mUiUserInfoFragment = uiUserInfoFragment;
@@ -29,6 +33,23 @@ public class FragmentPresenter {
     public FragmentPresenter(PersonInfoFragment personInfoFragment){
         this.mPersonInfoFragment = personInfoFragment;
     }
+
+    public FragmentPresenter(UiInfoDynamicFragment uiInfoDynamicFragment){
+        this.mUiInfoDynamicFragment = uiInfoDynamicFragment;
+    }
+
+    //个人动态
+    public void getUserDynamic(){
+        mUiInfoDynamicFragment.refreshDynamic();
+        mMySQLModel.getUserDynamic(new DataListener<List<Things>>() {
+            @Override
+            public void onComplete(List<Things> result) {
+                mUiInfoDynamicFragment.setThingList(result);
+                mUiInfoDynamicFragment.hideRefreshDynamic();
+            }
+        });
+    }
+
 
     //获得动态数量
     public void setDynamicInfo(){

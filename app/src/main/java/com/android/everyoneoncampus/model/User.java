@@ -1,10 +1,12 @@
 package com.android.everyoneoncampus.model;
 
 import com.android.everyoneoncampus.EocApplication;
+import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.sql.Blob;
 
-public class User {
+public class User implements Serializable {
     public String userID;
     public String userPassword;  //密码
     public String userName;
@@ -25,7 +27,7 @@ public class User {
     public String userSpeci;
     public byte[] headPic;
 
-    public User(String uid,String upass, String uname, String usno, String uphone, String usex, String uschool, String uplace, String uiden, String uicon, String uauto, String ulabel, String m, String unicheng, String dn, String fn, String fedn, String usp){
+    public User(String uid,String upass, String uname, String usno, String uphone, String usex, String uschool, String uplace, String uiden, String uicon, String uauto, String ulabel, String m, String unicheng, String dn, String fn, String fedn, String usp,byte[] hp){
         userID = uid;
         userPassword = upass;  //密码
         userName = uname;
@@ -44,6 +46,7 @@ public class User {
         followNumber = fn;
         followedNumber = fedn;
         userSpeci = usp;
+        headPic = hp;
     }
 
     public User(){

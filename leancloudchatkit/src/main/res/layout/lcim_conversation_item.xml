@@ -26,7 +26,7 @@
             android:textSize="10sp"
             android:text="T"/>
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/conversation_item_iv_avatar"
             style="@style/LCIMAvatar.Large"
             android:layout_alignParentLeft="true"

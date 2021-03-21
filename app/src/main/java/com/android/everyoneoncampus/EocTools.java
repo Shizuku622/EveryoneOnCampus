@@ -18,6 +18,7 @@ import java.util.Locale;
 public class EocTools {
 
     private static final String TAG = "EocTools";
+    public static final String HEADPIC = "HEADPIC";
     public static void setStatusBar(AppCompatActivity activity){
         View decorView = activity.getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
@@ -51,18 +52,32 @@ public class EocTools {
     }
 
     //保存Bitmap到本地上
-    public static void saveBitmapPic(Bitmap bitmap){
+    public static String saveBitmapPic(Bitmap bitmap){
         try{
             String targetPath = EocApplication.getContext().getExternalFilesDir("").getAbsolutePath();
             File saveFile = new File(targetPath,EocApplication.getUserInfo().userID+"headpic");
             FileOutputStream saveInputFile = new FileOutputStream(saveFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,saveInputFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,15,saveInputFile);
             saveInputFile.flush();
             saveInputFile.close();
+            return EocApplication.getContext().getExternalFilesDir("").getAbsolutePath() + File.separator + EocApplication.getUserInfo().userID+"headpic";
         }catch (Exception e){
-
+            return  "";
         }
-
+    }
+    //保存任意文件
+    public static String saveBitmapFile(Bitmap bitmap,String fileName){
+        try{
+            String targetPath = EocApplication.getContext().getExternalFilesDir("").getAbsolutePath();
+            File saveFile = new File(targetPath,fileName);
+            FileOutputStream saveInputFile = new FileOutputStream(saveFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,15,saveInputFile);
+            saveInputFile.flush();
+            saveInputFile.close();
+            return EocApplication.getContext().getExternalFilesDir("").getAbsolutePath() + File.separator +fileName;
+        }catch (Exception e){
+            return  "";
+        }
     }
 
 }

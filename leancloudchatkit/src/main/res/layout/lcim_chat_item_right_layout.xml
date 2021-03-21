@@ -65,7 +65,7 @@
             android:paddingLeft="40dp">
         </LinearLayout>
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/chat_right_iv_avatar"
             style="@style/LCIMAvatar"
             android:layout_alignParentBottom="true"

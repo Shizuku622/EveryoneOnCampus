@@ -2,6 +2,7 @@ package com.android.everyoneoncampus.view.follow;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FollowListItemAdapter extends RecyclerView.Adapter<FollowListItemAdapter.FollowItemViewHolder> {
     private List<User> mUserList;
     private Activity mActivity;
+    public static String GET_FOLLOW_USER_INFO= "getuserinfo";
     public FollowListItemAdapter(List<User> list, Activity activity){
         mUserList = list;
         mActivity = activity;
@@ -43,12 +45,14 @@ public class FollowListItemAdapter extends RecyclerView.Adapter<FollowListItemAd
     @Override
     public void onBindViewHolder(@NonNull FollowItemViewHolder holder, int position) {
         User temp = mUserList.get(position);
-//        holder.mHeadPic.setImageBitmap(EocTools.convertByteBitmap(temp.headPic));
+        holder.mHeadPic.setImageBitmap(EocTools.convertByteBitmap(temp.headPic));
         holder.mNiCheng.setText(temp.userNicheng);
         holder.mQianMing.setText(temp.userAutograph);
         holder.itemView.setOnClickListener(v->{
             Intent intent = new Intent(mActivity,FollowInfoActivity.class);
-            intent.putExtra("follow_userID",temp.userID);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(GET_FOLLOW_USER_INFO,temp);
+            intent.putExtras(bundle);
             mActivity.startActivity(intent);
         });
     }

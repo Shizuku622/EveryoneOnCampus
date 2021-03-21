@@ -31,8 +31,6 @@ public class CopyFile {
                 newFile.delete();
             }
 
-
-
             FileInputStream fileInputStream = new FileInputStream(oldPathName);
             FileOutputStream fileOutputStream = new FileOutputStream(newPathName);
             byte[] buffer = new byte[1024];

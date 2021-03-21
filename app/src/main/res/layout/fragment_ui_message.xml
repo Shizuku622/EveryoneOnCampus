@@ -125,8 +125,10 @@
         android:layout_marginBottom="10dp"
         android:background="@color/storke_color"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <FrameLayout
+        android:id="@+id/flayout_conversation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>

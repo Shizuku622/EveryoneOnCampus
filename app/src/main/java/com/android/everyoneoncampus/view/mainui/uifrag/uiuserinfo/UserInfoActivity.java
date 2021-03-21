@@ -12,22 +12,22 @@ import android.view.View;
 
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.databinding.ActivityUiInfoindexBinding;
-import com.android.everyoneoncampus.model.User;
 import com.android.everyoneoncampus.presenter.UserInfoPresenter;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class UserInfoActivity extends AppCompatActivity  {
     private ActivityUiInfoindexBinding mBinding;
     private UserInfoPresenter mUserInfoPresenter;
+    private UIUserInfoFragment.Choose mChoose;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityUiInfoindexBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
+        mChoose = (UIUserInfoFragment.Choose)getIntent().getSerializableExtra(UIUserInfoFragment.CHOOSE_INFO_DYNAMIC);
         initView();
         initListener();
         mUserInfoPresenter = new UserInfoPresenter(this);
@@ -75,6 +75,11 @@ public class UserInfoActivity extends AppCompatActivity  {
         });
         //vp和tab联动
         mBinding.tabUserinfo.setupWithViewPager(mBinding.vpUserinfo,false);
+        if (mChoose == UIUserInfoFragment.Choose.INFO){
+            mBinding.vpUserinfo.setCurrentItem(0);
+        }else{
+            mBinding.vpUserinfo.setCurrentItem(1);
+        }
     }
 
     //设置头像

@@ -16,17 +16,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.FragmentUiUserInfoBinding;
-import com.android.everyoneoncampus.model.User;
 import com.android.everyoneoncampus.presenter.FragmentPresenter;
 import com.android.everyoneoncampus.view.follow.FollowListActivity;
-import com.bumptech.glide.Glide;
-
-import java.io.File;
-import java.time.LocalTime;
 
 public class UIUserInfoFragment extends Fragment {
     private FragmentUiUserInfoBinding mBinding;
     private FragmentPresenter mFragmentPresenter;
+    public static final String CHOOSE_INFO_DYNAMIC = "chooseinfodynamic";
+
+    public enum Choose {
+        INFO,DYNAMIC
+    }
+
     private static final String TAG = "UIUserInfoFragment";
     @Nullable
     @Override
@@ -79,6 +80,7 @@ public class UIUserInfoFragment extends Fragment {
     private void initListener() {
         mBinding.rlayoutInfo.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(),UserInfoActivity.class);
+            intent.putExtra(CHOOSE_INFO_DYNAMIC, Choose.INFO);
             startActivity(intent);
         });
         mBinding.llayoutMyFollow.setOnClickListener(v->{
@@ -90,6 +92,11 @@ public class UIUserInfoFragment extends Fragment {
             Intent intent = new Intent(getActivity(), FollowListActivity.class);
             intent.putExtra("followchoose",2);
             startActivity(intent);
+        });
+        mBinding.llayoutDynamicDetail.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+            intent.putExtra(CHOOSE_INFO_DYNAMIC, Choose.DYNAMIC);
+            getActivity().startActivity(intent);
         });
     }
 

@@ -12,6 +12,9 @@ public class Things {
     public byte[] image;
     public byte[] headPic;
 
+    public Things(){
+
+    }
 
     public Things(String id,String event,String date,String content){
         userID = id;

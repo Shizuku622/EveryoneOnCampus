@@ -3,6 +3,7 @@ package cn.leancloud.chatkit.viewholder;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -95,8 +96,9 @@ public class LCIMChatItemHolder extends LCIMCommonViewHolder {
           nameView.setText(userProfile.getName());
           final String avatarUrl = userProfile.getAvatarUrl();
           if (!TextUtils.isEmpty(avatarUrl)) {
-            Picasso.with(getContext()).load(avatarUrl)
-              .placeholder(R.drawable.lcim_default_avatar_icon).into(avatarView);
+//            Picasso.with(getContext()).load(avatarUrl)
+//              .placeholder(R.drawable.lcim_default_avatar_icon).into(avatarView);
+              avatarView.setImageURI(Uri.parse(avatarUrl));
           }
         }
       }

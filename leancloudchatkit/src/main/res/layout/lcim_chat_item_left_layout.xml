@@ -22,7 +22,7 @@
         android:layout_marginRight="20dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/chat_left_iv_avatar"
             style="@style/LCIMAvatar"
             android:layout_alignParentBottom="true"

@@ -44,7 +44,6 @@ public class FollowListActivity extends AppCompatActivity {
     }
 
     private void initView() {
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mBinding.recFollowList.setLayoutManager(layoutManager);
         mAdapter = new FollowListItemAdapter(mUserList,this);

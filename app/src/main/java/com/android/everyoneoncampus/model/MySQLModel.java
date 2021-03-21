@@ -1,9 +1,11 @@
 package com.android.everyoneoncampus.model;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.telephony.MbmsGroupCallSession;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.WeakHashMap;
 
+import cn.leancloud.chatkit.LCChatKitUser;
 import io.reactivex.internal.schedulers.ImmediateThinScheduler;
 
 public class MySQLModel {
@@ -58,6 +61,97 @@ public class MySQLModel {
     *
     * */
 
+    //获得个人动态
+    public void getUserDynamic(DataListener<List<Things>> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((List<Things>)msg.obj);
+                        Log.d(TAG, "传递List<Things>");
+                        break;
+                }
+            }
+        };
+        new Thread(()->{
+            String sql = String.format("SELECT * FROM `things` join `user` on  things.userID = %s and `user`.userID = things.userID",EocApplication.getUserInfo().userID);
+            //我关注的sql
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)) {
+                ResultSet resultSet = ps.executeQuery();
+                //列表
+                Message message = Message.obtain();
+                List<Things> things = new ArrayList<>();
+                while (resultSet.next()){
+                    Things temp = new Things(
+                            resultSet.getString("thingsID"),
+                            resultSet.getString("userID"),
+                            resultSet.getString("userNicheng"),
+                            resultSet.getString("event"),
+                            resultSet.getString("thingsContent"),
+                            resultSet.getString("thingsDate"),
+                            resultSet.getBytes("thingsimage"),
+                            resultSet.getBytes("headPic"));
+                    things.add(temp);
+                }
+                message.what = 1;
+                message.obj = things;
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+
+        }).start();
+    }
+
+    //返回lcchat
+    public void getLCChatKitUser(String lcUserId, DataListener<LCChatKitUser> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((LCChatKitUser)msg.obj);
+                        Log.d(TAG, "传递LCChatKitUser");
+                        break;
+                    case 2:
+                        dataListener.onComplete(null);
+                        Log.d(TAG, "kong");
+                        break;
+                }
+            }
+        };
+        new Thread(()->{
+            String sql = String.format("SELECT * FROM `user` where userID=%s",lcUserId);
+            //我关注的sql
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)) {
+                ResultSet resultSet = ps.executeQuery();
+                //列表
+                Message message = Message.obtain();
+                if (resultSet.next()){
+                    LCChatKitUser temp = new LCChatKitUser();
+                    temp.setUserId(EocApplication.USER_MARK+resultSet.getString("userID"));
+//                    resultSet.getString("userNicheng");
+                    temp.setName(resultSet.getString("userName"));
+                    Bitmap bitmap =  EocTools.convertByteBitmap(resultSet.getBytes("headPic"));
+                    String path = EocTools.saveBitmapPic(bitmap);
+                    temp.setAvatarUrl(path);
+                    message.what = 1;
+                    message.obj = temp;
+                }else{
+                    message.what = 2;
+                }
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+
+        }).start();
+    }
+
+
     public void getFollowInfo(String userID,DataListener<User> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
@@ -76,6 +170,7 @@ public class MySQLModel {
                 Message message = Message.obtain();
                 if(resultSet.next()){
                     User temp = new User();
+                    temp.userID = resultSet.getString("userID");
                     temp.headPic = resultSet.getBytes("headPic");
                     temp.userNicheng = resultSet.getString("userNicheng");
                     temp.userAutograph = resultSet.getString("userAutograph");
@@ -115,12 +210,14 @@ public class MySQLModel {
                 sql = String.format("select * " +
                         "from follow " +
                         "join  `user` " +
-                        "on `user`.userID = follow.userIDed and follow.userID = %s", EocApplication.getUserInfo().userID);
+                        "join  school " +
+                        "on `user`.userID = follow.userIDed and school.schoolID = `user`.userSchool and follow.userID = %s", EocApplication.getUserInfo().userID);
             }else{//被关注的
                 sql = String.format("select * " +
                         "from follow " +
                         "join  `user` " +
-                        "on `user`.userID = follow.userID and follow.userIDed = %s", EocApplication.getUserInfo().userID);
+                        "join  school " +
+                        "on `user`.userID = follow.userID  and school.schoolID = `user`.userSchool and follow.userIDed = %s", EocApplication.getUserInfo().userID);
             }
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)) {
                 ResultSet resultSet = ps.executeQuery();
@@ -133,9 +230,17 @@ public class MySQLModel {
                     }else{
                         temp.userID = resultSet.getString("userID");
                     }
+                    temp.headPic = resultSet.getBytes("headPic");
                     temp.userNicheng = resultSet.getString("userNicheng");
                     temp.userAutograph = resultSet.getString("userAutograph");
-                    temp.headPic = resultSet.getBytes("headPic");
+                    temp.userName = resultSet.getString("userName");
+                    temp.userSex = resultSet.getString("userSex");
+                    temp.userSchool = resultSet.getString("schoolName");
+                    temp.userSno = resultSet.getString("userSno");
+                    temp.userPhone = resultSet.getString("userPhone");
+                    temp.userPlace = resultSet.getString("userPlace");
+                    temp.userSpeci = resultSet.getString("userSpeci");
+                    temp.userIdentity = resultSet.getString("userIdentity");
                     followUserList.add(temp);
                 }
                 Message message = Message.obtain();
@@ -397,7 +502,8 @@ public class MySQLModel {
                             resultSet.getString("dynamicNumber"),
                             resultSet.getString("followNumber"),
                             resultSet.getString("followedNumber"),
-                            resultSet.getString("userSpeci"));
+                            resultSet.getString("userSpeci"),
+                            resultSet.getBytes("headPic"));
                     message.what = 1;
                     message.obj = userInfo;
                 }else{
@@ -448,7 +554,8 @@ public class MySQLModel {
                             resultSet.getString("dynamicNumber"),
                             resultSet.getString("followNumber"),
                             resultSet.getString("followedNumber"),
-                            resultSet.getString("userSpeci"));
+                            resultSet.getString("userSpeci"),
+                            resultSet.getBytes("headPic"));
                     Message msg = Message.obtain();
                     msg.what = 1;
                     msg.obj = userInfo;

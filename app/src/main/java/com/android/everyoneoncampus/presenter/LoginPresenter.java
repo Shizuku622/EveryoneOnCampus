@@ -1,5 +1,8 @@
 package com.android.everyoneoncampus.presenter;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.MaskFilter;
 import android.icu.text.AlphabeticIndex;
 import android.os.Handler;
@@ -11,7 +14,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.android.everyoneoncampus.CustomUserProvider;
 import com.android.everyoneoncampus.EocApplication;
+import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
 import com.android.everyoneoncampus.model.DbHelper;
@@ -32,6 +37,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.crypto.MacSpi;
+
+import cn.leancloud.chatkit.LCChatKit;
+import cn.leancloud.chatkit.LCChatKitUser;
+import cn.leancloud.im.AVIMOptions;
+import cn.leancloud.im.v2.AVIMClient;
+import cn.leancloud.im.v2.AVIMException;
+import cn.leancloud.im.v2.callback.AVIMClientCallback;
 
 public class LoginPresenter {
     //view
@@ -65,24 +77,20 @@ public class LoginPresenter {
             @Override
             public void onComplete(User result) {
                 if(result != null){
-
                     if (result.userSno.equals(user)) {
                         Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_LONG).show();
                         mUserView.hideProgressLogin();
-
                         //shape保存信息
                         mSpModel.saveUserInfo(result.userID);
-
                         String userID = result.userID;
                         EocApplication.setUserInfo(result);
-
                         if(result.mark.trim().equals("0")){
                             mUserView.userWriteUserInfo();
                             //清除
                             mSpModel.clearSpEditor();
                             mDbHelper.clearSelectedLabel();
                         }else{
-                            mUserView.loginMainUI();
+                            mUserView.loginMainUI(result);
                         }
                     }else{
                         Toast.makeText(EocApplication.getContext(), "账号或者密码错误！", Toast.LENGTH_SHORT).show();
@@ -90,6 +98,7 @@ public class LoginPresenter {
                 }else{
                     Toast.makeText(EocApplication.getContext(), "账号或者密码错误！", Toast.LENGTH_SHORT).show();
                 }
+                mUserView.hideProgressLogin();
             }
         });
 
