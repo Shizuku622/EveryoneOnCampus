@@ -35,6 +35,7 @@ public class UIUserInfoFragment extends Fragment {
         mBinding = FragmentUiUserInfoBinding.inflate(inflater,container,false);
         View view = mBinding.getRoot();
         mFragmentPresenter = new FragmentPresenter(this);
+        initListener();
         setUserOtherInfo();
         mFragmentPresenter.setHeadPic();
         mFragmentPresenter.setFollow();
@@ -46,17 +47,15 @@ public class UIUserInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initListener();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         setUserOtherInfo();
-        mBinding.swipUserInfo.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mFragmentPresenter.setFollow();
-                mFragmentPresenter.setDynamicInfo();
-                mFragmentPresenter.getCurrentUserUpdate();
-                mFragmentPresenter.setHeadPic();
-            }
-        });
+        mFragmentPresenter.setHeadPic();
+        mFragmentPresenter.setFollow();
+        mFragmentPresenter.setDynamicInfo();
     }
 
     //设置信息
@@ -78,6 +77,16 @@ public class UIUserInfoFragment extends Fragment {
 
 
     private void initListener() {
+        mBinding.swipUserInfo.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            mFragmentPresenter.getCurrentUserUpdate();
+            setUserOtherInfo();
+            mFragmentPresenter.setHeadPic();
+            mFragmentPresenter.setFollow();
+            mFragmentPresenter.setDynamicInfo();
+        }
+    });
         mBinding.rlayoutInfo.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(),UserInfoActivity.class);
             intent.putExtra(CHOOSE_INFO_DYNAMIC, Choose.INFO);

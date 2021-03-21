@@ -45,6 +45,7 @@ public class UserActivity extends BaseActivity implements UserViewInterface{
         mBinding = ActivityUserloginBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
+
         //设置状态栏
         setStatusBar();
 
@@ -52,7 +53,6 @@ public class UserActivity extends BaseActivity implements UserViewInterface{
         mLoginPresenter.getAllLable();
         initViews();
         initListener();
-
         File files = Environment.getExternalStorageDirectory().getAbsoluteFile();
         Log.d(TAG,Environment.getExternalStoragePublicDirectory("").getAbsolutePath());
 
@@ -60,6 +60,9 @@ public class UserActivity extends BaseActivity implements UserViewInterface{
         for(File file:twofile){
             Log.d(TAG, file.toString());
         }
+
+        //
+
 
     }
 
@@ -93,25 +96,13 @@ public class UserActivity extends BaseActivity implements UserViewInterface{
     }
     @Override
     public void loginMainUI(User user){
-        //自动开启
-        Bitmap headPic = EocTools.convertByteBitmap(user.headPic);
-        String savePath = EocTools.saveBitmapPic(headPic);
-        CustomUserProvider.addChatUser(new LCChatKitUser(EocApplication.USER_MARK+user.userID,user.userName,savePath));
+        //设置机型
+        mLoginPresenter.setUserModel();
 
-        AVIMOptions.getGlobalOptions().setAutoOpen(true);
-        LCChatKit.getInstance().open(EocApplication.USER_MARK + user.userID, new AVIMClientCallback() {
-            @Override
-            public void done(AVIMClient avimClient, AVIMException e) {
-                if (null == e) {
-                    finish();
-                    Intent intent = new Intent(UserActivity.this, MainUIActivity.class);
-                    startActivity(intent);
-                    Log.d(TAG, "leancloud 登录成功！");
-                } else {
-                    Toast.makeText(UserActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        finish();
+        Intent intent = new Intent(UserActivity.this, MainUIActivity.class);
+        startActivity(intent);
+        Log.d(TAG, "leancloud 登录成功！");
     }
 
     @Override

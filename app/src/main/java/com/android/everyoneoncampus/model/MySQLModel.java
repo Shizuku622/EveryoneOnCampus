@@ -2,9 +2,11 @@ package com.android.everyoneoncampus.model;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.telephony.MbmsGroupCallSession;
 import android.util.Log;
 import android.util.Pair;
@@ -16,6 +18,7 @@ import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
+import com.mysql.jdbc.util.ResultSetUtil;
 
 import java.io.StringWriter;
 import java.sql.Blob;
@@ -26,6 +29,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.WeakHashMap;
+
+import javax.xml.transform.Result;
 
 import cn.leancloud.chatkit.LCChatKitUser;
 import io.reactivex.internal.schedulers.ImmediateThinScheduler;
@@ -61,6 +66,46 @@ public class MySQLModel {
     *
     * */
 
+    //查询登录的机型和本机型是否一样
+    public void getLoginModelStatus(DataListener<String> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dataListener.onComplete((String)msg.obj);
+            }
+        };
+        String sql = String.format("SELECT model FROM `user` where userID= %s",mSPModel.getLoginStatusSP_reutrn());
+        new Thread(()->{
+            try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
+                ResultSet resultSet = ps1.executeQuery();
+                String model = "";
+                if(resultSet.next()){
+                    model = resultSet.getString("model");
+                }
+                Message msg = Message.obtain();
+                msg.obj = model;
+                handler.sendMessage(msg);
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
+
+    //设置登录机型
+    public void setLoginModelStatus(){
+        String sql = String.format("update `user` set model = '%s' where userID = %s", Build.MODEL,EocApplication.getUserInfo().userID);
+        new Thread(()->{
+            try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
+                int i = ps1.executeUpdate();
+                Log.d(TAG, i+"条影响");
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
     //获得个人动态
     public void getUserDynamic(DataListener<List<Things>> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
@@ -76,7 +121,7 @@ public class MySQLModel {
             }
         };
         new Thread(()->{
-            String sql = String.format("SELECT * FROM `things` join `user` on  things.userID = %s and `user`.userID = things.userID",EocApplication.getUserInfo().userID);
+            String sql = String.format("SELECT * FROM `things` join `user` on  things.userID = '%s' and `user`.userID = things.userID",EocApplication.getUserInfo().userID);
             //我关注的sql
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)) {
                 ResultSet resultSet = ps.executeQuery();
@@ -531,39 +576,45 @@ public class MySQLModel {
         };
         String userSno = mSPModel.readUserInfo();
         new Thread(()->{
-            String SQL = String.format("select * from user where userID='%s'",EocApplication.getUserInfo().userID);
-            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
-                ResultSet resultSet = ps.executeQuery();
-                User userInfo = new User();
-                while(resultSet.next()){
-                    userInfo = new User(
-                            resultSet.getString("userID"),
-                            resultSet.getString("userPassword"),
-                            resultSet.getString("userName"),
-                            resultSet.getString("userSno"),
-                            resultSet.getString("userPhone"),
-                            resultSet.getString("userSex"),
-                            resultSet.getString("userSchool"),
-                            resultSet.getString("userPlace"),
-                            resultSet.getString("userIdentity"),
-                            resultSet.getString("userIcon"),
-                            resultSet.getString("userAutograph"),
-                            resultSet.getString("userlabel"),
-                            resultSet.getString("mark"),
-                            resultSet.getString("userNicheng"),
-                            resultSet.getString("dynamicNumber"),
-                            resultSet.getString("followNumber"),
-                            resultSet.getString("followedNumber"),
-                            resultSet.getString("userSpeci"),
-                            resultSet.getBytes("headPic"));
-                    Message msg = Message.obtain();
-                    msg.what = 1;
-                    msg.obj = userInfo;
-                    handler.sendMessage(msg);
+            mSPModel.getLoginStatusSP(new DataListener<String>() {
+                @Override
+                public void onComplete(String result) {
+                    String SQL = String.format("select * from user where userID='%s'",result);
+                    try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
+                        ResultSet resultSet = ps.executeQuery();
+                        User userInfo = new User();
+                        while(resultSet.next()){
+                            userInfo = new User(
+                                    resultSet.getString("userID"),
+                                    resultSet.getString("userPassword"),
+                                    resultSet.getString("userName"),
+                                    resultSet.getString("userSno"),
+                                    resultSet.getString("userPhone"),
+                                    resultSet.getString("userSex"),
+                                    resultSet.getString("userSchool"),
+                                    resultSet.getString("userPlace"),
+                                    resultSet.getString("userIdentity"),
+                                    resultSet.getString("userIcon"),
+                                    resultSet.getString("userAutograph"),
+                                    resultSet.getString("userlabel"),
+                                    resultSet.getString("mark"),
+                                    resultSet.getString("userNicheng"),
+                                    resultSet.getString("dynamicNumber"),
+                                    resultSet.getString("followNumber"),
+                                    resultSet.getString("followedNumber"),
+                                    resultSet.getString("userSpeci"),
+                                    resultSet.getBytes("headPic"));
+                            Message msg = Message.obtain();
+                            msg.what = 1;
+                            msg.obj = userInfo;
+                            handler.sendMessage(msg);
+                        }
+                    }catch (Exception e){
+                        Log.e(TAG, e.getMessage());
+                    }
                 }
-            }catch (Exception e){
-                Log.e(TAG, e.getMessage());
-            }
+            });
+
         }).start();
     }
 
@@ -617,6 +668,7 @@ public class MySQLModel {
             }
         }).start();
     }
+
     //更新用户信息
     public void updateUserInfo(String lable){
         String sql = String.format("update user set " +

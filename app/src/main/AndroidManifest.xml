@@ -18,8 +18,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".view.dynamicdatail.DynamicDetailActivity"></activity>
-        <activity android:name=".ChatTestActivity"></activity>
+<!--        启动封面-->
+        <activity android:name=".view.LaunchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".view.dynamicdatail.DynamicDetailActivity" />
+        <activity android:name=".ChatTestActivity" />
         <activity android:name=".view.follow.FollowListActivity" />
         <activity android:name=".view.follow.FollowInfoActivity" />
         <activity android:name=".view.mainui.uifrag.uiuserinfo.UserInfoActivity" />
@@ -32,11 +40,6 @@
         <activity
             android:name=".view.user.UserActivity"
             android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

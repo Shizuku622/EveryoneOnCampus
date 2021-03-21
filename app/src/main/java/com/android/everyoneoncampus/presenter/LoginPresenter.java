@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.MaskFilter;
 import android.icu.text.AlphabeticIndex;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -26,9 +27,12 @@ import com.android.everyoneoncampus.model.SPModel;
 import com.android.everyoneoncampus.model.User;
 import com.android.everyoneoncampus.model.UserModel;
 import com.android.everyoneoncampus.model.UserModelInterface;
+import com.android.everyoneoncampus.view.LaunchActivity;
+import com.android.everyoneoncampus.view.mainui.MainUIActivity;
 import com.android.everyoneoncampus.view.personinfo.IdentFragment;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoViewInterface;
 import com.android.everyoneoncampus.view.register.RegisterViewInterface;
+import com.android.everyoneoncampus.view.user.UserActivity;
 import com.android.everyoneoncampus.view.user.UserViewInterface;
 import com.bumptech.glide.util.LogTime;
 
@@ -50,7 +54,8 @@ public class LoginPresenter {
     private UserViewInterface mUserView ;
     private RegisterViewInterface mRegisterView;
     private PersoninfoViewInterface mPersoninfoView;
-
+    private MainUIActivity mMainUIActivity;
+    private LaunchActivity mLaunchActivity;
     //model
     private UserModelInterface mUserModel = new UserModel();
     //sql
@@ -70,6 +75,81 @@ public class LoginPresenter {
     public LoginPresenter(PersoninfoViewInterface personinfoViewInterface){
         mPersoninfoView = personinfoViewInterface;
     }
+    public LoginPresenter(LaunchActivity launchActivity){
+        mLaunchActivity = launchActivity;
+    }
+    public LoginPresenter(MainUIActivity mainUIActivity){
+        mMainUIActivity = mainUIActivity;
+    }
+
+    private static final String TAG = "LoginPresenter";
+
+    //开启leancloud
+    public void loginLeanCloud(User user){
+
+        Bitmap headPic = EocTools.convertByteBitmap(user.headPic);
+        String savePath = EocTools.saveBitmapPic(headPic);
+        CustomUserProvider.addChatUser(new LCChatKitUser(EocApplication.USER_MARK+user.userID,user.userName,savePath));
+        //自动开启
+        AVIMOptions.getGlobalOptions().setAutoOpen(true);
+        LCChatKit.getInstance().open(EocApplication.USER_MARK + user.userID, new AVIMClientCallback() {
+            @Override
+            public void done(AVIMClient avimClient, AVIMException e) {
+                if (null == e) {
+                    Log.d(TAG, "登录");
+                } else {
+
+                }
+            }
+        });
+    }
+
+    //查询状态
+    public void queryLoginStauts(){
+        mSpModel.getLoginStatusSP(new DataListener<String>() {
+            @Override
+            public void onComplete(String result) {
+                if(result.equals("无")){
+                    mLaunchActivity.loginLoginUI();
+                }else{
+                    mLaunchActivity.LoginMainUI();
+                }
+            }
+        });
+    }
+
+
+    //查询机型
+    public void queryUserModel(){
+        mMySQLModel.getLoginModelStatus(new DataListener<String>() {
+            @Override
+            public void onComplete(String result) {
+                if(!result.isEmpty()){
+                    if(result.equals(Build.MODEL)){
+                        mMySQLModel.getCurrentUserInfo(new DataListener<User>() {
+                            @Override
+                            public void onComplete(User result) {
+                                loginLeanCloud(result);
+                                EocApplication.setUserInfo(result);
+                            }
+                        });
+                        Log.d(TAG, "机型相同");
+                    }else{
+                        mMainUIActivity.finishMainUI();
+                        Toast.makeText(mMainUIActivity, "已在别处登录！", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "已在别处登录");
+                    }
+                }
+            }
+        });
+    }
+
+    //记录登录过得机型
+    public void setUserModel(){
+        mMySQLModel.setLoginModelStatus();
+        Log.d(TAG, "记录机型");
+    }
+
     //登录
     public void userLogin(String user,String passwd){
         mUserView.showProgressLogin();
@@ -90,6 +170,8 @@ public class LoginPresenter {
                             mSpModel.clearSpEditor();
                             mDbHelper.clearSelectedLabel();
                         }else{
+                            loginLeanCloud(result);
+                            mSpModel.setLoginModelInfo();
                             mUserView.loginMainUI(result);
                         }
                     }else{

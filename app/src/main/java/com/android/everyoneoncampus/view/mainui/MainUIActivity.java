@@ -16,16 +16,19 @@ import android.widget.RadioGroup;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.ActivityMainUseruiBinding;
+import com.android.everyoneoncampus.presenter.LoginPresenter;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.UIIndexFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.UIMessageFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uistudy.UIStudyFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UIUserInfoFragment;
+import com.android.everyoneoncampus.view.user.UserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainUIActivity extends AppCompatActivity {
-    ActivityMainUseruiBinding mBinding;
+    private ActivityMainUseruiBinding mBinding;
+    private LoginPresenter mLoginPresenter;
     private static final String TAG = "MainUIActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +36,16 @@ public class MainUIActivity extends AppCompatActivity {
         mBinding = ActivityMainUseruiBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
+        mLoginPresenter = new LoginPresenter(this);
         EocTools.setStatusBar(this);
         initViews();
+        //查询机型是否一样
+        mLoginPresenter.queryUserModel();
+    }
 
+    public void finishMainUI() {
+        finish();
+        startActivity(new Intent(this, UserActivity.class));
     }
 
     private void initViews() {
@@ -93,6 +103,7 @@ public class MainUIActivity extends AppCompatActivity {
                         break;
                     case R.id.radiobtn_add_dynamic:
                         startActivity(new Intent(MainUIActivity.this,SendDynamicActivity.class));
+                        mBinding.radiobtnAddDynamic.setChecked(false);
                         Log.d(TAG, "不出现");
                         break;
                     case R.id.radiobtn_message:
@@ -105,35 +116,7 @@ public class MainUIActivity extends AppCompatActivity {
             }
         });
         mBinding.vpMianUi.setOffscreenPageLimit(fragmentList.size());
-//        mBinding.rgMainuiNav.setOnCheckedChangeListener((g,cid)->{
-//            Fragment fragment = null;
-//            switch (cid){
-//                case R.id.radiobtn_index:
-//                    fragment = uiIndexFragment;
-//                    break;
-//                case R.id.radiobtn_study:
-//                    fragment = uiStudyFragment;
-//                    break;
-//                case R.id.radiobtn_add_dynamic:
-//                    startActivity(new Intent(this,SendDynamicActivity.class));
-//                    Log.d(TAG, "不出现");
-//                    break;
-//                case R.id.radiobtn_message:
-//                    fragment = uiMessageFragment;
-//                    break;
-//                case R.id.radiobtn_userinfo:
-//                    fragment = uiUserInfoFragment;
-//                    break;
-//            }
-//            if(fragment != null){
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fl_frag_container,fragment).commit();
-//            }
         mBinding.radiobtnIndex.setChecked(true);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        mBinding.radiobtnIndex.setChecked(true);
-    }
 }

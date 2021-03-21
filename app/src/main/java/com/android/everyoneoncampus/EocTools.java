@@ -47,8 +47,11 @@ public class EocTools {
 
     //转换byte[]为bitmap
     public static Bitmap convertByteBitmap(byte[] bytes){
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-        return bitmap;
+        if(bytes != null){
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            return bitmap;
+        }
+        return null;
     }
 
     //保存Bitmap到本地上
