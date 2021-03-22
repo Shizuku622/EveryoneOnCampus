@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.FragmentIdenBinding;
-import com.android.everyoneoncampus.model.SPModel;
+import com.android.everyoneoncampus.model.modelapi.SPModel;
 
 public class IdentFragment  extends Fragment {
     private FragmentIdenBinding mbinding;

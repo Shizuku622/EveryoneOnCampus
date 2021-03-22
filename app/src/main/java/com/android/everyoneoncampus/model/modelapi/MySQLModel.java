@@ -1,13 +1,10 @@
-package com.android.everyoneoncampus.model;
+package com.android.everyoneoncampus.model.modelapi;
 
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.ContactsContract;
-import android.telephony.MbmsGroupCallSession;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
@@ -18,9 +15,11 @@ import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
-import com.mysql.jdbc.util.ResultSetUtil;
+import com.android.everyoneoncampus.model.LabelAll;
+import com.android.everyoneoncampus.model.entity.Comment;
+import com.android.everyoneoncampus.model.entity.Things;
+import com.android.everyoneoncampus.model.entity.User;
 
-import java.io.StringWriter;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,19 +27,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.WeakHashMap;
-
-import javax.xml.transform.Result;
 
 import cn.leancloud.chatkit.LCChatKitUser;
-import io.reactivex.internal.schedulers.ImmediateThinScheduler;
 
 public class MySQLModel {
     //sharedpre
     private SPModel mSPModel = new SPModel();
     private DbHelper mDbHelper = new DbHelper();
 
-    private static final String TAG = "MySQLModel";
     private final String DRIVER = "com.mysql.jdbc.Driver";
     private final String USER = "rrxymysql";
     private final String PASSWD = "RRXY@mysql0204";
@@ -61,13 +55,87 @@ public class MySQLModel {
         return conn;
     }
 
+    private static final String TAG = "MySQLModel";
     /*
     * 最上面是最新的方法
     *
     * */
 
+    //添加评论
+    public void insertThingsCommentApi(Comment comment, DataListener<Integer> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dataListener.onComplete(msg.what);
+            }
+        };
+        new Thread(()->{
+            String sql = "INSERT INTO `Comment`(thingsid,userID,CContent) VALUES(?,?,?)";
+            Message msg = Message.obtain();
+            try(Connection conn = getConnector();
+                PreparedStatement ps = conn.prepareStatement(sql);)
+            {
+                ps.setString(1,comment.thingsID);
+                ps.setString(2,comment.userID);
+                ps.setString(3,comment.CContent);
+                int i = ps.executeUpdate();
+                if(i != 0){
+                    msg.what = 1;
+                }else{
+                    msg.what = 2;
+                }
+                handler.sendMessage(msg);
+            } catch (Exception throwables) {
+                throwables.printStackTrace();
+                Log.e(TAG, throwables.getMessage());
+                msg.what = 3;
+                handler.sendMessage(msg);
+            }
+        }).start();
+    }
+
+    //获得事件的评论
+    public void getThingsCommentApi(String thingsID, DataListener<List<Comment>> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dataListener.onComplete((List<Comment>)msg.obj);
+            }
+        };
+        String sql = String.format("SELECT * FROM `Comment` " +
+                "join `user` " +
+                "on `Comment`.userID = `user`.userID and thingsID = %s",thingsID);
+        new Thread(()->{
+            try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
+                ResultSet resultSet = ps1.executeQuery();
+                List<Comment> comments = new ArrayList<>();
+                while(resultSet.next()){
+                    Comment comment = new Comment(resultSet.getString("CommentID"),
+                            resultSet.getString("thingsID"),
+                            resultSet.getString("userID"),
+                            resultSet.getString("userNicheng"),
+                            resultSet.getString("CContent"),
+                            resultSet.getString("CDate"),
+                            resultSet.getBytes("headPic"));
+                    comments.add(comment);
+                }
+
+                Message msg = Message.obtain();
+                msg.obj = comments;
+                handler.sendMessage(msg);
+                Log.d(TAG, "getThingsComment: 获取评论成功");
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
+
+
     //查询登录的机型和本机型是否一样
-    public void getLoginModelStatus(DataListener<String> dataListener){
+    public void getModelInfoApi(DataListener<String> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -75,7 +143,7 @@ public class MySQLModel {
                 dataListener.onComplete((String)msg.obj);
             }
         };
-        String sql = String.format("SELECT model FROM `user` where userID= %s",mSPModel.getLoginStatusSP_reutrn());
+        String sql = String.format("SELECT model FROM `user` where userID= %s",mSPModel.readUserID());
         new Thread(()->{
             try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
                 ResultSet resultSet = ps1.executeQuery();
@@ -93,9 +161,10 @@ public class MySQLModel {
     }
 
 
-    //设置登录机型
-    public void setLoginModelStatus(){
-        String sql = String.format("update `user` set model = '%s' where userID = %s", Build.MODEL,EocApplication.getUserInfo().userID);
+    //记录登录过得最新的机型
+    public void writeModelInfoApi(){
+        //记录在云端
+        String sql = String.format("update `user` set model = '%s' where userID = %s", Build.MODEL,mSPModel.readUserID());
         new Thread(()->{
             try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
                 int i = ps1.executeUpdate();
@@ -121,7 +190,7 @@ public class MySQLModel {
             }
         };
         new Thread(()->{
-            String sql = String.format("SELECT * FROM `things` join `user` on  things.userID = '%s' and `user`.userID = things.userID",EocApplication.getUserInfo().userID);
+            String sql = String.format("SELECT * FROM `things` join `user` on  things.userID = '%s' and `user`.userID = things.userID",mSPModel.readUserID());
             //我关注的sql
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)) {
                 ResultSet resultSet = ps.executeQuery();
@@ -180,7 +249,7 @@ public class MySQLModel {
                     temp.setUserId(EocApplication.USER_MARK+resultSet.getString("userID"));
 //                    resultSet.getString("userNicheng");
                     temp.setName(resultSet.getString("userName"));
-                    Bitmap bitmap =  EocTools.convertByteBitmap(resultSet.getBytes("headPic"));
+                    Bitmap bitmap =  EocTools.convertBitmap(resultSet.getBytes("headPic"));
                     String path = EocTools.saveBitmapPic(bitmap);
                     temp.setAvatarUrl(path);
                     message.what = 1;
@@ -256,13 +325,13 @@ public class MySQLModel {
                         "from follow " +
                         "join  `user` " +
                         "join  school " +
-                        "on `user`.userID = follow.userIDed and school.schoolID = `user`.userSchool and follow.userID = %s", EocApplication.getUserInfo().userID);
+                        "on `user`.userID = follow.userIDed and school.schoolID = `user`.userSchool and follow.userID = %s", mSPModel.readUserID());
             }else{//被关注的
                 sql = String.format("select * " +
                         "from follow " +
                         "join  `user` " +
                         "join  school " +
-                        "on `user`.userID = follow.userID  and school.schoolID = `user`.userSchool and follow.userIDed = %s", EocApplication.getUserInfo().userID);
+                        "on `user`.userID = follow.userID  and school.schoolID = `user`.userSchool and follow.userIDed = %s", mSPModel.readUserID());
             }
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)) {
                 ResultSet resultSet = ps.executeQuery();
@@ -421,9 +490,8 @@ public class MySQLModel {
                 }
             }
         };
-
         new Thread(()->{
-            String SQL1 = String.format("select count(userIDed) as userIDedfollow from follow where userIDed='%s'",EocApplication.getUserInfo().userID);
+            String SQL1 = String.format("select count(userIDed) as userIDedfollow from follow where userIDed='%s'",mSPModel.readUserID());
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL1)) {
                 ResultSet resultSet = ps.executeQuery();
                 Message message = Message.obtain();
@@ -454,7 +522,7 @@ public class MySQLModel {
         };
 
         new Thread(()->{
-            String SQL1 = String.format("select count(userID) as userIDfollow from follow where userID='%s'",EocApplication.getUserInfo().userID);
+            String SQL1 = String.format("select count(userID) as userIDfollow from follow where userID='%s'",mSPModel.readUserID());
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL1)) {
                 ResultSet resultSet = ps.executeQuery();
                 Message message = Message.obtain();
@@ -486,7 +554,7 @@ public class MySQLModel {
         };
 
         new Thread(()->{
-            String SQL1 = String.format("select count(userID) as userIDNumber from things where userID='%s'",EocApplication.getUserInfo().userID);
+            String SQL1 = String.format("select count(userID) as userIDNumber from things where userID='%s'",mSPModel.readUserID());
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL1)) {
                 ResultSet resultSet = ps.executeQuery();
                 Message message = Message.obtain();
@@ -502,9 +570,8 @@ public class MySQLModel {
         }).start();
     }
 
-    //登录 获取用户信息
+    //登录
     public void getUserLogin(String user,String passwd,DataListener dataListener){
-
         Handler handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -519,7 +586,6 @@ public class MySQLModel {
                 }
             }
         };
-
         new Thread(()->{
             String SQL = "select * from user where userSno = ? and userPassword = ?";
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
@@ -531,7 +597,6 @@ public class MySQLModel {
                 if(resultSet.next()){
                     userInfo = new  User(
                             resultSet.getString("userID"),
-                            "23333",
                             resultSet.getString("userName"),
                             resultSet.getString("userSno"),
                             resultSet.getString("userPhone"),
@@ -562,7 +627,7 @@ public class MySQLModel {
     }
 
     //获取当前用户信息
-    public void getCurrentUserInfo(DataListener<User> dataListener){
+    public void getCurrentUserInfoApi(DataListener<User> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -574,46 +639,39 @@ public class MySQLModel {
                 }
             }
         };
-        String userSno = mSPModel.readUserInfo();
         new Thread(()->{
-            mSPModel.getLoginStatusSP(new DataListener<String>() {
-                @Override
-                public void onComplete(String result) {
-                    String SQL = String.format("select * from user where userID='%s'",result);
-                    try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
-                        ResultSet resultSet = ps.executeQuery();
-                        User userInfo = new User();
-                        while(resultSet.next()){
-                            userInfo = new User(
-                                    resultSet.getString("userID"),
-                                    resultSet.getString("userPassword"),
-                                    resultSet.getString("userName"),
-                                    resultSet.getString("userSno"),
-                                    resultSet.getString("userPhone"),
-                                    resultSet.getString("userSex"),
-                                    resultSet.getString("userSchool"),
-                                    resultSet.getString("userPlace"),
-                                    resultSet.getString("userIdentity"),
-                                    resultSet.getString("userIcon"),
-                                    resultSet.getString("userAutograph"),
-                                    resultSet.getString("userlabel"),
-                                    resultSet.getString("mark"),
-                                    resultSet.getString("userNicheng"),
-                                    resultSet.getString("dynamicNumber"),
-                                    resultSet.getString("followNumber"),
-                                    resultSet.getString("followedNumber"),
-                                    resultSet.getString("userSpeci"),
-                                    resultSet.getBytes("headPic"));
-                            Message msg = Message.obtain();
-                            msg.what = 1;
-                            msg.obj = userInfo;
-                            handler.sendMessage(msg);
-                        }
-                    }catch (Exception e){
-                        Log.e(TAG, e.getMessage());
-                    }
+            String SQL = String.format("select * from user where userID='%s'",mSPModel.readUserID());
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
+                ResultSet resultSet = ps.executeQuery();
+                User userInfo = new User();
+                while(resultSet.next()){
+                    userInfo = new User(
+                            resultSet.getString("userID"),
+                            resultSet.getString("userName"),
+                            resultSet.getString("userSno"),
+                            resultSet.getString("userPhone"),
+                            resultSet.getString("userSex"),
+                            resultSet.getString("userSchool"),
+                            resultSet.getString("userPlace"),
+                            resultSet.getString("userIdentity"),
+                            resultSet.getString("userIcon"),
+                            resultSet.getString("userAutograph"),
+                            resultSet.getString("userlabel"),
+                            resultSet.getString("mark"),
+                            resultSet.getString("userNicheng"),
+                            resultSet.getString("dynamicNumber"),
+                            resultSet.getString("followNumber"),
+                            resultSet.getString("followedNumber"),
+                            resultSet.getString("userSpeci"),
+                            resultSet.getBytes("headPic"));
+                    Message msg = Message.obtain();
+                    msg.what = 1;
+                    msg.obj = userInfo;
+                    handler.sendMessage(msg);
                 }
-            });
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
 
         }).start();
     }
@@ -644,7 +702,7 @@ public class MySQLModel {
         }).start();
     }
     //保存数据
-    public void  getLabelTitle(DataListener<Pair<List<String>,LabelAll>> dataListener){
+    public void  getLabelTitle(DataListener<Pair<List<String>, LabelAll>> dataListener){
 
         new Thread(()->{
             Pair<List<String>,LabelAll> label = new Pair<>(new ArrayList<>(),new LabelAll());

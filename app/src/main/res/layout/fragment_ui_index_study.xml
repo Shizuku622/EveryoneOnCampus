@@ -38,6 +38,7 @@
             <EditText
                 android:hint="搜索"
                 android:textSize="12dp"
+                android:background="@null"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

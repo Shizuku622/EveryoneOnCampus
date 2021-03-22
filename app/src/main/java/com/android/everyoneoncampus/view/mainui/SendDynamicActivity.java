@@ -5,9 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.databinding.ActivityAddDynamicStateBinding;
 
-public class SendDynamicActivity extends AppCompatActivity {
+public class SendDynamicActivity extends BaseActivity {
     private ActivityAddDynamicStateBinding mBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

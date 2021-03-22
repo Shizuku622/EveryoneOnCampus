@@ -3,10 +3,8 @@ package com.android.everyoneoncampus;
 import android.app.Application;
 import android.content.Context;
 
-import com.android.everyoneoncampus.model.User;
-import com.mysql.fabric.Server;
+import com.android.everyoneoncampus.model.entity.User;
 
-import cn.leancloud.AVOSCloud;
 import cn.leancloud.chatkit.LCChatKit;
 
 public class EocApplication extends Application {

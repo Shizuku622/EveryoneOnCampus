@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    android:id="@+id/chat_left_text_tv_content"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/lcim_chat_item_left_bg"
-    android:gravity="center_vertical"
-    android:textColor="@android:color/black"/>
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/chat_left_text_tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/lcim_chat_item_left_bg"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/black"/>
+
+</LinearLayout>

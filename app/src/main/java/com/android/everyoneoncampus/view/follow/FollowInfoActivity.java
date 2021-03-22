@@ -2,18 +2,15 @@ package com.android.everyoneoncampus.view.follow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 
-import com.android.everyoneoncampus.ChatTestActivity;
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
-import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.ActivityFollowInfoBinding;
-import com.android.everyoneoncampus.model.User;
+import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.presenter.FollowPresenter;
 
 import cn.leancloud.chatkit.activity.LCIMConversationActivity;
@@ -59,12 +56,12 @@ public class FollowInfoActivity extends AppCompatActivity {
     public void setFollowInfo(User user){
         userID = user.userID;
         //保存图片
-        Bitmap bitmap = EocTools.convertByteBitmap(user.headPic);
+        Bitmap bitmap = EocTools.convertBitmap(user.headPic);
         EocTools.saveBitmapFile(bitmap,user.userID+EocTools.HEADPIC);
 
 
 
-        mBinding.imgFollowHeadpic.setImageBitmap(EocTools.convertByteBitmap(user.headPic));
+        mBinding.imgFollowHeadpic.setImageBitmap(EocTools.convertBitmap(user.headPic));
         mBinding.txtFollowNicheng.setText(user.userNicheng);
         mBinding.txtFollowQianming.setText(user.userAutograph);
         mBinding.txtFollowName.setText("姓名："+user.userName);

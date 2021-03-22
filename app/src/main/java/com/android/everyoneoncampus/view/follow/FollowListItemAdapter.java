@@ -3,24 +3,18 @@ package com.android.everyoneoncampus.view.follow;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
-import com.android.everyoneoncampus.model.User;
+import com.android.everyoneoncampus.model.entity.User;
 
-import org.w3c.dom.Text;
-
-import java.lang.invoke.CallSite;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -45,7 +39,7 @@ public class FollowListItemAdapter extends RecyclerView.Adapter<FollowListItemAd
     @Override
     public void onBindViewHolder(@NonNull FollowItemViewHolder holder, int position) {
         User temp = mUserList.get(position);
-        holder.mHeadPic.setImageBitmap(EocTools.convertByteBitmap(temp.headPic));
+        holder.mHeadPic.setImageBitmap(EocTools.convertBitmap(temp.headPic));
         holder.mNiCheng.setText(temp.userNicheng);
         holder.mQianMing.setText(temp.userAutograph);
         holder.itemView.setOnClickListener(v->{

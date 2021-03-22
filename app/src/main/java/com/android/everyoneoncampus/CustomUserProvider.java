@@ -1,13 +1,10 @@
 package com.android.everyoneoncampus;
 
-import com.android.everyoneoncampus.allinterface.DataListener;
-import com.android.everyoneoncampus.databinding.ActivityAddDynamicStateBinding;
-import com.android.everyoneoncampus.model.MySQLModel;
+import com.android.everyoneoncampus.model.modelapi.MySQLModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.leancloud.chatkit.LCChatKit;
 import cn.leancloud.chatkit.LCChatKitUser;
 import cn.leancloud.chatkit.LCChatProfileProvider;
 import cn.leancloud.chatkit.LCChatProfilesCallBack;

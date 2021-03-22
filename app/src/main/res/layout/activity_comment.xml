@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgbtn_leftexit"
+            android:src="@drawable/eoc_leftexit"
+            style="@style/img_left_exit" />
+
+        <TextView
+            android:id="@+id/txt_comment_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/eoc_text_color_drak"
+            android:layout_centerInParent="true"
+            android:text="帖子信息"/>
+
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/view_linear"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/img_user_headpic"
+                            android:src="@drawable/eoc_pic"
+                            android:layout_alignParentLeft="true"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"/>
+
+                        <RelativeLayout
+                            android:id="@+id/rlayout_namedate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_toRightOf="@+id/img_user_headpic">
+
+
+
+                            <TextView
+                                android:id="@+id/txt_user_name"
+                                android:text="星辰大海"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#3A3939"
+                                android:layout_margin="2dp"/>
+
+                            <TextView
+                                android:text="2021-3-4"
+                                android:layout_marginTop="4dp"
+                                android:id="@+id/txt_release_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txt_user_name"
+                                android:textColor="#3A3939"/>
+
+                        </RelativeLayout>
+
+                        <Button
+                            android:visibility="gone"
+                            android:id="@+id/btn_tuijian_info_follow"
+                            android:textSize="10dp"
+                            android:layout_width="35dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/btn_guanzhu"
+                            android:text="关注"/>
+
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/txt_things_text"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/img_things_pic"
+                        android:src="@drawable/eoc_backgroundpic"
+                        android:layout_width="match_parent"
+                        android:scaleType="centerCrop"
+                        android:layout_height="200dp"/>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_gravity="center"
+                                android:orientation="horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/eoc_send"
+                                    android:layout_width="@dimen/tuijian_picsize"
+                                    android:layout_height="@dimen/tuijian_picsize"/>
+
+                                <TextView
+                                    android:text="12"
+                                    android:textSize="12dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"
+                                    android:textColor="#3A3939"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_gravity="center"
+                                android:orientation="horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/eoc_pinglun"
+                                    android:layout_width="@dimen/tuijian_picsize"
+                                    android:layout_height="@dimen/tuijian_picsize"/>
+
+                                <TextView
+                                    android:text="12"
+                                    android:textSize="12dp"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_gravity="center"
+                                    android:textColor="#3A3939"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_gravity="center"
+                                android:orientation="horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/eoc_dianzan"
+                                    android:layout_width="@dimen/tuijian_picsize"
+                                    android:layout_height="@dimen/tuijian_picsize"/>
+
+                                <TextView
+                                    android:text="12"
+                                    android:textSize="12dp"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_gravity="center"
+                                    android:textColor="#3A3939"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <View
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/view_linear"/>
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="15dp"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="评论区"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/view_linear"/>
+
+            <TextView
+                android:id="@+id/txt_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正在加载...."
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textSize="16sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:nestedScrollingEnabled="false"
+                android:id="@+id/rec_comment_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <EditText
+            android:id="@+id/edit_add_comment"
+            android:layout_marginLeft="15dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:hint="添加评论"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn_add_comment_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="发送"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

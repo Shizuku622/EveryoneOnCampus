@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:fitsSystemWindows="true"
         android:id="@+id/rlayout_title"
         android:layout_alignParentTop="true"
         android:background="@color/search_back_color"
@@ -71,32 +72,42 @@
 
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/edit_send_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:hint="写下你的文字..."
-        android:background="@android:color/transparent"
-        android:layout_below="@id/rlayout_title"
+    <LinearLayout
+        android:id="@+id/llayout_edit_click"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        android:textSize="14dp"
-        android:paddingBottom="2dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <EditText
+            android:id="@+id/edit_send_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:hint="写下你的文字..."
+            android:background="@null"
+            android:layout_below="@id/rlayout_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:textSize="14dp"
+            android:paddingBottom="2dp"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
+        android:layout_height="200dp">
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/view_linear"
+            android:layout_height="1dp"/>
         <ImageView
             android:layout_gravity="center"
             android:id="@+id/img_pic"
+            android:scaleType="centerCrop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 

@@ -3,7 +3,6 @@ package com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,14 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.everyoneoncampus.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MyLableAdapter extends RecyclerView.Adapter<MyLableAdapter.MyLableViewHolder> {
+public class UserLableAdapter extends RecyclerView.Adapter<UserLableAdapter.MyLableViewHolder> {
 
     private List<String> mLableList;
 
-    public MyLableAdapter(List<String> list){
+    public UserLableAdapter(List<String> list){
         mLableList = list;
     }
 

@@ -6,6 +6,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.leancloud.callback.AVCallback;
@@ -32,7 +35,8 @@ import cn.leancloud.chatkit.utils.LCIMLogUtils;
 public class LCIMConversationActivity extends AppCompatActivity {
 
   protected LCIMConversationFragment conversationFragment;
-
+  ImageView mImg_LeftExit;
+  TextView mTitleName;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -40,6 +44,15 @@ public class LCIMConversationActivity extends AppCompatActivity {
     conversationFragment = (LCIMConversationFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_chat);
     conversationFragment.setHasOptionsMenu(true);
     initByIntent(getIntent());
+    mImg_LeftExit = findViewById(R.id.imgbtn_leftexit);
+    mTitleName = findViewById(R.id.txt_title_name);
+    mTitleName.setVisibility(View.GONE);
+    mImg_LeftExit.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        finish();
+      }
+    });
   }
 
   @Override

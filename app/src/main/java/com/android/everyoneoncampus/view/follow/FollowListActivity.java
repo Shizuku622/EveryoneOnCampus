@@ -5,10 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 
-import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.ActivityFollowListBinding;
-import com.android.everyoneoncampus.model.User;
+import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.presenter.FollowPresenter;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UIUserInfoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,23 +18,15 @@ public class FollowListActivity extends AppCompatActivity {
     private FollowPresenter mFollowPresenter ;
     private FollowListItemAdapter mAdapter;
     private List<User> mUserList = new ArrayList<>();
-    private int followChoose;
+    private UIUserInfoFragment.Choose chooseFollow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityFollowListBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        followChoose = getIntent().getIntExtra("followchoose",0);
         mFollowPresenter = new FollowPresenter(this);
         initView();
         initListener();
-        if(followChoose == 1){
-            mBinding.txtFollowTitle.setText("我的关注");
-            mFollowPresenter.getMyFollowList();
-        }else{
-            mBinding.txtFollowTitle.setText("关注我的");
-            mFollowPresenter.getMyFansList();
-        }
     }
 
     private void initListener() {
@@ -44,6 +36,15 @@ public class FollowListActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        chooseFollow = (UIUserInfoFragment.Choose)getIntent().getSerializableExtra(UIUserInfoFragment.CHOOSE_FOLLOW);
+        if(chooseFollow == UIUserInfoFragment.Choose.FOLLOW){
+            mBinding.txtFollowTitle.setText("我的关注");
+            mFollowPresenter.getMyFollowList();
+        }else{
+            mBinding.txtFollowTitle.setText("关注我的");
+            mFollowPresenter.getMyFansList();
+        }
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mBinding.recFollowList.setLayoutManager(layoutManager);
         mAdapter = new FollowListItemAdapter(mUserList,this);
@@ -55,6 +56,5 @@ public class FollowListActivity extends AppCompatActivity {
         mUserList.addAll(list);
         mAdapter.notifyDataSetChanged();
     }
-
 
 }

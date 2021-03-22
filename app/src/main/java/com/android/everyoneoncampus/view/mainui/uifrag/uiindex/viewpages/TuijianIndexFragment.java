@@ -10,10 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.everyoneoncampus.databinding.FragmentIndexTuijianBinding;
-import com.android.everyoneoncampus.model.Things;
+import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.presenter.Presenter;
 
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class TuijianIndexFragment extends Fragment {
     }
 
     private void initView() {
-        mAdapter = new TuiJianAdapter(mThingsList);
+        mAdapter = new TuiJianAdapter(mThingsList,getActivity());
         mBinding.recThings.setAdapter(mAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mBinding.recThings.setLayoutManager(manager);

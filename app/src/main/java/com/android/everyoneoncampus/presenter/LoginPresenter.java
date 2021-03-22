@@ -1,16 +1,13 @@
 package com.android.everyoneoncampus.presenter;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.MaskFilter;
-import android.icu.text.AlphabeticIndex;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Display;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,27 +17,18 @@ import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
-import com.android.everyoneoncampus.model.DbHelper;
+import com.android.everyoneoncampus.model.modelapi.DbHelper;
 import com.android.everyoneoncampus.model.LabelAll;
-import com.android.everyoneoncampus.model.MySQLModel;
-import com.android.everyoneoncampus.model.SPModel;
-import com.android.everyoneoncampus.model.User;
-import com.android.everyoneoncampus.model.UserModel;
-import com.android.everyoneoncampus.model.UserModelInterface;
+import com.android.everyoneoncampus.model.modelapi.MySQLModel;
+import com.android.everyoneoncampus.model.modelapi.SPModel;
+import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.view.LaunchActivity;
 import com.android.everyoneoncampus.view.mainui.MainUIActivity;
-import com.android.everyoneoncampus.view.personinfo.IdentFragment;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoViewInterface;
 import com.android.everyoneoncampus.view.register.RegisterViewInterface;
 import com.android.everyoneoncampus.view.user.UserActivity;
-import com.android.everyoneoncampus.view.user.UserViewInterface;
-import com.bumptech.glide.util.LogTime;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import javax.crypto.MacSpi;
 
 import cn.leancloud.chatkit.LCChatKit;
 import cn.leancloud.chatkit.LCChatKitUser;
@@ -51,13 +39,12 @@ import cn.leancloud.im.v2.callback.AVIMClientCallback;
 
 public class LoginPresenter {
     //view
-    private UserViewInterface mUserView ;
+    private UserActivity mUserActivity;
     private RegisterViewInterface mRegisterView;
     private PersoninfoViewInterface mPersoninfoView;
     private MainUIActivity mMainUIActivity;
     private LaunchActivity mLaunchActivity;
-    //model
-    private UserModelInterface mUserModel = new UserModel();
+
     //sql
     private DbHelper mDbHelper = new DbHelper();
     //sp
@@ -66,9 +53,10 @@ public class LoginPresenter {
     //MySQL data
     private MySQLModel mMySQLModel = new MySQLModel();
 
-    public LoginPresenter(UserViewInterface userViewInterface){
-        mUserView = userViewInterface;
+    public LoginPresenter(UserActivity userActivity){
+        mUserActivity = userActivity;
     }
+
     public LoginPresenter(RegisterViewInterface registerViewInterface){
         mRegisterView = registerViewInterface;
     }
@@ -86,8 +74,7 @@ public class LoginPresenter {
 
     //开启leancloud
     public void loginLeanCloud(User user){
-
-        Bitmap headPic = EocTools.convertByteBitmap(user.headPic);
+        Bitmap headPic = EocTools.convertBitmap(user.headPic);
         String savePath = EocTools.saveBitmapPic(headPic);
         CustomUserProvider.addChatUser(new LCChatKitUser(EocApplication.USER_MARK+user.userID,user.userName,savePath));
         //自动开启
@@ -96,7 +83,7 @@ public class LoginPresenter {
             @Override
             public void done(AVIMClient avimClient, AVIMException e) {
                 if (null == e) {
-                    Log.d(TAG, "登录");
+                    Log.d(TAG, "登录leancloud成功！");
                 } else {
 
                 }
@@ -104,33 +91,26 @@ public class LoginPresenter {
         });
     }
 
-    //查询状态
-    public void queryLoginStauts(){
-        mSpModel.getLoginStatusSP(new DataListener<String>() {
-            @Override
-            public void onComplete(String result) {
-                if(result.equals("无")){
-                    mLaunchActivity.loginLoginUI();
-                }else{
-                    mLaunchActivity.LoginMainUI();
-                }
-            }
-        });
+    //查询是否有帐号登陆过
+    public void queryUserLoginStauts(){
+        if(!mSpModel.readUserID().equals(SPModel.NO_INFO)){
+            mLaunchActivity.LoginMainUI();
+        }else{
+            mLaunchActivity.loginLoginUI();
+        }
     }
 
-
     //查询机型
-    public void queryUserModel(){
-        mMySQLModel.getLoginModelStatus(new DataListener<String>() {
+    public void queryUserModelStatus(){
+        mMySQLModel.getModelInfoApi(new DataListener<String>() {
             @Override
             public void onComplete(String result) {
                 if(!result.isEmpty()){
                     if(result.equals(Build.MODEL)){
-                        mMySQLModel.getCurrentUserInfo(new DataListener<User>() {
+                        mDbHelper.readCurrentUserInfo(new DataListener<User>() {
                             @Override
                             public void onComplete(User result) {
                                 loginLeanCloud(result);
-                                EocApplication.setUserInfo(result);
                             }
                         });
                         Log.d(TAG, "机型相同");
@@ -138,6 +118,7 @@ public class LoginPresenter {
                         mMainUIActivity.finishMainUI();
                         Toast.makeText(mMainUIActivity, "已在别处登录！", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "已在别处登录");
+                        mSpModel.clearUserID();
                     }
                 }
             }
@@ -146,44 +127,42 @@ public class LoginPresenter {
 
     //记录登录过得机型
     public void setUserModel(){
-        mMySQLModel.setLoginModelStatus();
+        mMySQLModel.writeModelInfoApi();
         Log.d(TAG, "记录机型");
     }
 
     //登录
     public void userLogin(String user,String passwd){
-        mUserView.showProgressLogin();
+        mUserActivity.showProgressLogin();
         mMySQLModel.getUserLogin(user, passwd, new DataListener<User>() {
             @Override
             public void onComplete(User result) {
                 if(result != null){
-                    if (result.userSno.equals(user)) {
-                        Toast.makeText(EocApplication.getContext(), "登陆成功！", Toast.LENGTH_LONG).show();
-                        mUserView.hideProgressLogin();
-                        //shape保存信息
-                        mSpModel.saveUserInfo(result.userID);
-                        String userID = result.userID;
-                        EocApplication.setUserInfo(result);
-                        if(result.mark.trim().equals("0")){
-                            mUserView.userWriteUserInfo();
-                            //清除
-                            mSpModel.clearSpEditor();
-                            mDbHelper.clearSelectedLabel();
-                        }else{
-                            loginLeanCloud(result);
-                            mSpModel.setLoginModelInfo();
-                            mUserView.loginMainUI(result);
-                        }
+                    //登陆leanclound
+                    loginLeanCloud(result);
+                    //保存用户ID到sp
+                    mSpModel.saveUserID(result.userID);
+                    //保存用户信息到数据库
+                    mDbHelper.saveCurrentUserInfo(result);
+                    //记录云端机型
+                    mMySQLModel.writeModelInfoApi();
+                    //查询是否新用户
+                    if(result.mark.trim().equals("0")){
+                        //清除
+                        mSpModel.clearSpEditor();
+                        mDbHelper.clearSelectedLabel();
+                        //跳转到填写信息
+                        mUserActivity.userWriteUserInfo();
                     }else{
-                        Toast.makeText(EocApplication.getContext(), "账号或者密码错误！", Toast.LENGTH_SHORT).show();
+                        //跳转到主界面
+                        mUserActivity.loginMainUI();
                     }
                 }else{
                     Toast.makeText(EocApplication.getContext(), "账号或者密码错误！", Toast.LENGTH_SHORT).show();
                 }
-                mUserView.hideProgressLogin();
+                mUserActivity.hideProgressLogin();
             }
         });
-
     }
 
     //注册
@@ -196,6 +175,7 @@ public class LoginPresenter {
                 switch(msg.what){
                     case 1:
                         mRegisterView.hideRegisterProgress();
+                        break;
                 }
             }
         };

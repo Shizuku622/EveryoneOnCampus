@@ -1,8 +1,10 @@
-package com.android.everyoneoncampus.model;
+package com.android.everyoneoncampus.model.entity;
 
 import android.provider.UserDictionary;
 
-public class Things {
+import java.io.Serializable;
+
+public class Things implements Serializable {
     public String thingsID;
     public String userID;
     public String userNicheng;

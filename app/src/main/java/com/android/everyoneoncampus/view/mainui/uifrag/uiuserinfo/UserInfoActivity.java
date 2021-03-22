@@ -10,16 +10,18 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 
-import com.android.everyoneoncampus.EocApplication;
+import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.databinding.ActivityUiInfoindexBinding;
-import com.android.everyoneoncampus.presenter.UserInfoPresenter;
+import com.android.everyoneoncampus.model.entity.User;
+import com.android.everyoneoncampus.presenter.UIUserInfoPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserInfoActivity extends AppCompatActivity  {
     private ActivityUiInfoindexBinding mBinding;
-    private UserInfoPresenter mUserInfoPresenter;
+    private UIUserInfoPresenter mUiUserInfoPresenter;
+
     private UIUserInfoFragment.Choose mChoose;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +29,9 @@ public class UserInfoActivity extends AppCompatActivity  {
         mBinding = ActivityUiInfoindexBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
-        mChoose = (UIUserInfoFragment.Choose)getIntent().getSerializableExtra(UIUserInfoFragment.CHOOSE_INFO_DYNAMIC);
+        mUiUserInfoPresenter = new UIUserInfoPresenter(this);
         initView();
         initListener();
-        mUserInfoPresenter = new UserInfoPresenter(this);
-        mUserInfoPresenter.setUserHeadPic();
-        setUserOther();
-    }
-
-    public void setUserOther(){
-        mBinding.txtName.setText(EocApplication.getUserInfo().userNicheng);
     }
 
     private void initListener() {
@@ -46,15 +41,15 @@ public class UserInfoActivity extends AppCompatActivity  {
     }
 
     private void initView() {
+        //vp和tab初始化
         String[] titles = {"主页","动态"};
-        //设置标题
         for(String title:titles){
             mBinding.tabUserinfo.addTab(mBinding.tabUserinfo.newTab().setText(title));
         }
         //添加vp的fragment
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new UiInfoIndexFragment());
-        fragments.add(new UiInfoDynamicFragment());
+        fragments.add(new UserInfoFragment());
+        fragments.add(new DynamicInfoFragment());
         //设置vp的适配器
         mBinding.vpUserinfo.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(),FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull
@@ -66,7 +61,6 @@ public class UserInfoActivity extends AppCompatActivity  {
             public int getCount() {
                 return fragments.size();
             }
-
             @Nullable
             @Override
             public CharSequence getPageTitle(int position) {
@@ -75,16 +69,18 @@ public class UserInfoActivity extends AppCompatActivity  {
         });
         //vp和tab联动
         mBinding.tabUserinfo.setupWithViewPager(mBinding.vpUserinfo,false);
+        //显示 信息 或者 动态
+        mChoose = (UIUserInfoFragment.Choose)getIntent().getSerializableExtra(UIUserInfoFragment.CHOOSE_USERINFO_DYNAMIC);
         if (mChoose == UIUserInfoFragment.Choose.INFO){
             mBinding.vpUserinfo.setCurrentItem(0);
         }else{
             mBinding.vpUserinfo.setCurrentItem(1);
         }
+        mUiUserInfoPresenter.getSQliteTopDetailUserInfo();
     }
 
-    //设置头像
-    public void setHeadPic(Bitmap headPic){
-        mBinding.imgHeadpic.setImageBitmap(headPic);
+    public void setUserDetailInfo(User user){
+        mBinding.imgHeadpic.setImageBitmap(EocTools.convertBitmap(user.headPic));
+        mBinding.txtName.setText(user.userName);
     }
-
 }

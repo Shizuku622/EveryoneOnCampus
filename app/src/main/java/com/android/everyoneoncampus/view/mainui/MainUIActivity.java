@@ -36,11 +36,11 @@ public class MainUIActivity extends AppCompatActivity {
         mBinding = ActivityMainUseruiBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
-        mLoginPresenter = new LoginPresenter(this);
         EocTools.setStatusBar(this);
-        initViews();
+        mLoginPresenter = new LoginPresenter(this);
+        initView();
         //查询机型是否一样
-        mLoginPresenter.queryUserModel();
+        mLoginPresenter.queryUserModelStatus();
     }
 
     public void finishMainUI() {
@@ -48,13 +48,12 @@ public class MainUIActivity extends AppCompatActivity {
         startActivity(new Intent(this, UserActivity.class));
     }
 
-    private void initViews() {
+    private void initView() {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new UIIndexFragment());
         fragmentList.add(new UIStudyFragment());
         fragmentList.add(new UIMessageFragment());
         fragmentList.add(new UIUserInfoFragment());
-
         //先设置ViewPager的fragment
         mBinding.vpMianUi.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(),FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull
@@ -74,7 +73,6 @@ public class MainUIActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-
             @Override
             public void onPageSelected(int position) {
                 RadioButton radioButton;

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class ReleaseActivity extends AppCompatActivity {
         mBinding = ActivityReleaseBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
+        EocTools.setStatusBar(this);
         mPresenter = new Presenter(this);
         mThingsPresenter = new ThingsPresenter(this);
         initViews();
@@ -68,6 +70,15 @@ public class ReleaseActivity extends AppCompatActivity {
     }
 
     private void initListeners() {
+        mBinding.llayoutEditClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBinding.editSendContent.setFocusable(true);
+                mBinding.editSendContent.setFocusableInTouchMode(true);
+                mBinding.editSendContent.requestFocus();
+                ReleaseActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            }
+        });
         mBinding.txtCancel.setOnClickListener(v->{
             finish();
         });

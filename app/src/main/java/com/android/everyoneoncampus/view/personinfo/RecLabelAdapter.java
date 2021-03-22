@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.allinterface.GetData;
 import com.android.everyoneoncampus.allinterface.OperateMethod;
-import com.android.everyoneoncampus.model.DbHelper;
-import com.android.everyoneoncampus.model.SPModel;
+import com.android.everyoneoncampus.model.modelapi.DbHelper;
+import com.android.everyoneoncampus.model.modelapi.SPModel;
 
 import java.util.List;
 

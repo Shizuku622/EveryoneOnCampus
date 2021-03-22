@@ -1,18 +1,16 @@
 package com.android.everyoneoncampus.presenter;
 
-import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.android.everyoneoncampus.EocApplication;
-import com.android.everyoneoncampus.model.DbHelper;
-import com.android.everyoneoncampus.model.MySQLModel;
-import com.android.everyoneoncampus.model.SPModel;
+import com.android.everyoneoncampus.model.modelapi.DbHelper;
+import com.android.everyoneoncampus.model.modelapi.MySQLModel;
+import com.android.everyoneoncampus.model.modelapi.SPModel;
 import com.android.everyoneoncampus.view.personinfo.LabelFragment;
 import com.android.everyoneoncampus.view.personinfo.PersonInfoFragment;
 
-import java.io.InterruptedIOException;
 import java.util.List;
 
 public class WriteInfoPresenter extends Fragment {

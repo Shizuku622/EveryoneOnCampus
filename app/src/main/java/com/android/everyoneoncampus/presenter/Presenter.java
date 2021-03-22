@@ -6,12 +6,10 @@ import androidx.fragment.app.Fragment;
 
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.allinterface.DataListener;
-import com.android.everyoneoncampus.model.MySQLModel;
-import com.android.everyoneoncampus.model.Things;
+import com.android.everyoneoncampus.model.modelapi.MySQLModel;
+import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.view.mainui.ReleaseActivity;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TuijianIndexFragment;
-import com.mysql.jdbc.Blob;
-import com.mysql.jdbc.authentication.MysqlClearPasswordPlugin;
 
 import java.util.List;
 

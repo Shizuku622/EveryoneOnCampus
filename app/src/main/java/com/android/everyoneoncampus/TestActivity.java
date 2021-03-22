@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.everyoneoncampus.allinterface.DataListener;
-import com.android.everyoneoncampus.model.MySQLModel;
+import com.android.everyoneoncampus.model.modelapi.MySQLModel;
 import com.android.everyoneoncampus.view.personinfo.FileUtil;
 import com.bumptech.glide.Glide;
 

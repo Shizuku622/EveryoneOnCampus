@@ -7,12 +7,11 @@ import com.android.everyoneoncampus.CustomUserProvider;
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
-import com.android.everyoneoncampus.model.MySQLModel;
-import com.android.everyoneoncampus.model.User;
+import com.android.everyoneoncampus.model.modelapi.MySQLModel;
+import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.view.follow.FollowInfoActivity;
 import com.android.everyoneoncampus.view.follow.FollowListActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.leancloud.chatkit.LCChatKitUser;
@@ -37,13 +36,14 @@ public class FollowPresenter {
             public void onComplete(List<User> result) {
                 new Thread(()->{
                     for(User user : result){
-                        Bitmap bitmap = EocTools.convertByteBitmap(user.headPic);
+                        Bitmap bitmap = EocTools.convertBitmap(user.headPic);
                         String path = EocTools.saveBitmapFile(bitmap,user.userID+EocTools.HEADPIC);
                         LCChatKitUser temp = new LCChatKitUser(EocApplication.USER_MARK+user.userID,user.userName,path);
                         CustomUserProvider.addChatUser(temp);
                     }
                     Log.d(TAG, "添加完成");
                 }).start();
+
                 mFollowListActivity.refreshFollowList(result);
             }
         });
@@ -56,7 +56,7 @@ public class FollowPresenter {
             public void onComplete(List<User> result) {
                 new Thread(()->{
                     for(User user : result){
-                        Bitmap bitmap = EocTools.convertByteBitmap(user.headPic);
+                        Bitmap bitmap = EocTools.convertBitmap(user.headPic);
                         String path = EocTools.saveBitmapFile(bitmap,user.userID+EocTools.HEADPIC);
                         LCChatKitUser temp = new LCChatKitUser(EocApplication.USER_MARK+user.userID,user.userName,path);
                         CustomUserProvider.addChatUser(temp);

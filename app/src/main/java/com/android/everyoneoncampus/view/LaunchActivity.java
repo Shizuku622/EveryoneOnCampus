@@ -1,7 +1,5 @@
 package com.android.everyoneoncampus.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,28 +28,19 @@ public class LaunchActivity extends BaseActivity {
         //开机动画
         mBinding.imgLaunch.animate()
                 .alpha(1)
-                .setDuration(2000)
+                .setDuration(1000)
                 .setListener(new Animator.AnimatorListener() {
                     @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
+                    public void onAnimationStart(Animator animation) { }
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         finish();
-                        mLoginPresenter.queryLoginStauts();
+                        mLoginPresenter.queryUserLoginStauts();
                     }
-
                     @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
+                    public void onAnimationCancel(Animator animation) { }
                     @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
+                    public void onAnimationRepeat(Animator animation) { }
                 }).start();
     }
 
@@ -59,8 +48,10 @@ public class LaunchActivity extends BaseActivity {
         Intent intent = new Intent(LaunchActivity.this, UserActivity.class);
         startActivity(intent);
     }
+
     public void LoginMainUI(){
         Intent intent = new Intent(LaunchActivity.this, MainUIActivity.class);
         startActivity(intent);
     }
+
 }
