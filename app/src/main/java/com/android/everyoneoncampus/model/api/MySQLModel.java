@@ -60,8 +60,17 @@ public class MySQLModel {
     *
     * */
 
-
-
+    public void userExitLoginApi(){
+        String sql = String.format("update `user` set model = '' where userID = %s", mSPModel.readUserID());
+        new Thread(()->{
+            try(Connection conn = getConnector();PreparedStatement ps1 = conn.prepareStatement(sql)){
+                int i = ps1.executeUpdate();
+                Log.d(TAG, i+"条影响");
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }).start();
+    }
 
     /**
      * 获得关注人的动态
@@ -126,7 +135,7 @@ public class MySQLModel {
             }
         };
         new Thread(()->{
-            String sql = "INSERT INTO `Comment`(thingsID,userID,CContent) VALUES(?,?,?)";
+            String sql = "INSERT INTO `Comment`(thingsID,userID,CContent,CDate) VALUES(?,?,?,?)";
             Message msg = Message.obtain();
             try(Connection conn = getConnector();
                 PreparedStatement ps = conn.prepareStatement(sql);)
@@ -134,12 +143,14 @@ public class MySQLModel {
                 ps.setString(1,comment.thingsID);
                 ps.setString(2,comment.userID);
                 ps.setString(3,comment.CContent);
+                ps.setString(4,comment.CDate);
                 int i = ps.executeUpdate();
                 if(i != 0){
                     msg.what = 1;
                 }else{
                     msg.what = 2;
                 }
+                Log.d(TAG, "insertThingsCommentApi: 评论上传成功");
                 handler.sendMessage(msg);
             } catch (Exception throwables) {
                 throwables.printStackTrace();
@@ -186,7 +197,6 @@ public class MySQLModel {
             }
         }).start();
     }
-
 
 
     //查询登录的机型和本机型是否一样
@@ -710,7 +720,6 @@ public class MySQLModel {
     }
 
     //获得所有的事件
-
     public void getThingsApi(DataListener<List<Things>> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
@@ -726,23 +735,50 @@ public class MySQLModel {
             }
         };
 
-        String sql = "SELECT things.thingsID,things.userID,`user`.userNicheng,things.`event`,things.thingsContent,things.thingsDate,things.thingsImage,`user`.headPic  FROM `things` inner JOIN `user` on things.userID = `user`.userID ";
+//        String sql = String.format("SELECT things.thingsID,things.userID,`user`.userNicheng,things.`event`,things.thingsContent,things.thingsDate,things.thingsImage,`user`.headPic  FROM `things` inner JOIN `user` on things.userID = `user`.userID ");
+        String sql = String.format("SELECT things.*,`user`.userNicheng,`user`.headPic, COUNT(things.thingsID) as commentNum " +
+                "from `Comment` " +
+                "RIGHT JOIN  things  " +
+                "on things.thingsID = `Comment`.thingsID " +
+                "INNER JOIN `user` " +
+                "on `user`.userID = things.userID " +
+                "GROUP BY things.thingsID " +
+                "UNION ALL " +
+                "SELECT things.*,`user`.userNicheng,`user`.headPic, COUNT(things.thingsID) as commentNum " +
+                "from thingslike " +
+                "RIGHT JOIN  things  " +
+                "on things.thingsID = thingslike.thingsID " +
+                "INNER JOIN `user` " +
+                "on `user`.userID = things.userID " +
+                "GROUP BY things.thingsID ");
         new Thread(()->{
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
                 ResultSet resultSet = ps.executeQuery();
                 List<Things> thingsList = new ArrayList<>();
-                if(resultSet.first()){
-                    do{
-                        String thingsID = resultSet.getString("thingsID");
-                        String userID = resultSet.getString("userID");
-                        String userNicheng = resultSet.getString("userNicheng");
-                        String event = resultSet.getString("event");
-                        String thingsContent = resultSet.getString("thingsContent");
-                        String thingsDate = resultSet.getString("thingsDate");
-                        byte[] thingsImage = resultSet.getBytes("thingsImage");
-                        byte[] headPic = resultSet.getBytes("headPic");
-                        thingsList.add(new Things(thingsID,userID,userNicheng,event, thingsContent,thingsDate,thingsImage,headPic));
-                    }while(resultSet.next());
+                resultSet.last();
+                Log.d(TAG, "getThingsApi: "+resultSet.getRow());
+                int rowCount = resultSet.getRow();
+                resultSet.first();
+                for(int i = 0;i < rowCount;i++){
+                    Things things = new Things();
+                    if(i < rowCount / 2){
+                        things.thingsID = resultSet.getString("thingsID");
+                        things.userID = resultSet.getString("userID");
+                        things.userNicheng = resultSet.getString("userNicheng");
+                        things.event = resultSet.getString("event");
+                        things.thingsContent = resultSet.getString("thingsContent");
+                        things.thingsDate = resultSet.getString("thingsDate");
+                        things.Thingsimage = resultSet.getBytes("thingsImage");
+                        things.headPic = resultSet.getBytes("headPic");
+                        things.commentNum = resultSet.getString("commentNum");
+                        things.commentMark = resultSet.getString("commentMark");
+                        things.likeMark = resultSet.getString("likeMark");
+                        thingsList.add(things);
+                    }else{
+                        int nextIndex = i - (rowCount / 2);
+                        thingsList.get(nextIndex).likeNum = resultSet.getString("commentNum");
+                    }
+                    resultSet.next();
                 }
                 Message msg = Message.obtain();
                 if(thingsList.isEmpty()){

@@ -1,11 +1,9 @@
 package com.android.everyoneoncampus.presenter;
 
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
@@ -14,7 +12,6 @@ import androidx.annotation.NonNull;
 
 import com.android.everyoneoncampus.CustomUserProvider;
 import com.android.everyoneoncampus.EocApplication;
-import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
 import com.android.everyoneoncampus.model.api.DbHelper;
@@ -26,12 +23,11 @@ import com.android.everyoneoncampus.view.LaunchActivity;
 import com.android.everyoneoncampus.view.mainui.MainUIActivity;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoViewInterface;
 import com.android.everyoneoncampus.view.register.RegisterViewInterface;
-import com.android.everyoneoncampus.view.user.UserActivity;
+import com.android.everyoneoncampus.view.userlogin.UserLoginActivity;
 
 import java.util.List;
 
 import cn.leancloud.chatkit.LCChatKit;
-import cn.leancloud.chatkit.LCChatKitUser;
 import cn.leancloud.im.AVIMOptions;
 import cn.leancloud.im.v2.AVIMClient;
 import cn.leancloud.im.v2.AVIMException;
@@ -39,7 +35,7 @@ import cn.leancloud.im.v2.callback.AVIMClientCallback;
 
 public class LoginPresenter {
     //view
-    private UserActivity mUserActivity;
+    private UserLoginActivity mUserLoginActivity;
     private RegisterViewInterface mRegisterView;
     private PersoninfoViewInterface mPersoninfoView;
     private MainUIActivity mMainUIActivity;
@@ -53,8 +49,8 @@ public class LoginPresenter {
     //MySQL data
     private MySQLModel mMySQLModel = new MySQLModel();
 
-    public LoginPresenter(UserActivity userActivity){
-        mUserActivity = userActivity;
+    public LoginPresenter(UserLoginActivity userLoginActivity){
+        mUserLoginActivity = userLoginActivity;
     }
 
     public LoginPresenter(RegisterViewInterface registerViewInterface){
@@ -118,14 +114,14 @@ public class LoginPresenter {
             @Override
             public void onComplete(String result) {
                 if(!result.isEmpty()){
-                    if(result.equals(Build.MODEL)){
+                    if(result.equals(Build.MODEL) || result.equals("")){
                         mDbHelper.readCurrentUserInfo(new DataListener<User>() {
                             @Override
                             public void onComplete(User result) {
                                 loginLeanCloud(result);
                             }
                         });
-                        Log.d(TAG, "机型相同");
+                        Log.d(TAG, "机型相同或者在别处退出登录了！");
                     }else{
                         mMainUIActivity.finishMainUI();
                         Toast.makeText(mMainUIActivity, "已在别处登录！", Toast.LENGTH_SHORT).show();
@@ -145,7 +141,7 @@ public class LoginPresenter {
 
     //登录
     public void userLogin(String user,String passwd){
-        mUserActivity.showProgressLogin();
+        mUserLoginActivity.showProgressLogin();
         mMySQLModel.getUserLogin(user, passwd, new DataListener<User>() {
             @Override
             public void onComplete(User result) {
@@ -170,15 +166,15 @@ public class LoginPresenter {
                         mSpModel.clearSpEditor();
                         mDbHelper.clearSelectedLabel();
                         //跳转到填写信息
-                        mUserActivity.userWriteUserInfo();
+                        mUserLoginActivity.userWriteUserInfo();
                     }else{
                         //跳转到主界面
-                        mUserActivity.loginMainUI();
+                        mUserLoginActivity.loginMainUI();
                     }
                 }else{
                     Toast.makeText(EocApplication.getContext(), "账号或者密码错误！", Toast.LENGTH_SHORT).show();
                 }
-                mUserActivity.hideProgressLogin();
+                mUserLoginActivity.hideProgressLogin();
             }
         });
     }

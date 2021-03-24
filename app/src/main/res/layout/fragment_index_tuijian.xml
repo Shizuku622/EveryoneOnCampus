@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/swp_Tuijian"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swp_Tuijian"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.core.widget.NestedScrollView
         android:orientation="vertical"
@@ -22,16 +22,17 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="240dp">
+                android:layout_height="270dp">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    <ImageView
+                    <com.youth.banner.Banner
+                        android:id="@+id/banner_index_pic"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/t5"/>
+                        android:layout_height="180dp"
+                        app:banner_loop_time="2000"
+                        app:banner_radius="5dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"

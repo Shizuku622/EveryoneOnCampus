@@ -6,12 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
-
-import com.android.everyoneoncampus.view.mainui.MainUIActivity;
-import com.android.everyoneoncampus.view.user.UserActivity;
-
-import java.time.LocalTime;
 
 import cn.leancloud.chatkit.LCChatKit;
 import cn.leancloud.chatkit.activity.LCIMConversationActivity;
@@ -21,7 +15,7 @@ import cn.leancloud.im.v2.AVIMClient;
 import cn.leancloud.im.v2.AVIMException;
 import cn.leancloud.im.v2.callback.AVIMClientCallback;
 
-public class ChatTestActivity extends AppCompatActivity {
+public class ChatTestActivity extends BaseActivity {
     private static final String TAG = "ChatTestActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {

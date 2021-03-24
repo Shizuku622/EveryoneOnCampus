@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.ActivityDynamicDetailBinding;
 
-public class DynamicDetailActivity extends AppCompatActivity {
+public class DynamicDetailActivity extends BaseActivity {
     private ActivityDynamicDetailBinding mBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

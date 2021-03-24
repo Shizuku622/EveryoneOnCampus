@@ -30,7 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class TestActivity extends AppCompatActivity {
+public class TestActivity extends BaseActivity {
     private static final String TAG = "TestActivity";
     MySQLModel mMySQLModel = new MySQLModel();
 

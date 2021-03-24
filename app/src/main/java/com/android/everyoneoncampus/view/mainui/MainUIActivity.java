@@ -1,7 +1,6 @@
 package com.android.everyoneoncampus.view.mainui;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -14,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.ActivityMainUseruiBinding;
@@ -22,7 +22,7 @@ import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.UIIndexFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.UIMessageFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uistudy.UIStudyFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UIUserInfoFragment;
-import com.android.everyoneoncampus.view.user.UserActivity;
+import com.android.everyoneoncampus.view.userlogin.UserLoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  *
  */
-public class MainUIActivity extends AppCompatActivity {
+public class MainUIActivity extends BaseActivity {
     private ActivityMainUseruiBinding mBinding;
     private LoginPresenter mLoginPresenter;
     private static final String TAG = "MainUIActivity";
@@ -49,7 +49,6 @@ public class MainUIActivity extends AppCompatActivity {
         mBinding = ActivityMainUseruiBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
-        EocTools.setStatusBar(this);
         mLoginPresenter = new LoginPresenter(this);
         initView();
         //查询机型是否一样
@@ -70,7 +69,7 @@ public class MainUIActivity extends AppCompatActivity {
 
     public void finishMainUI() {
         finish();
-        startActivity(new Intent(this, UserActivity.class));
+        startActivity(new Intent(this, UserLoginActivity.class));
     }
 
     private void initView() {

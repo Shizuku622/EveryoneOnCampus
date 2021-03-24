@@ -8,7 +8,7 @@ import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.databinding.ActivityLaunchBinding;
 import com.android.everyoneoncampus.presenter.LoginPresenter;
 import com.android.everyoneoncampus.view.mainui.MainUIActivity;
-import com.android.everyoneoncampus.view.user.UserActivity;
+import com.android.everyoneoncampus.view.userlogin.UserLoginActivity;
 
 public class LaunchActivity extends BaseActivity {
     private ActivityLaunchBinding mBinding;
@@ -45,7 +45,7 @@ public class LaunchActivity extends BaseActivity {
     }
 
     public void loginLoginUI(){
-        Intent intent = new Intent(LaunchActivity.this, UserActivity.class);
+        Intent intent = new Intent(LaunchActivity.this, UserLoginActivity.class);
         startActivity(intent);
     }
 

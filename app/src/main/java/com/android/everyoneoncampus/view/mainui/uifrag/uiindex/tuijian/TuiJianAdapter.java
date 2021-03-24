@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.view.comment.CommentActivity;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -52,24 +55,32 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
         holder.userNicheng.setText(things.userNicheng);
         holder.thingsContent.setText(things.thingsContent);
         holder.thingsDate.setText(things.thingsDate.substring(5,16));
-
-
-
         holder.event.setText(things.event);
+
+        if(things.likeMark.equals("0")){
+            holder.likeNum.setText("0");
+        }else{
+            holder.likeNum.setText(things.likeNum);
+        }
+        if(things.commentMark.equals("0")){
+            holder.commentNum.setText("0");
+        }else{
+            holder.commentNum.setText(things.commentNum);
+        }
 
         //设置头像
         Bitmap hpic = EocTools.convertBitmap(mThingsList.get(position).headPic);
         holder.headPic.setImageBitmap(hpic);
 
         //设置事件图片
-        if(mThingsList.get(position).image == null){
+        if(mThingsList.get(position).Thingsimage == null){
             holder.thingsImage.setVisibility(View.GONE);
         }else{
-            Bitmap tImage = EocTools.convertBitmap(mThingsList.get(position).image);
+            Bitmap tImage = EocTools.convertBitmap(mThingsList.get(position).Thingsimage);
             holder.thingsImage.setImageBitmap(tImage);
         }
 
-        //评论
+        //点击评论
         holder.llayoutComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +106,8 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
         CircleImageView headPic;
         ImageView thingsImage;
         LinearLayout llayoutComment;
+        TextView commentNum;
+        TextView likeNum;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             userNicheng = itemView.findViewById(R.id.txt_user_name);
@@ -105,6 +118,8 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
             headPic = itemView.findViewById(R.id.img_user_headpic);
             thingsImage = itemView.findViewById(R.id.img_things_pic);
             llayoutComment = itemView.findViewById(R.id.llayout_comment);
+            commentNum = itemView.findViewById(R.id.txt_comment_num);
+            likeNum = itemView.findViewById(R.id.txt_like_num);
         }
     }
 

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.CustomUserProvider;
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
@@ -17,7 +18,7 @@ import com.android.everyoneoncampus.presenter.FollowPresenter;
 import cn.leancloud.chatkit.activity.LCIMConversationActivity;
 import cn.leancloud.chatkit.utils.LCIMConstants;
 
-public class FollowInfoActivity extends AppCompatActivity {
+public class FollowInfoActivity extends BaseActivity {
     private ActivityFollowInfoBinding mBinding;
     private FollowPresenter mFollowPresenter;
     private User mFollowUser;

@@ -11,7 +11,7 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.android.everyoneoncampus.databinding.FragmentUiIndexStudyBinding;
+import com.android.everyoneoncampus.databinding.FragmentUiIndexHomeBinding;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.guanzhu.GuanzhuIndexFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TalkIndexFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.tuijian.TuijianIndexFragment;
@@ -21,12 +21,12 @@ import java.util.List;
 
 public class UIIndexFragment extends Fragment {
 
-    private FragmentUiIndexStudyBinding mBinding;
+    private FragmentUiIndexHomeBinding mBinding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = FragmentUiIndexStudyBinding.inflate(inflater,container,false);
+        mBinding = FragmentUiIndexHomeBinding.inflate(inflater,container,false);
         View view = mBinding.getRoot();
         initView();
         initListener();
@@ -72,6 +72,7 @@ public class UIIndexFragment extends Fragment {
         });
 
         mBinding.tabIndex.setupWithViewPager(mBinding.vpIndex,false);
+        mBinding.vpIndex.setOffscreenPageLimit(fragments.size());
         mBinding.vpIndex.setCurrentItem(1);
     }
 }

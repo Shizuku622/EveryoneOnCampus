@@ -5,15 +5,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.FragmentIndexTuijianBinding;
 import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.presenter.Presenter;
+import com.youth.banner.adapter.BannerAdapter;
+import com.youth.banner.adapter.BannerImageAdapter;
+import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +60,36 @@ public class TuijianIndexFragment extends Fragment {
         mBinding.recThings.setAdapter(mAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mBinding.recThings.setLayoutManager(manager);
+
+        //设置轮播图
+        List<Integer> picId = new ArrayList<>();
+        picId.add(R.drawable.eoc_banner_pic);
+        picId.add(R.drawable.eoc_banner_pic2);
+        picId.add(R.drawable.eoc_banner_pic3);
+        //banner 适配器
+        mBinding.bannerIndexPic.setAdapter(new BannerImageAdapter<Integer>(picId){
+            @Override
+            public void onBindView(BannerImageHolder holder, Integer data, int position, int size) {
+                holder.imageView.setImageResource(data);
+            }
+        });
+        mBinding.bannerIndexPic.setOnBannerListener(new OnBannerListener<Integer>() {
+            @Override
+            public void OnBannerClick(Integer data, int position) {
+                switch(data){
+                    case R.drawable.eoc_banner_pic:
+                        Toast.makeText(TuijianIndexFragment.this.getActivity(), "点击了pic图片", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.drawable.eoc_banner_pic2:
+                        Toast.makeText(TuijianIndexFragment.this.getActivity(), "点击了pic2图片", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.drawable.eoc_banner_pic3:
+                        Toast.makeText(TuijianIndexFragment.this.getActivity(), "点击了pic3图片", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
     }
 
 

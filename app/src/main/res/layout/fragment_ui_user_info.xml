@@ -18,6 +18,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:visibility="gone"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/eoc_sys"
@@ -33,11 +34,12 @@
                 android:textSize="18dp"/>
 
             <ImageView
+                android:id="@+id/imgbtn_setting"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/eoc_setting"
-                android:layout_width="@dimen/index_img_size"
-                android:layout_height="@dimen/index_img_size"/>
+                android:layout_width="23dp"
+                android:layout_height="23dp"/>
 
         </RelativeLayout>
 
@@ -320,6 +322,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.everyoneoncampus.BaseActivity;
-import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.databinding.ActivityCommentBinding;
@@ -19,7 +18,9 @@ import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.presenter.CommentPresenter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CommentActivity extends BaseActivity {
@@ -68,7 +69,10 @@ public class CommentActivity extends BaseActivity {
                         public void onComplete(User result) {
                             mBinding.editAddComment.setText("");
                             comment.headPic = result.headPic;
-//                    comment.CDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS").toString();
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Date currentDate = new Date(System.currentTimeMillis());
+                            String date = formatter.format(currentDate);
+                            comment.CDate = date;
                             comment.CContent =cContent;
                             comment.userNicheng = result.userNicheng;
                             comment.userID = result.userID;
@@ -76,6 +80,7 @@ public class CommentActivity extends BaseActivity {
                             mCommentList.add(comment);
                             mCommentAdapter.notifyDataSetChanged();
                             mCommentPresenter.addComment(comment);
+                            mBinding.txtLoading.setVisibility(View.GONE);
                         }
                     });
                 }else{
@@ -96,9 +101,10 @@ public class CommentActivity extends BaseActivity {
             mBinding.txtThingsText.setText(mIntentThings.thingsContent);
             mBinding.txtReleaseDate.setText(mIntentThings.thingsDate);
             mBinding.txtUserName.setText(mIntentThings.userNicheng);
-
-            if(mIntentThings.image != null){
-                mBinding.imgThingsPic.setImageBitmap(EocTools.convertBitmap(mIntentThings.image));
+            mBinding.txtDetailCommentNum.setText(mIntentThings.commentNum);
+            mBinding.txtDetailLikeNum.setText((mIntentThings.likeNum));
+            if(mIntentThings.Thingsimage != null){
+                mBinding.imgThingsPic.setImageBitmap(EocTools.convertBitmap(mIntentThings.Thingsimage));
             }else{
                 mBinding.imgThingsPic.setVisibility(View.GONE);
             }

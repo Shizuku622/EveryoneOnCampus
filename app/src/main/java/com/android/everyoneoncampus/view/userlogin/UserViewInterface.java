@@ -1,4 +1,4 @@
-package com.android.everyoneoncampus.view.user;
+package com.android.everyoneoncampus.view.userlogin;
 
 import com.android.everyoneoncampus.model.entity.User;
 

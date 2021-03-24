@@ -50,8 +50,8 @@ dependencies {
     implementation 'mysql:mysql-connector-java:5.1.49'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
-
-
+    //轮播图
+    implementation 'com.youth.banner:banner:2.1.0'
     //leancloud
     implementation project(path: ':leancloudchatkit')
 

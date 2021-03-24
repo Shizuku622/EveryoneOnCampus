@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 
+import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.databinding.ActivityFollowListBinding;
 import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.presenter.FollowPresenter;
@@ -13,7 +14,7 @@ import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UIUserInfoFrag
 import java.util.ArrayList;
 import java.util.List;
 
-public class FollowListActivity extends AppCompatActivity {
+public class FollowListActivity extends BaseActivity {
     private ActivityFollowListBinding mBinding;
     private FollowPresenter mFollowPresenter ;
     private FollowListItemAdapter mAdapter;

@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.databinding.ActivityUiInfoindexBinding;
 import com.android.everyoneoncampus.model.entity.User;
@@ -18,7 +19,7 @@ import com.android.everyoneoncampus.presenter.UIUserInfoPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserInfoActivity extends AppCompatActivity  {
+public class UserInfoActivity extends BaseActivity {
     private ActivityUiInfoindexBinding mBinding;
     private UIUserInfoPresenter mUiUserInfoPresenter;
 

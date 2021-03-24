@@ -11,18 +11,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.android.everyoneoncampus.databinding.FragmentUiIndexStudyBinding;
+import com.android.everyoneoncampus.databinding.FragmentUiIndexHomeBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UIStudyFragment extends Fragment {
-    private FragmentUiIndexStudyBinding mBindg;
+    private FragmentUiIndexHomeBinding mBindg;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBindg = FragmentUiIndexStudyBinding.inflate(inflater,container,false);
+        mBindg = FragmentUiIndexHomeBinding.inflate(inflater,container,false);
         View view = mBindg.getRoot();
 
         return view;

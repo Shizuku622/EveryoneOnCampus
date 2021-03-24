@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.android.everyoneoncampus.databinding.FragmentUiInfoIndexBinding;
+import com.android.everyoneoncampus.databinding.FragmentDetailInfoBinding;
 import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.presenter.UIUserInfoPresenter;
 
@@ -18,14 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserInfoFragment extends Fragment {
-    private FragmentUiInfoIndexBinding mBinding;
+    private FragmentDetailInfoBinding mBinding;
     private UIUserInfoPresenter mUIUserInfoPresenter;
     private List<String> mLabelList = new ArrayList<>();
     private UserLableAdapter mRecAdapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = FragmentUiInfoIndexBinding.inflate(inflater,container,false);
+        mBinding = FragmentDetailInfoBinding.inflate(inflater,container,false);
         View view = mBinding.getRoot();
         mUIUserInfoPresenter = new UIUserInfoPresenter(this);
         return view;

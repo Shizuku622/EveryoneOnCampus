@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.CopyFile;
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
@@ -26,7 +27,7 @@ import com.android.everyoneoncampus.view.personinfo.FileUtil;
 
 import java.io.File;
 
-public class ReleaseDynamicActivity extends AppCompatActivity {
+public class ReleaseDynamicActivity extends BaseActivity {
     private ActivityReleaseBinding mBinding;
     private String mMainTitle;
     private Presenter mPresenter;
@@ -48,7 +49,6 @@ public class ReleaseDynamicActivity extends AppCompatActivity {
         mBinding = ActivityReleaseBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
-        EocTools.setStatusBar(this);
         mPresenter = new Presenter(this);
         mThingsPresenter = new ThingsPresenter(this);
         initViews();

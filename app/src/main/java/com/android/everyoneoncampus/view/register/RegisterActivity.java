@@ -8,7 +8,7 @@ import android.view.View;
 import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.databinding.ActivityRegisterBinding;
 import com.android.everyoneoncampus.presenter.LoginPresenter;
-import com.android.everyoneoncampus.view.user.UserActivity;
+import com.android.everyoneoncampus.view.userlogin.UserLoginActivity;
 
 public class RegisterActivity extends BaseActivity implements RegisterViewInterface{
 
@@ -44,7 +44,7 @@ public class RegisterActivity extends BaseActivity implements RegisterViewInterf
             }
         });
         mBinding.imgbtnLeftexit.setOnClickListener(v->{
-            startActivity(new Intent(this, UserActivity.class));
+            startActivity(new Intent(this, UserLoginActivity.class));
             finish();
         });
 
@@ -52,7 +52,7 @@ public class RegisterActivity extends BaseActivity implements RegisterViewInterf
 
     @Override
     public void userRegister() {
-        startActivity(new Intent(this,UserActivity.class));
+        startActivity(new Intent(this, UserLoginActivity.class));
         finish();
     }
 

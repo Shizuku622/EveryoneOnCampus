@@ -17,6 +17,7 @@ import com.android.everyoneoncampus.databinding.FragmentUiUserInfoBinding;
 import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.presenter.UIUserInfoPresenter;
 import com.android.everyoneoncampus.view.follow.FollowListActivity;
+import com.android.everyoneoncampus.view.setting.SettingActivity;
 
 public class UIUserInfoFragment extends Fragment {
     private FragmentUiUserInfoBinding mBinding;
@@ -43,6 +44,7 @@ public class UIUserInfoFragment extends Fragment {
     }
 
     private void initView() {
+
     }
 
     @Override
@@ -90,6 +92,12 @@ public class UIUserInfoFragment extends Fragment {
             intent.putExtra(CHOOSE_FOLLOW,Choose.FOLLOWED);
             startActivity(intent);
         });
+
+        mBinding.imgbtnSetting.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), SettingActivity.class);
+            getActivity().startActivity(intent);
+        });
+
 
     }
 
