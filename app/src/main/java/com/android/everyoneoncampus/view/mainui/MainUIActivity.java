@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
@@ -26,10 +27,22 @@ import com.android.everyoneoncampus.view.user.UserActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class MainUIActivity extends AppCompatActivity {
     private ActivityMainUseruiBinding mBinding;
     private LoginPresenter mLoginPresenter;
     private static final String TAG = "MainUIActivity";
+
+    /**
+     * 设置退出时间
+     */
+    private final long BACK_TIME = 1000;
+    /**
+     * 上次按退出的时间
+     */
+    private long lastTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +54,17 @@ public class MainUIActivity extends AppCompatActivity {
         initView();
         //查询机型是否一样
         mLoginPresenter.queryUserModelStatus();
+    }
+
+    @Override
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+        if(currentTime - lastTime < BACK_TIME){
+            super.onBackPressed();
+        }else{
+            lastTime = currentTime;
+            Toast.makeText(this, "快速双击退出", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void finishMainUI() {
@@ -100,7 +124,7 @@ public class MainUIActivity extends AppCompatActivity {
                         mBinding.vpMianUi.setCurrentItem(1);
                         break;
                     case R.id.radiobtn_add_dynamic:
-                        startActivity(new Intent(MainUIActivity.this,SendDynamicActivity.class));
+                        startActivity(new Intent(MainUIActivity.this, ChooseDynamicActivity.class));
                         mBinding.radiobtnAddDynamic.setChecked(false);
                         Log.d(TAG, "不出现");
                         break;

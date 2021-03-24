@@ -1,18 +1,14 @@
 package com.android.everyoneoncampus.view.mainui;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -29,14 +25,8 @@ import com.android.everyoneoncampus.presenter.ThingsPresenter;
 import com.android.everyoneoncampus.view.personinfo.FileUtil;
 
 import java.io.File;
-import java.net.URL;
-import java.security.PrivateKey;
-import java.sql.Blob;
-import java.util.concurrent.TimeoutException;
 
-import io.reactivex.internal.operators.completable.CompletableDoFinally;
-
-public class ReleaseActivity extends AppCompatActivity {
+public class ReleaseDynamicActivity extends AppCompatActivity {
     private ActivityReleaseBinding mBinding;
     private String mMainTitle;
     private Presenter mPresenter;
@@ -46,7 +36,7 @@ public class ReleaseActivity extends AppCompatActivity {
 
     public static void actionActivity(Context context, String t){
         String titleValue = t;
-        Intent intent = new Intent(context,ReleaseActivity.class);
+        Intent intent = new Intent(context, ReleaseDynamicActivity.class);
         intent.putExtra("title",titleValue);
         context.startActivity(intent);
     }
@@ -76,7 +66,10 @@ public class ReleaseActivity extends AppCompatActivity {
                 mBinding.editSendContent.setFocusable(true);
                 mBinding.editSendContent.setFocusableInTouchMode(true);
                 mBinding.editSendContent.requestFocus();
-                ReleaseActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+//                ReleaseDynamicActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                //获得输入方法管理器，然后强制显示软键盘
+                InputMethodManager imm = (InputMethodManager) ReleaseDynamicActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mBinding.editSendContent,0);
             }
         });
         mBinding.txtCancel.setOnClickListener(v->{

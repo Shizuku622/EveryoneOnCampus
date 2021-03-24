@@ -27,6 +27,7 @@ import com.android.everyoneoncampus.view.mainui.MainUIActivity;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoViewInterface;
 import com.android.everyoneoncampus.view.register.RegisterViewInterface;
 import com.android.everyoneoncampus.view.user.UserActivity;
+import com.mysql.jdbc.util.ResultSetUtil;
 
 import java.util.List;
 
@@ -142,8 +143,14 @@ public class LoginPresenter {
                     loginLeanCloud(result);
                     //保存用户ID到sp
                     mSpModel.saveUserID(result.userID);
-                    //保存用户信息到数据库
-                    mDbHelper.saveCurrentUserInfo(result);
+                    if(mDbHelper.selectUserExist(result.userID)){
+                        //更新用户信息就可以
+                        Log.d(TAG, "onComplete: 更新");
+                        mDbHelper.updateExistUserInfo(result);
+                    }else{
+                        //保存用户信息到数据库
+                        mDbHelper.saveCurrentUserInfo(result);
+                    }
                     //记录云端机型
                     mMySQLModel.writeModelInfoApi();
                     //查询是否新用户

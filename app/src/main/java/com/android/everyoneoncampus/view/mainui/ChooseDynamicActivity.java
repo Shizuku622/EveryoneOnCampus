@@ -1,14 +1,12 @@
 package com.android.everyoneoncampus.view.mainui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 
 import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.databinding.ActivityAddDynamicStateBinding;
 
-public class SendDynamicActivity extends BaseActivity {
+public class ChooseDynamicActivity extends BaseActivity {
     private ActivityAddDynamicStateBinding mBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +23,17 @@ public class SendDynamicActivity extends BaseActivity {
             finish();
         });
         mBinding.llayoutThings.setOnClickListener(v->{
-            ReleaseActivity.actionActivity(this,"things");
+            ReleaseDynamicActivity.actionActivity(this,"things");
         });
         mBinding.llayoutProblem.setOnClickListener(v->{
-            ReleaseActivity.actionActivity(this,"problem");
+            ReleaseDynamicActivity.actionActivity(this,"problem");
         });
         mBinding.llayoutLose.setOnClickListener(v->{
-            ReleaseActivity.actionActivity(this,"lose");
+            ReleaseDynamicActivity.actionActivity(this,"lose");
         });
         mBinding.llayoutSign.setOnClickListener(v->{
-            ReleaseActivity.actionActivity(this,"sign");
+            ReleaseDynamicActivity.actionActivity(this,"sign");
         });
-
     }
 
     private void initViews() {

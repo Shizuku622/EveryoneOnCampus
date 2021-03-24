@@ -52,6 +52,9 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
         holder.userNicheng.setText(things.userNicheng);
         holder.thingsContent.setText(things.thingsContent);
         holder.thingsDate.setText(things.thingsDate.substring(5,16));
+
+
+
         holder.event.setText(things.event);
 
         //设置头像

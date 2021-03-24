@@ -33,7 +33,6 @@ public class EocApplication extends Application {
         EocUser.userSchool= user.userSchool;
         EocUser.userPlace= user.userPlace;
         EocUser.userIdentity= user.userIdentity;
-        EocUser.userIcon= user.userIcon;
         EocUser.userAutograph= user.userAutograph;
         EocUser.userlabel= user.userlabel;
         EocUser.mark= user.mark;

@@ -1,71 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical"
-    android:id="@+id/llayout_index_root"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/dl_sign"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:background="@color/nav_back_color"
-        android:orientation="horizontal"
+    <LinearLayout android:orientation="vertical"
+        android:id="@+id/llayout_index_root"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/eoc_menu"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/index_img_size"
-            android:layout_height="@dimen/index_img_size"/>
         <LinearLayout
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/index_search"
+            android:background="@color/nav_back_color"
             android:orientation="horizontal"
-            android:layout_weight="5"
-            android:layout_width="0dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_height="35dp">
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
 
             <ImageView
+                android:id="@+id/img_drawer_move"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/eoc_menu"
                 android:layout_gravity="center"
-                android:src="@drawable/eoc_index_search"
-                android:layout_width="20dp"
-                android:layout_height="20dp"/>
-            <EditText
-                android:hint="搜索"
-                android:textSize="12dp"
-                android:background="@null"
+                android:layout_width="@dimen/index_img_size"
+                android:layout_height="@dimen/index_img_size"/>
+            <LinearLayout
                 android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/index_search"
+                android:orientation="horizontal"
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_height="35dp">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:src="@drawable/eoc_index_search"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
+                <EditText
+                    android:hint="搜索"
+                    android:textSize="12dp"
+                    android:background="@null"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+            <ImageView
+                android:layout_marginRight="10dp"
+                android:src="@drawable/eoc_inform"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/index_img_size"
+                android:layout_height="@dimen/index_img_size"/>
 
         </LinearLayout>
-        <ImageView
-            android:layout_marginRight="10dp"
-            android:src="@drawable/eoc_inform"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/index_img_size"
-            android:layout_height="@dimen/index_img_size"/>
 
+        <com.google.android.material.tabs.TabLayout
+            app:tabIndicatorFullWidth="false"
+            app:tabMode="scrollable"
+            android:id="@+id/tab_index"
+            android:background="@color/nav_back_color"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp_index"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        app:tabIndicatorFullWidth="false"
-        app:tabMode="scrollable"
-        android:id="@+id/tab_index"
-        android:background="@color/nav_back_color"
+    <TextView
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#FFF"
+        android:text="123"/>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp_index"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+</androidx.drawerlayout.widget.DrawerLayout>
 
-
-
-</LinearLayout>

@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.util.Log;
 import android.util.Pair;
+import android.view.SurfaceControlViewHost;
 
 import androidx.annotation.LongDef;
 
@@ -18,9 +19,13 @@ import com.bumptech.glide.util.LogTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.transform.Result;
+
 public class DbHelper {
     private EOCDatabaseHelper mDbHelper;
     private SPModel mSPModel = new SPModel();
+
+    private static final String TAG = "DbHelper";
 
     public  DbHelper(){
         mDbHelper = new EOCDatabaseHelper(EocApplication.getContext(),"EocDB",4);
@@ -47,6 +52,50 @@ public class DbHelper {
 //        String sql = String.format("update userinfo set model = '%s' where userID = '%s", Build.MODEL,mSPModel.readUserID());
 //        updateDate(sql);
 //    }
+
+    //更新用户信息
+    public void updateExistUserInfo(User user){
+        try{
+            String sql = String.format("update userinfo set " +
+                            "userName='%s'," +
+                            "userNicheng='%s'," +
+                            "userSno='%s'," +
+                            "userPhone='%s'," +
+                            "userSex='%s'," +
+                            "userSchool='%s'," +
+                            "userPlace='%s'," +
+                            "userIdentity='%s'," +
+                            "userAutograph='%s'," +
+                            "userlabel ='%s'," +
+                            "dynamicNumber='%s'," +
+                            "followNumber='%s'," +
+                            "followedNumber='%s'," +
+                            "userSpeci='%s'," +
+                            "headPic='%s' where userID='%s'" +
+                            "",user.userName,user.userNicheng,user.userSno,user.userPhone,user.userSex, user.userSchool,user.userPlace,user.userIdentity,
+                    user.userAutograph,user.userlabel,user.dynamicNumber,user.followedNumber,user.followedNumber,user.userSpeci,EocTools.byteConvertString(user.headPic),
+                    user.userID);
+            updateDate(sql);
+            Log.d(TAG, "updateExistUserInfo: 更新成功！");
+        }catch(Exception e){
+            Log.d(TAG, "updateExistUserInfo: "+e.getMessage());
+        }
+
+
+    }
+
+
+    //查询用户是否已经存在在SQLite数据库表里
+    public boolean selectUserExist(String userID){
+        String sql = String.format("select * from userinfo where userID = '%s'",userID);
+        Cursor cursor = selectData(sql);
+        if(cursor.moveToNext()){
+            //查询到返回 真
+            return true;
+        }
+        //false表示查询不到
+        return false;
+    }
 
     //读取当前用户信息
     public void readCurrentUserInfo(DataListener<User> dataListener){
@@ -76,11 +125,11 @@ public class DbHelper {
             dataListener.onComplete(user);
         }
     }
-    private static final String TAG = "DbHelper";
 
     //添加数据
     public void saveCurrentUserInfo(User user){
 //        deleteData("delete from labeltype");
+
         String headPid = EocTools.byteConvertString(user.headPic);
         String sql = String.format("INSERT INTO userinfo(" +
                         "userID," +

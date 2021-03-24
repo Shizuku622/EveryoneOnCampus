@@ -139,7 +139,6 @@
                             android:layout_height="@dimen/tuijian_picsize"/>
 
                         <TextView
-                            android:text="12"
                             android:textSize="12dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="4dp"
@@ -172,8 +171,6 @@
                             android:layout_height="@dimen/tuijian_picsize"/>
 
                         <TextView
-                            android:text="12"
-                            android:textSize="12dp"
                             android:layout_marginLeft="4dp"
                             android:layout_gravity="center"
                             android:textColor="#3A3939"
@@ -203,7 +200,6 @@
                             android:layout_height="@dimen/tuijian_picsize"/>
 
                         <TextView
-                            android:text="12"
                             android:textSize="12dp"
                             android:layout_marginLeft="4dp"
                             android:layout_gravity="center"

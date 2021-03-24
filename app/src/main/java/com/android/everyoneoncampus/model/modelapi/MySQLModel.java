@@ -604,7 +604,6 @@ public class MySQLModel {
                             resultSet.getString("userSchool"),
                             resultSet.getString("userPlace"),
                             resultSet.getString("userIdentity"),
-                            resultSet.getString("userIcon"),
                             resultSet.getString("userAutograph"),
                             resultSet.getString("userlabel"),
                             resultSet.getString("mark"),
@@ -613,7 +612,8 @@ public class MySQLModel {
                             resultSet.getString("followNumber"),
                             resultSet.getString("followedNumber"),
                             resultSet.getString("userSpeci"),
-                            resultSet.getBytes("headPic"));
+                            resultSet.getBytes("headPic"),
+                            resultSet.getString("model"));
                     message.what = 1;
                     message.obj = userInfo;
                 }else{
@@ -654,7 +654,6 @@ public class MySQLModel {
                             resultSet.getString("userSchool"),
                             resultSet.getString("userPlace"),
                             resultSet.getString("userIdentity"),
-                            resultSet.getString("userIcon"),
                             resultSet.getString("userAutograph"),
                             resultSet.getString("userlabel"),
                             resultSet.getString("mark"),
@@ -663,7 +662,8 @@ public class MySQLModel {
                             resultSet.getString("followNumber"),
                             resultSet.getString("followedNumber"),
                             resultSet.getString("userSpeci"),
-                            resultSet.getBytes("headPic"));
+                            resultSet.getBytes("headPic"),
+                            resultSet.getString("model"));
                     Message msg = Message.obtain();
                     msg.what = 1;
                     msg.obj = userInfo;
@@ -856,20 +856,32 @@ public class MySQLModel {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                Toast.makeText(EocApplication.getContext(),"发送成功!",Toast.LENGTH_SHORT).show();
+                if(msg.what == 1){
+                    Toast.makeText(EocApplication.getContext(),"发送成功!",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(EocApplication.getContext(), "发送失败，请重试！", Toast.LENGTH_SHORT).show();
+                }
             }
         };
-
         new Thread(()->{
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
                 Blob imageBlob = conn.createBlob();
                 imageBlob.setBytes(1,thingsImage);
                 ps.setBlob(1,imageBlob);
+
                 int resultSet = ps.executeUpdate();
-                Log.d(TAG, "插入事件影响" + resultSet + "条");
-                handler.sendMessage(Message.obtain());
+                Message msg = Message.obtain();
+                if(resultSet != 0){
+                    msg.what = 1;
+                    Log.d(TAG, "插入事件影响" + resultSet + "条");
+                }else{
+                    msg.what = 2;
+                    Log.d(TAG, "插入事件失败！");
+                }
+                handler.sendMessage(msg);
             }catch (Exception e){
                 Log.d(TAG, e.getMessage());
+                Log.d(TAG, "插入事件失败！");
             }
         }).start();
     }

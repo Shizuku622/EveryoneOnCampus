@@ -1,5 +1,7 @@
 package com.android.everyoneoncampus.presenter;
 
+import android.util.Log;
+
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.model.modelapi.DbHelper;
@@ -111,6 +113,7 @@ public class UIUserInfoPresenter {
         });
     }
 
+    private static final String TAG = "UIUserInfoPresenter";
     //获得当前用户的信息
     public void getCurrentUserInfo(){
         mMySQLModel.getCurrentUserInfoApi(new DataListener<User>() {
@@ -118,10 +121,11 @@ public class UIUserInfoPresenter {
             public void onComplete(User result) {
                 if(result != null){
                     //更新到本地
-                    mDbHelper.saveCurrentUserInfo(result);
+                    mDbHelper.updateExistUserInfo(result);
                     //同步跟新到界面
                     getSQliteMainUserInfo();
                     mUiUserInfoFragment.stopRefresh();
+                    Log.d(TAG, "onComplete: 停止刷新");
                 }
             }
         });

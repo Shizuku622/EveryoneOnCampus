@@ -32,8 +32,8 @@
         <activity android:name=".view.follow.FollowListActivity" />
         <activity android:name=".view.follow.FollowInfoActivity" />
         <activity android:name=".view.mainui.uifrag.uiuserinfo.UserInfoActivity" />
-        <activity android:name=".view.mainui.SendDynamicActivity" />
-        <activity android:name=".view.mainui.ReleaseActivity" />
+        <activity android:name=".view.mainui.ChooseDynamicActivity" />
+        <activity android:name=".view.mainui.ReleaseDynamicActivity" />
         <activity android:name=".view.mainui.MainUIActivity" /> <!-- <receiver android:name=".view.personinfo.LabelContentFragment$MofFragmentAdapter" -->
         <activity android:name=".view.personinfo.PersoninfoActivity" />
         <activity android:name=".TestActivity" />

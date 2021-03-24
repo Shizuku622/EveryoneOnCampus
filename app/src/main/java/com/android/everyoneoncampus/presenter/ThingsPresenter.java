@@ -1,12 +1,12 @@
 package com.android.everyoneoncampus.presenter;
 
-import com.android.everyoneoncampus.view.mainui.ReleaseActivity;
+import com.android.everyoneoncampus.view.mainui.ReleaseDynamicActivity;
 
 public class ThingsPresenter {
-    private ReleaseActivity mReleaseActivity;
+    private ReleaseDynamicActivity mReleaseDynamicActivity;
 
-    public ThingsPresenter(ReleaseActivity releaseActivity){
-        mReleaseActivity = releaseActivity;
+    public ThingsPresenter(ReleaseDynamicActivity releaseDynamicActivity){
+        mReleaseDynamicActivity = releaseDynamicActivity;
     }
 
 

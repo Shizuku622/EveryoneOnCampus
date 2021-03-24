@@ -1,12 +1,14 @@
 package com.android.everyoneoncampus.view.mainui.uifrag.uiindex;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
@@ -28,12 +30,21 @@ public class UIIndexFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentUiIndexStudyBinding.inflate(inflater,container,false);
         View view = mBinding.getRoot();
+        initView();
+        initListener();
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void initListener() {
+        mBinding.imgDrawerMove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBinding.dlSign.openDrawer(GravityCompat.START);
+            }
+        });
+    }
+
+    private void initView() {
         String[] titles = {"关注","推荐","说吧"};
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new GuanzhuIndexFragment());

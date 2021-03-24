@@ -8,22 +8,24 @@ import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.model.modelapi.MySQLModel;
 import com.android.everyoneoncampus.model.entity.Things;
-import com.android.everyoneoncampus.view.mainui.ReleaseActivity;
+import com.android.everyoneoncampus.model.modelapi.SPModel;
+import com.android.everyoneoncampus.view.mainui.ReleaseDynamicActivity;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TuijianIndexFragment;
 
 import java.util.List;
 
 public class Presenter {
     private MySQLModel mMySQLModel = new MySQLModel();
+    private SPModel mSPModel = new SPModel();
     private TuijianIndexFragment mTuijianIndexFragmentView;
-    private ReleaseActivity mReleaseActivity;
+    private ReleaseDynamicActivity mReleaseDynamicActivity;
 
     public Presenter(Fragment fragment){
         mTuijianIndexFragmentView = (TuijianIndexFragment)fragment;
     }
 
     public Presenter(Activity activity){
-        mReleaseActivity = (ReleaseActivity)activity;
+        mReleaseDynamicActivity = (ReleaseDynamicActivity)activity;
     }
 
     //获得新鲜事
@@ -43,23 +45,23 @@ public class Presenter {
         switch (t){
             case "things":
                 String sql1 = String.format("insert into things(userID,event,thingsContent,thingsImage) " +
-                        "values('%s','%s','%s',?)",EocApplication.getUserInfo().userID,"新鲜事",content);
+                        "values('%s','%s','%s',?)",mSPModel.readUserID(),"新鲜事",content);
                 mMySQLModel.sendNewSomethingApi(sql1,thingsImage);
                 break;
             case "problem":
-                String sql2 = String.format("insert into things(userID,event,thingsContent) " +
-                        "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"提问",content);
-                //mMySQLModel.sendNewSomethingApi(sql2);
+                String sql2 = String.format("insert into things(userID,event,thingsContent,thingsImage) " +
+                        "values('%s','%s','%s',?)",mSPModel.readUserID(),"提问",content);
+                mMySQLModel.sendNewSomethingApi(sql2,thingsImage);
                 break;
             case "lose":
-                String sql3 = String.format("insert into things(userID,event,thingsContent) " +
-                        "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"丢失",content);
-                //mMySQLModel.sendNewSomethingApi(sql3);
+                String sql3 = String.format("insert into things(userID,event,thingsContent,thingsImage) " +
+                        "values('%s','%s','%s',?)",mSPModel.readUserID(),"丢失",content);
+                mMySQLModel.sendNewSomethingApi(sql3,thingsImage);
                 break;
             case "sign":
-                String sql4 = String.format("insert into things(userID,event,thingsContent) " +
-                        "values('%s','%s','%s')",EocApplication.getUserInfo().userID,"签到",content);
-                //mMySQLModel.sendNewSomethingApi(sql4);
+                String sql4 = String.format("insert into things(userID,event,thingsContent,thingsImage) " +
+                        "values('%s','%s','%s',?)",mSPModel.readUserID(),"签到",content);
+                mMySQLModel.sendNewSomethingApi(sql4,thingsImage);
                 break;
         }
     }
