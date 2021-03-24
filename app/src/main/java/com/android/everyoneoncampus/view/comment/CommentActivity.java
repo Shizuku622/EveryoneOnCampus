@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
+import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.databinding.ActivityCommentBinding;
 import com.android.everyoneoncampus.model.entity.Comment;
 import com.android.everyoneoncampus.model.entity.Things;
+import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.presenter.CommentPresenter;
 
 import java.util.ArrayList;
@@ -60,15 +62,22 @@ public class CommentActivity extends BaseActivity {
                 String cContent = mBinding.editAddComment.getText().toString();
                 if(!cContent.isEmpty()){
                     Comment comment = new Comment();
-                    comment.headPic = EocApplication.getUserInfo().headPic;
+                    Toast.makeText(CommentActivity.this, "正在发送！", Toast.LENGTH_SHORT).show();
+                    mCommentPresenter.getCurrentUser(new DataListener<User>() {
+                        @Override
+                        public void onComplete(User result) {
+                            mBinding.editAddComment.setText("");
+                            comment.headPic = result.headPic;
 //                    comment.CDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS").toString();
-                    comment.CContent =cContent;
-                    comment.userNicheng = EocApplication.getUserInfo().userNicheng;
-                    comment.userID = EocApplication.getUserInfo().userID;
-                    comment.thingsID = mIntentThings.thingsID;
-                    mCommentList.add(comment);
-                    mCommentAdapter.notifyDataSetChanged();
-                    mCommentPresenter.addComment(comment);
+                            comment.CContent =cContent;
+                            comment.userNicheng = result.userNicheng;
+                            comment.userID = result.userID;
+                            comment.thingsID = mIntentThings.thingsID;
+                            mCommentList.add(comment);
+                            mCommentAdapter.notifyDataSetChanged();
+                            mCommentPresenter.addComment(comment);
+                        }
+                    });
                 }else{
                     Toast.makeText(CommentActivity.this, "评论不能为空！", Toast.LENGTH_SHORT).show();
                 }
@@ -81,7 +90,6 @@ public class CommentActivity extends BaseActivity {
         Intent intent = getIntent();
         Bundle intentThings = intent.getBundleExtra("things");
         mIntentThings = (Things)intentThings.getSerializable("things");
-
         if(mIntentThings != null){
             mBinding.txtCommentTitle.setText(mIntentThings.event);
             mBinding.imgUserHeadpic.setImageBitmap(EocTools.convertBitmap(mIntentThings.headPic));

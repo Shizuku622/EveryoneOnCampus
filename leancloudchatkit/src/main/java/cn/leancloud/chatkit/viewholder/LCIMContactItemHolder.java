@@ -2,6 +2,7 @@ package cn.leancloud.chatkit.viewholder;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import cn.leancloud.chatkit.EocTools;
 import cn.leancloud.chatkit.LCChatKitUser;
 import cn.leancloud.chatkit.R;
 import cn.leancloud.chatkit.activity.LCIMConversationActivity;
@@ -81,7 +83,9 @@ public class LCIMContactItemHolder extends LCIMCommonViewHolder<LCChatKitUser> {
     final String avatarUrl = lcChatKitUser.getAvatarUrl();
     if (!TextUtils.isEmpty(avatarUrl)) {
 //      Picasso.with(getContext()).load(avatarUrl).into(avatarView);
-      avatarView.setImageURI(Uri.parse(avatarUrl));
+
+      Bitmap bitmap = EocTools.stringConvertBitmap(avatarUrl);
+      avatarView.setImageBitmap(bitmap);
     } else {
       avatarView.setImageResource(R.drawable.lcim_default_avatar_icon);
     }

@@ -1,7 +1,6 @@
 package com.android.everyoneoncampus.view.mainui.uifrag.uiindex;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.android.everyoneoncampus.databinding.FragmentUiIndexStudyBinding;
-import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.GuanzhuIndexFragment;
-import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.HuatiIndexFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.guanzhu.GuanzhuIndexFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TalkIndexFragment;
-import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TuijianIndexFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.tuijian.TuijianIndexFragment;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,17 @@
 package com.android.everyoneoncampus;
 
-import com.android.everyoneoncampus.model.modelapi.MySQLModel;
+import android.graphics.Bitmap;
+import android.util.Base64;
+
+import com.android.everyoneoncampus.model.api.DbHelper;
+import com.android.everyoneoncampus.model.api.MySQLModel;
+import com.android.everyoneoncampus.model.entity.User;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.leancloud.chatkit.LCChatKit;
 import cn.leancloud.chatkit.LCChatKitUser;
 import cn.leancloud.chatkit.LCChatProfileProvider;
 import cn.leancloud.chatkit.LCChatProfilesCallBack;
@@ -13,7 +20,6 @@ public class CustomUserProvider implements LCChatProfileProvider {
 
     private static CustomUserProvider customUserProvider;
     private static List<LCChatKitUser> allUser = new ArrayList<>();
-    private MySQLModel mMySQLModel = new MySQLModel();
 
     public synchronized static CustomUserProvider getInstance(){
         if(null == customUserProvider){
@@ -26,12 +32,25 @@ public class CustomUserProvider implements LCChatProfileProvider {
 
     }
 
-    public static void addChatUser(LCChatKitUser lcChatKitUser){
+    public static void addLCUser(User user){
+        String userID = EocApplication.USER_MARK + user.userID;
+        String userName = user.userName;
+        byte[] headPicByte = user.headPic;
+        //转成base64
+        String headPic = Base64.encodeToString(headPicByte,Base64.DEFAULT);
+        LCChatKitUser lcChatKitUser = new LCChatKitUser(userID,userName,headPic);
         allUser.add(lcChatKitUser);
     }
 
-    static{
-        allUser.add(new LCChatKitUser("EOC278","林灿健",EocApplication.getContext().getExternalFilesDir("").getAbsolutePath()+277+"headpic"));
+    public static void updateLCUser(User user){
+        for(LCChatKitUser lc : allUser){
+            if(lc.getUserId().equals("EOC"+user.userID)){
+                lc.setName(user.userName);
+                String headPic = Base64.encodeToString(user.headPic,Base64.DEFAULT);
+                lc.setAvatarUrl(headPic);
+                break;
+            }
+        }
     }
 
     @Override
@@ -44,14 +63,6 @@ public class CustomUserProvider implements LCChatProfileProvider {
                     break;
                 }
             }
-//            mMySQLModel.getLCChatKitUser(userId, new DataListener<LCChatKitUser>() {
-//                @Override
-//                public void onComplete(LCChatKitUser result) {
-//                    if(result != null){
-//                        userList.add(result);
-//                    }
-//                }
-//            });
         }
         profilesCallBack.done(userList, null);
     }

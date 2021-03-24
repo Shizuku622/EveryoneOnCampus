@@ -5,9 +5,9 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.android.everyoneoncampus.EocApplication;
-import com.android.everyoneoncampus.model.modelapi.DbHelper;
-import com.android.everyoneoncampus.model.modelapi.MySQLModel;
-import com.android.everyoneoncampus.model.modelapi.SPModel;
+import com.android.everyoneoncampus.model.api.DbHelper;
+import com.android.everyoneoncampus.model.api.MySQLModel;
+import com.android.everyoneoncampus.model.api.SPModel;
 import com.android.everyoneoncampus.view.personinfo.LabelFragment;
 import com.android.everyoneoncampus.view.personinfo.PersonInfoFragment;
 

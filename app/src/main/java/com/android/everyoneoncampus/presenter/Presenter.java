@@ -4,13 +4,12 @@ import android.app.Activity;
 
 import androidx.fragment.app.Fragment;
 
-import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.allinterface.DataListener;
-import com.android.everyoneoncampus.model.modelapi.MySQLModel;
+import com.android.everyoneoncampus.model.api.MySQLModel;
 import com.android.everyoneoncampus.model.entity.Things;
-import com.android.everyoneoncampus.model.modelapi.SPModel;
+import com.android.everyoneoncampus.model.api.SPModel;
 import com.android.everyoneoncampus.view.mainui.ReleaseDynamicActivity;
-import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TuijianIndexFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.tuijian.TuijianIndexFragment;
 
 import java.util.List;
 

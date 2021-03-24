@@ -1,6 +1,5 @@
-package com.android.everyoneoncampus.model.modelapi;
+package com.android.everyoneoncampus.model.api;
 
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.android.everyoneoncampus.EocApplication;
-import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
 import com.android.everyoneoncampus.model.LabelAll;
@@ -28,8 +26,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.leancloud.chatkit.LCChatKitUser;
-
+/**
+ *
+ */
 public class MySQLModel {
     //sharedpre
     private SPModel mSPModel = new SPModel();
@@ -61,6 +60,62 @@ public class MySQLModel {
     *
     * */
 
+
+
+
+    /**
+     * 获得关注人的动态
+     */
+    public void getGuanzhuDynamicApi(DataListener<List<Things>> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((List<Things>)msg.obj);
+                        break;
+                    case 2:
+                        dataListener.onComplete(null);
+                }
+            }
+        };
+
+        String sql = String.format("SELECT * FROM `things` " +
+                "inner JOIN `user` " +
+                "inner JOIN follow " +
+                "on  follow.userID = %s and follow.userIDed = things.userID and `user`.userID = follow.userIDed",mSPModel.readUserID());
+        new Thread(()->{
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
+                ResultSet resultSet = ps.executeQuery();
+                List<Things> thingsList = new ArrayList<>();
+                if(resultSet.first()){
+                    do{
+                        String thingsID = resultSet.getString("thingsID");
+                        String userID = resultSet.getString("userID");
+                        String userNicheng = resultSet.getString("userNicheng");
+                        String event = resultSet.getString("event");
+                        String thingsContent = resultSet.getString("thingsContent");
+                        String thingsDate = resultSet.getString("thingsDate");
+                        byte[] thingsImage = resultSet.getBytes("thingsImage");
+                        byte[] headPic = resultSet.getBytes("headPic");
+                        thingsList.add(new Things(thingsID,userID,userNicheng,event, thingsContent,thingsDate,thingsImage,headPic));
+                    }while(resultSet.next());
+                }
+                Message msg = Message.obtain();
+                if(thingsList.isEmpty()){
+                    msg.what = 2;
+                }else{
+                    msg.what = 1;
+                    msg.obj = thingsList;
+                }
+                handler.sendMessage(msg);
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
     //添加评论
     public void insertThingsCommentApi(Comment comment, DataListener<Integer> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
@@ -71,7 +126,7 @@ public class MySQLModel {
             }
         };
         new Thread(()->{
-            String sql = "INSERT INTO `Comment`(thingsid,userID,CContent) VALUES(?,?,?)";
+            String sql = "INSERT INTO `Comment`(thingsID,userID,CContent) VALUES(?,?,?)";
             Message msg = Message.obtain();
             try(Connection conn = getConnector();
                 PreparedStatement ps = conn.prepareStatement(sql);)
@@ -219,93 +274,6 @@ public class MySQLModel {
         }).start();
     }
 
-    //返回lcchat
-    public void getLCChatKitUser(String lcUserId, DataListener<LCChatKitUser> dataListener){
-        Handler handler = new Handler(Looper.myLooper()){
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what){
-                    case 1:
-                        dataListener.onComplete((LCChatKitUser)msg.obj);
-                        Log.d(TAG, "传递LCChatKitUser");
-                        break;
-                    case 2:
-                        dataListener.onComplete(null);
-                        Log.d(TAG, "kong");
-                        break;
-                }
-            }
-        };
-        new Thread(()->{
-            String sql = String.format("SELECT * FROM `user` where userID=%s",lcUserId);
-            //我关注的sql
-            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)) {
-                ResultSet resultSet = ps.executeQuery();
-                //列表
-                Message message = Message.obtain();
-                if (resultSet.next()){
-                    LCChatKitUser temp = new LCChatKitUser();
-                    temp.setUserId(EocApplication.USER_MARK+resultSet.getString("userID"));
-//                    resultSet.getString("userNicheng");
-                    temp.setName(resultSet.getString("userName"));
-                    Bitmap bitmap =  EocTools.convertBitmap(resultSet.getBytes("headPic"));
-                    String path = EocTools.saveBitmapPic(bitmap);
-                    temp.setAvatarUrl(path);
-                    message.what = 1;
-                    message.obj = temp;
-                }else{
-                    message.what = 2;
-                }
-                handler.sendMessage(message);
-            }catch (Exception e){
-                Log.e(TAG, e.getMessage());
-            }
-
-        }).start();
-    }
-
-
-    public void getFollowInfo(String userID,DataListener<User> dataListener){
-        Handler handler = new Handler(Looper.myLooper()){
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                dataListener.onComplete((User)msg.obj);
-                Log.d(TAG, "传递List<User>");
-            }
-        };
-        new Thread(()->{
-            String sql = String.format("SELECT * FROM `user` where userID=%s",userID);
-            //我关注的sql
-            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)) {
-                ResultSet resultSet = ps.executeQuery();
-                //列表
-                Message message = Message.obtain();
-                if(resultSet.next()){
-                    User temp = new User();
-                    temp.userID = resultSet.getString("userID");
-                    temp.headPic = resultSet.getBytes("headPic");
-                    temp.userNicheng = resultSet.getString("userNicheng");
-                    temp.userAutograph = resultSet.getString("userAutograph");
-                    temp.userName = resultSet.getString("userName");
-                    temp.userSex = resultSet.getString("userSex");
-                    temp.userSchool = resultSet.getString("userSchool");
-                    temp.userSno = resultSet.getString("userSno");
-                    temp.userPhone = resultSet.getString("userPhone");
-                    temp.userPlace = resultSet.getString("userPlace");
-                    temp.userSpeci = resultSet.getString("userSpeci");
-                    temp.userIdentity = resultSet.getString("userIdentity");
-                    message.obj = temp;
-                }
-                handler.sendMessage(message);
-            }catch (Exception e){
-                Log.e(TAG, e.getMessage());
-            }
-
-        }).start();
-    }
-
 
     //获取关注和被关注的列表
     public void getTwoFollowList(int followChoose,DataListener<List<User>> dataListener){
@@ -367,24 +335,6 @@ public class MySQLModel {
         }).start();
     }
 
-    //上传事件的图片
-    public void uploadThingsPic(byte[] img,String thingsID){
-        new Thread(()->{
-            String sql = String.format("update things set thingsImage=? where userID='%s'",EocApplication.getUserInfo().userID);
-            try(Connection conn = getConnector(); PreparedStatement ps = conn.prepareStatement(sql);)
-            {
-                Blob blob = conn.createBlob();
-                blob.setBytes(1,img);
-                ps.setBlob(1,blob);
-                int i = ps.executeUpdate();
-                Log.d(TAG, "插入图片影响："+i);
-            } catch (Exception throwables) {
-                throwables.printStackTrace();
-                Log.e(TAG, throwables.getMessage());
-            }
-        }).start();
-    }
-
 
     public void testUploadPic(byte[] img){
         new Thread(()->{
@@ -400,6 +350,7 @@ public class MySQLModel {
             }
         }).start();
     }
+
     public void testGetPic(DataListener<byte[]> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
@@ -791,49 +742,6 @@ public class MySQLModel {
                         byte[] thingsImage = resultSet.getBytes("thingsImage");
                         byte[] headPic = resultSet.getBytes("headPic");
                         thingsList.add(new Things(thingsID,userID,userNicheng,event, thingsContent,thingsDate,thingsImage,headPic));
-                    }while(resultSet.next());
-                }
-                Message msg = Message.obtain();
-                if(thingsList.isEmpty()){
-                    msg.what = 2;
-                }else{
-                    msg.what = 1;
-                    msg.obj = thingsList;
-                }
-                handler.sendMessage(msg);
-            }catch (Exception e){
-                Log.d(TAG, e.getMessage());
-            }
-        }).start();
-    }
-
-    public void getThingsAllApi(DataListener<List<Things>> dataListener){
-        Handler handler = new Handler(Looper.myLooper()){
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what){
-                    case 1:
-                        dataListener.onComplete((List<Things>)msg.obj);
-                        break;
-                    case 2:
-                        dataListener.onComplete(null);
-                }
-            }
-        };
-
-        String sql = "select * from things";
-        new Thread(()->{
-            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
-                ResultSet resultSet = ps.executeQuery();
-                List<Things> thingsList = new ArrayList<>();
-                if(resultSet.first()){
-                    do{
-                        String userID = resultSet.getString("userID");
-                        String thingsContent = resultSet.getString("thingsContent");
-                        String thingsDate = resultSet.getString("thingsDate");
-                        String event = resultSet.getString("event");
-                        thingsList.add(new Things(userID,event,thingsDate,thingsContent));
                     }while(resultSet.next());
                 }
                 Message msg = Message.obtain();

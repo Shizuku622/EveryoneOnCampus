@@ -1,4 +1,4 @@
-package com.android.everyoneoncampus.model.modelapi;
+package com.android.everyoneoncampus.model.api;
 
 import android.content.Context;
 import android.content.SharedPreferences;

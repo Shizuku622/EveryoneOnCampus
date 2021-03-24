@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.FragmentSexBinding;
-import com.android.everyoneoncampus.model.modelapi.SPModel;
+import com.android.everyoneoncampus.model.api.SPModel;
 
 public class SexFragment extends Fragment {
     private FragmentSexBinding mbinding;

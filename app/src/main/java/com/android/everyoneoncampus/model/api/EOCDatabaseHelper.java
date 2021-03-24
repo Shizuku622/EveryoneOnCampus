@@ -1,4 +1,4 @@
-package com.android.everyoneoncampus.model.modelapi;
+package com.android.everyoneoncampus.model.api;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -35,13 +35,16 @@ public class EOCDatabaseHelper extends SQLiteOpenHelper {
             "userSpeci text," +
             "headPic text," +
             "model text)";
+
+    private String createLCUser = "create table lcuser(userID text,userChatID text,userName text,headPic text)";
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createLabelcontent);
         db.execSQL(createLabelType);
         db.execSQL(createSelected);
-        //创建用户表
         db.execSQL(createUser);
+        db.execSQL(createLCUser);
         Log.d(TAG, "onCreate: 创建数据库表成功！");
     }
 

@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
-import com.android.everyoneoncampus.model.modelapi.DbHelper;
-import com.android.everyoneoncampus.model.modelapi.MySQLModel;
+import com.android.everyoneoncampus.model.api.DbHelper;
+import com.android.everyoneoncampus.model.api.MySQLModel;
 import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.DynamicInfoFragment;

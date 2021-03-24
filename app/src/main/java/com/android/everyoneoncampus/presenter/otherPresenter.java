@@ -1,18 +1,8 @@
 package com.android.everyoneoncampus.presenter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.android.everyoneoncampus.EocApplication;
-import com.android.everyoneoncampus.EocTools;
-import com.android.everyoneoncampus.allinterface.DataListener;
-import com.android.everyoneoncampus.model.modelapi.MySQLModel;
+import com.android.everyoneoncampus.model.api.MySQLModel;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UserInfoFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UserInfoActivity;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 public class otherPresenter {
     private MySQLModel mMySQLModel = new MySQLModel();

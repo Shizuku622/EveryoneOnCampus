@@ -1,26 +1,23 @@
-package com.android.everyoneoncampus.model.modelapi;
+package com.android.everyoneoncampus.model.api;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
-import android.view.SurfaceControlViewHost;
-
-import androidx.annotation.LongDef;
 
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.model.LabelAll;
 import com.android.everyoneoncampus.model.entity.User;
-import com.bumptech.glide.util.LogTime;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.transform.Result;
-
+/**
+ *
+ */
 public class DbHelper {
     private EOCDatabaseHelper mDbHelper;
     private SPModel mSPModel = new SPModel();
@@ -28,30 +25,69 @@ public class DbHelper {
     private static final String TAG = "DbHelper";
 
     public  DbHelper(){
-        mDbHelper = new EOCDatabaseHelper(EocApplication.getContext(),"EocDB",4);
+        mDbHelper = new EOCDatabaseHelper(EocApplication.getContext(),"EocDB",5);
         mDbHelper.getWritableDatabase();
     }
 
     public SQLiteDatabase getSQLiteDatabase(){
         return mDbHelper.getWritableDatabase();
     }
+    /*
+    * 最新的方法
+    *
+    * */
 
-    //查询本地的机型
-//    public String getModelForLacalInfo(){
-//        String sql = String.format("selcet model from userinfo where userID = '%s'",mSPModel.readUserID());
-//        Cursor cursor = selectData(sql);
-//        String model = "";
-//        if(cursor.moveToFirst()){
-//            model = cursor.getString(cursor.getColumnIndex("model"));
-//        }
-//        return model;
-//    }
+    public void selectAllLCUserInfo(DataListener<List<User>> dataListener){
+        String sql = String.format("select * from lcuser");
+        Cursor cursor = selectData(sql);
+        List<User> userList = new ArrayList<>();
+        while(cursor.moveToNext()){
+            User temp = new User();
+            temp.userID = cursor.getString(cursor.getColumnIndex("userID"));
+            temp.userName = cursor.getString(cursor.getColumnIndex("userName"));
+            byte[] heapic = Base64.decode(cursor.getString(cursor.getColumnIndex("headPic")),Base64.DEFAULT);
+            temp.headPic = heapic;
+            userList.add(temp);
+        }
+        if(userList.size() == 0){
+            dataListener.onComplete(null);
+        }else{
+            dataListener.onComplete(userList);
+        }
 
-    //记录机型在本地
-//    public void writeModelForLocalInfo(){
-//        String sql = String.format("update userinfo set model = '%s' where userID = '%s", Build.MODEL,mSPModel.readUserID());
-//        updateDate(sql);
-//    }
+    }
+
+
+    /**
+     * @param userID 查询用户ID
+     * @return true表示有该用户，false表示无该用户
+     */
+    public boolean selectLCUserInfo(String userID){
+        String sql = String.format("select * from lcuser where userID = '%s'",userID);
+        Cursor cursor = selectData(sql);
+        if(cursor.moveToNext()){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param user 用户信息
+     * 更新已有的信息，通过ID查询
+     */
+    public void updateLCUserInfo(User user){
+        String sql = String.format("update lcuser set userName='%s',headPic='%s' where userChatID='%s' and userID='%s'",user.userName,user.headPic,user.userID,mSPModel.readUserID());
+        updateDate(sql);
+    }
+
+    /**
+     * 保存lc信息
+     */
+    public void insertLCUserInfo(User user){
+        String sql = String.format("INSERT INTO lcuser(userID,userChatID,userName,headPic) VALUES('%s','%s','%s','%s')",mSPModel.readUserID(),user.userID, user.userName,user.headPic);
+        insertData(sql);
+    }
+
 
     //更新用户信息
     public void updateExistUserInfo(User user){
@@ -123,8 +159,13 @@ public class DbHelper {
             user.headPic = headPic;
             user.model = cursor.getString(cursor.getColumnIndex("model"));
             dataListener.onComplete(user);
+        }else
+        {
+            dataListener.onComplete(null);
         }
     }
+
+
 
     //添加数据
     public void saveCurrentUserInfo(User user){

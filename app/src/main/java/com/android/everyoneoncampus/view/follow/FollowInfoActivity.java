@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.everyoneoncampus.CustomUserProvider;
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.databinding.ActivityFollowInfoBinding;
@@ -19,8 +20,7 @@ import cn.leancloud.chatkit.utils.LCIMConstants;
 public class FollowInfoActivity extends AppCompatActivity {
     private ActivityFollowInfoBinding mBinding;
     private FollowPresenter mFollowPresenter;
-    private String userID = "";
-    private User mListUser;
+    private User mFollowUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,11 +29,12 @@ public class FollowInfoActivity extends AppCompatActivity {
         mFollowPresenter = new FollowPresenter(this);
         initView();
         initListener();
-        String userID = getIntent().getStringExtra("follow_userID");
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        mListUser = (User)bundle.getSerializable(FollowListItemAdapter.GET_FOLLOW_USER_INFO);
-        mFollowPresenter.getFollowInfo(mListUser);
+        mFollowUser = (User)bundle.getSerializable(FollowListItemAdapter.GET_FOLLOW_USER_INFO);
+        mFollowPresenter.getFollowInfo(mFollowUser);
+        mFollowPresenter.saveLCInfo(mFollowUser);
     }
 
     private void initListener() {
@@ -41,9 +42,9 @@ public class FollowInfoActivity extends AppCompatActivity {
             finish();
         });
         mBinding.btnFollowSendMessage.setOnClickListener(v->{
-            if(!userID.isEmpty()){
+            if(mFollowUser != null){
                 Intent intent = new Intent(FollowInfoActivity.this, LCIMConversationActivity.class);
-                intent.putExtra(LCIMConstants.PEER_ID, EocApplication.USER_MARK+userID);
+                intent.putExtra(LCIMConstants.PEER_ID, EocApplication.USER_MARK+mFollowUser.userID);
                 startActivity(intent);
             }
         });
@@ -54,13 +55,6 @@ public class FollowInfoActivity extends AppCompatActivity {
     }
 
     public void setFollowInfo(User user){
-        userID = user.userID;
-        //保存图片
-        Bitmap bitmap = EocTools.convertBitmap(user.headPic);
-        EocTools.saveBitmapFile(bitmap,user.userID+EocTools.HEADPIC);
-
-
-
         mBinding.imgFollowHeadpic.setImageBitmap(EocTools.convertBitmap(user.headPic));
         mBinding.txtFollowNicheng.setText(user.userNicheng);
         mBinding.txtFollowQianming.setText(user.userAutograph);
@@ -73,6 +67,5 @@ public class FollowInfoActivity extends AppCompatActivity {
         mBinding.txtFollowSp.setText("专业："+user.userSpeci);
         mBinding.txtFollowIden.setText("身份："+user.userIdentity);
         mBinding.btnFollowSendMessage.setVisibility(View.VISIBLE);
-
     }
 }

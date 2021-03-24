@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import cn.leancloud.callback.AVCallback;
 import cn.leancloud.AVException;
+import cn.leancloud.chatkit.EocTools;
 import cn.leancloud.im.v2.AVIMChatRoom;
 import cn.leancloud.im.v2.AVIMConversation;
 import cn.leancloud.im.v2.AVIMException;
@@ -181,7 +182,7 @@ public class LCIMConversationItemHolder extends LCIMCommonViewHolder {
             if (!TextUtils.isEmpty(s)) {
 //              Picasso.with(getContext()).load(s)
 //                .placeholder(R.drawable.lcim_default_avatar_icon).into(avatarView);
-              avatarView.setImageURI(Uri.parse(s));
+              avatarView.setImageBitmap(EocTools.stringConvertBitmap(s));
             } else {
               avatarView.setImageResource(R.drawable.lcim_default_avatar_icon);
             }

@@ -5,9 +5,9 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
-import android.view.Display;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,17 +17,16 @@ import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
-import com.android.everyoneoncampus.model.modelapi.DbHelper;
+import com.android.everyoneoncampus.model.api.DbHelper;
 import com.android.everyoneoncampus.model.LabelAll;
-import com.android.everyoneoncampus.model.modelapi.MySQLModel;
-import com.android.everyoneoncampus.model.modelapi.SPModel;
+import com.android.everyoneoncampus.model.api.MySQLModel;
+import com.android.everyoneoncampus.model.api.SPModel;
 import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.view.LaunchActivity;
 import com.android.everyoneoncampus.view.mainui.MainUIActivity;
 import com.android.everyoneoncampus.view.personinfo.PersoninfoViewInterface;
 import com.android.everyoneoncampus.view.register.RegisterViewInterface;
 import com.android.everyoneoncampus.view.user.UserActivity;
-import com.mysql.jdbc.util.ResultSetUtil;
 
 import java.util.List;
 
@@ -73,20 +72,32 @@ public class LoginPresenter {
 
     private static final String TAG = "LoginPresenter";
 
+
+    public void addAllLCUserForSQLite(){
+        mDbHelper.selectAllLCUserInfo(new DataListener<List<User>>() {
+            @Override
+            public void onComplete(List<User> result) {
+                if(result != null){
+                    for (User user : result){
+                        CustomUserProvider.addLCUser(user);
+                    }
+                }
+            }
+        });
+    }
+
     //开启leancloud
     public void loginLeanCloud(User user){
-        Bitmap headPic = EocTools.convertBitmap(user.headPic);
-        String savePath = EocTools.saveBitmapPic(headPic);
-        CustomUserProvider.addChatUser(new LCChatKitUser(EocApplication.USER_MARK+user.userID,user.userName,savePath));
+        CustomUserProvider.addLCUser(user);
         //自动开启
         AVIMOptions.getGlobalOptions().setAutoOpen(true);
         LCChatKit.getInstance().open(EocApplication.USER_MARK + user.userID, new AVIMClientCallback() {
             @Override
             public void done(AVIMClient avimClient, AVIMException e) {
                 if (null == e) {
-                    Log.d(TAG, "登录leancloud成功！");
+                    Log.d(TAG, "登录leanclound成功！");
                 } else {
-
+                    Log.d(TAG, "登录leanclound失败！");
                 }
             }
         });

@@ -15,7 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.android.everyoneoncampus.databinding.FragmentUiInfoDynamicBinding;
 import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.presenter.UIUserInfoPresenter;
-import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TuiJianAdapter;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.tuijian.TuiJianAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

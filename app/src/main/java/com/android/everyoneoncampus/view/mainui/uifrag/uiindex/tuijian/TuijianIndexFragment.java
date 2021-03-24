@@ -1,4 +1,4 @@
-package com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages;
+package com.android.everyoneoncampus.view.mainui.uifrag.uiindex.tuijian;
 
 import android.os.Bundle;
 import android.util.Log;

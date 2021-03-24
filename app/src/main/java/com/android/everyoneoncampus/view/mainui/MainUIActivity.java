@@ -54,6 +54,7 @@ public class MainUIActivity extends AppCompatActivity {
         initView();
         //查询机型是否一样
         mLoginPresenter.queryUserModelStatus();
+
     }
 
     @Override

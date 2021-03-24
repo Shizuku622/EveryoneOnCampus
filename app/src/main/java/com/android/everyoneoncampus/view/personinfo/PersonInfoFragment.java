@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.databinding.FragmentPersoninfoBinding;
-import com.android.everyoneoncampus.model.modelapi.SPModel;
+import com.android.everyoneoncampus.model.api.SPModel;
 import com.android.everyoneoncampus.presenter.UIUserInfoPresenter;
 import com.android.everyoneoncampus.presenter.WriteInfoPresenter;
 import com.bumptech.glide.Glide;
