@@ -28,7 +28,7 @@ public class LaunchActivity extends BaseActivity {
         //开机动画
         mBinding.imgLaunch.animate()
                 .alpha(1)
-                .setDuration(1000)
+                .setDuration(500)
                 .setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) { }

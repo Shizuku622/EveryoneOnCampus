@@ -62,11 +62,13 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
         }else{
             holder.likeNum.setText(things.likeNum);
         }
+
         if(things.commentMark.equals("0")){
             holder.commentNum.setText("0");
         }else{
             holder.commentNum.setText(things.commentNum);
         }
+
 
         //设置头像
         Bitmap hpic = EocTools.convertBitmap(mThingsList.get(position).headPic);

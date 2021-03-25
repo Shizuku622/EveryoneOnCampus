@@ -46,13 +46,6 @@ public class UserLoginActivity extends BaseActivity {
         }
     }
 
-    private void setStatusBar(){
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-    }
-
     private void initListener() {
         //登录
         mBinding.btnLogin.setOnClickListener(v->{

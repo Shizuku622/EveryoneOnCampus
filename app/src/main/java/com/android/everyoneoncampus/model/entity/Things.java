@@ -3,18 +3,18 @@ package com.android.everyoneoncampus.model.entity;
 import java.io.Serializable;
 
 public class Things implements Serializable {
-    public String thingsID;
-    public String userID;
-    public String userNicheng;
-    public String event;
-    public String thingsContent;
-    public String thingsDate;
+    public String thingsID = "";
+    public String userID  = "";
+    public String userNicheng  = "";
+    public String event  = "";
+    public String thingsContent = "";
+    public String thingsDate = "";
     public byte[] Thingsimage;
     public byte[] headPic;
-    public String commentNum;
-    public String likeNum;
-    public String likeMark;
-    public String commentMark;
+    public String commentNum = "";
+    public String likeNum = "";
+    public String likeMark = "";
+    public String commentMark = "";
 
     public Things(){
 

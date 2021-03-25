@@ -51,9 +51,6 @@ public class UIUserInfoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUIUserInfoPresenter.getSQliteMainUserInfo();
-        mUIUserInfoPresenter.getDynamicNum();
-        mUIUserInfoPresenter.getFollowNum();
-
     }
 
     @Override
@@ -67,8 +64,6 @@ public class UIUserInfoFragment extends Fragment {
             public void onRefresh() {
                 //刷新
                 mUIUserInfoPresenter.getCurrentUserInfo();
-                mUIUserInfoPresenter.getDynamicNum();
-                mUIUserInfoPresenter.getFollowNum();
             }
         });
         mBinding.rlayoutInfo.setOnClickListener(v->{
@@ -120,19 +115,10 @@ public class UIUserInfoFragment extends Fragment {
         mBinding.txtJianjie.setText("简介："+info.userAutograph);
         //头像
         mBinding.imgHeadpic.setImageBitmap(EocTools.convertBitmap(info.headPic));
+        mBinding.txtDynamic.setText(info.dynamicNumber);
+        mBinding.txtFollow.setText(info.followNumber);
+        mBinding.txtFollowed.setText(info.followedNumber);
     }
 
-    //设置动态数量
-    public void setDynamic(String dynamic){
-        mBinding.txtDynamic.setText(dynamic);
-    }
-    //设置关注数量
-    public void setFollow(String follow){
-        mBinding.txtFollow.setText(follow);
-    }
-    //设置被关注数量
-    public void setFollowed(String followed){
-        mBinding.txtFollowed.setText(followed);
-    }
 
 }

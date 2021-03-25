@@ -87,31 +87,6 @@ public class UIUserInfoPresenter {
         });
     }
 
-    //获得动态数量
-    public void getDynamicNum(){
-        mMySQLModel.getDynamicNumber(new DataListener<String>() {
-            @Override
-            public void onComplete(String result) {
-                mUiUserInfoFragment.setDynamic(result);
-            }
-        });
-    }
-
-    //获得关注和被关注数量
-    public void getFollowNum(){
-        mMySQLModel.getFollow(new DataListener<String>() {
-            @Override
-            public void onComplete(String result) {
-                mUiUserInfoFragment.setFollow(result);
-            }
-        });
-        mMySQLModel.getFollowed(new DataListener<String>() {
-            @Override
-            public void onComplete(String result) {
-                mUiUserInfoFragment.setFollowed(result);
-            }
-        });
-    }
 
     private static final String TAG = "UIUserInfoPresenter";
     //获得当前用户的信息

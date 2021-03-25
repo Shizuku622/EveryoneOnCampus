@@ -532,7 +532,7 @@ public class MySQLModel {
     }
 
     //登录
-    public void getUserLogin(String user,String passwd,DataListener dataListener){
+    public void getUserLogin(String user,String passwd,DataListener<User> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -548,38 +548,60 @@ public class MySQLModel {
             }
         };
         new Thread(()->{
-            String SQL = "select * from user where userSno = ? and userPassword = ?";
+            String SQL = String.format("select `user`.*,count(`user`.userID) as follow " +
+                    "from `user` " +
+                    "join follow " +
+                    "on `user`.userID = follow.userID and `user`.userSno = '%s' and `user`.userPassword = '%s' " +
+                    "GROUP BY `user`.userID " +
+                    "UNION ALL " +
+                    "select `user`.*,count(`user`.userID) as followed " +
+                    "from `user`  " +
+                    "join follow " +
+                    "on `user`.userID = follow.userIDed and `user`.userSno = '%s' and `user`.userPassword = '%s' " +
+                    "GROUP BY `user`.userID " +
+                    "UNION ALL " +
+                    "select `user`.*,count(`user`.userID) as followed " +
+                    "from `user`  " +
+                    "join things " +
+                    "on `user`.userID = things.userID and `user`.userSno = '%s' and `user`.userPassword = '%s' " +
+                    "GROUP BY `user`.userID ",user,passwd,user,passwd,user,passwd);
+
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
-                ps.setString(1,user);
-                ps.setString(2,passwd);
                 ResultSet resultSet = ps.executeQuery();
                 Message message = Message.obtain();
-                User userInfo;
-                if(resultSet.next()){
-                    userInfo = new  User(
-                            resultSet.getString("userID"),
-                            resultSet.getString("userName"),
-                            resultSet.getString("userSno"),
-                            resultSet.getString("userPhone"),
-                            resultSet.getString("userSex"),
-                            resultSet.getString("userSchool"),
-                            resultSet.getString("userPlace"),
-                            resultSet.getString("userIdentity"),
-                            resultSet.getString("userAutograph"),
-                            resultSet.getString("userlabel"),
-                            resultSet.getString("mark"),
-                            resultSet.getString("userNicheng"),
-                            resultSet.getString("dynamicNumber"),
-                            resultSet.getString("followNumber"),
-                            resultSet.getString("followedNumber"),
-                            resultSet.getString("userSpeci"),
-                            resultSet.getBytes("headPic"),
-                            resultSet.getString("model"));
-                    message.what = 1;
-                    message.obj = userInfo;
-                }else{
-                    message.what = 2;
+                User userInfo = new User();
+                int count = 1;
+                while(resultSet.next()){
+                    if(count == 1){
+                        userInfo.userID = resultSet.getString("userID");
+                        userInfo.userName = resultSet.getString("userName");
+                        userInfo.userSno = resultSet.getString("userSno");
+                        userInfo.userPhone = resultSet.getString("userPhone");
+                        userInfo.userSex = resultSet.getString("userSex");
+                        userInfo.userSchool = resultSet.getString("userSchool");
+                        userInfo.userPlace = resultSet.getString("userPlace");
+                        userInfo.userIdentity = resultSet.getString("userIdentity");
+                        userInfo.userAutograph = resultSet.getString("userAutograph");
+                        userInfo.userlabel = resultSet.getString("userlabel");
+                        userInfo.mark = resultSet.getString("mark");
+                        userInfo.userNicheng = resultSet.getString("userNicheng");
+                        userInfo.followNumber = resultSet.getString("follow");
+                        userInfo.userSpeci = resultSet.getString("userSpeci");
+                        userInfo.headPic = resultSet.getBytes("headPic");
+                        userInfo.model = resultSet.getString("model");
+                        userInfo.followMark = resultSet.getString("followMark");
+                        userInfo.followedMark = resultSet.getString("followedMark");
+                        userInfo.dynamicMark = resultSet.getString("dynamicMark");
+                    }else if(count == 2){
+                        userInfo.followedNumber = resultSet.getString("follow");
+                    }else if(count == 3){
+                        userInfo.dynamicNumber = resultSet.getString("follow");
+                    }
+                    count ++;
                 }
+                Log.e(TAG,"user登录成功");
+                message.what = 1;
+                message.obj = userInfo;
                 handler.sendMessage(message);
             }catch (Exception e){
                 Log.e(TAG, e.getMessage());
@@ -601,35 +623,62 @@ public class MySQLModel {
             }
         };
         new Thread(()->{
-            String SQL = String.format("select * from user where userID='%s'",mSPModel.readUserID());
+//            String SQL = String.format("select * from user where userID='%s'",mSPModel.readUserID());
+            String SQL = String.format("select `user`.*,count(`user`.userID) as follow " +
+                    "from `user` " +
+                    "join follow " +
+                    "on `user`.userID = follow.userID and `user`.userID = '%s' " +
+                    "GROUP BY `user`.userID " +
+                    "UNION ALL " +
+                    "select `user`.*,count(`user`.userID) as followed " +
+                    "from `user`  " +
+                    "join follow " +
+                    "on `user`.userID = follow.userIDed and `user`.userID = '%s' " +
+                    "GROUP BY `user`.userID " +
+                    "UNION ALL " +
+                    "select `user`.*,count(`user`.userID) as followed " +
+                    "from `user` " +
+                    "join things " +
+                    "on `user`.userID = things.userID and `user`.userID = '%s' " +
+                    "GROUP BY `user`.userID",mSPModel.readUserID(),mSPModel.readUserID(),mSPModel.readUserID());
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
                 ResultSet resultSet = ps.executeQuery();
                 User userInfo = new User();
-                while(resultSet.next()){
-                    userInfo = new User(
-                            resultSet.getString("userID"),
-                            resultSet.getString("userName"),
-                            resultSet.getString("userSno"),
-                            resultSet.getString("userPhone"),
-                            resultSet.getString("userSex"),
-                            resultSet.getString("userSchool"),
-                            resultSet.getString("userPlace"),
-                            resultSet.getString("userIdentity"),
-                            resultSet.getString("userAutograph"),
-                            resultSet.getString("userlabel"),
-                            resultSet.getString("mark"),
-                            resultSet.getString("userNicheng"),
-                            resultSet.getString("dynamicNumber"),
-                            resultSet.getString("followNumber"),
-                            resultSet.getString("followedNumber"),
-                            resultSet.getString("userSpeci"),
-                            resultSet.getBytes("headPic"),
-                            resultSet.getString("model"));
-                    Message msg = Message.obtain();
-                    msg.what = 1;
-                    msg.obj = userInfo;
-                    handler.sendMessage(msg);
+                if(resultSet.next()){
+                    userInfo.userID = resultSet.getString("userID");
+                    userInfo.userName = resultSet.getString("userName");
+                    userInfo.userSno = resultSet.getString("userSno");
+                    userInfo.userPhone = resultSet.getString("userPhone");
+                    userInfo.userSex = resultSet.getString("userSex");
+                    userInfo.userSchool = resultSet.getString("userSchool");
+                    userInfo.userPlace = resultSet.getString("userPlace");
+                    userInfo.userIdentity = resultSet.getString("userIdentity");
+                    userInfo.userAutograph = resultSet.getString("userAutograph");
+                    userInfo.userlabel = resultSet.getString("userlabel");
+                    userInfo.mark = resultSet.getString("mark");
+                    userInfo.userNicheng = resultSet.getString("userNicheng");
+                    userInfo.followNumber = resultSet.getString("follow");
+                    userInfo.userSpeci = resultSet.getString("userSpeci");
+                    userInfo.headPic = resultSet.getBytes("headPic");
+                    userInfo.model = resultSet.getString("model");
+                    userInfo.dynamicMark = resultSet.getString("dynamicMark");
+                    userInfo.followMark = resultSet.getString("followMark");
+                    userInfo.followedMark = resultSet.getString("followedMark");
+                    Log.d(TAG, "follow获取成功");
                 }
+                if(resultSet.next()){
+                    userInfo.followedNumber = resultSet.getString("follow");
+                    Log.d(TAG, "followed获取成功");
+                }
+                if(resultSet.next()){
+                    userInfo.dynamicNumber = resultSet.getString("follow");
+                    Log.d(TAG, "dynamic获取成功");
+                }
+                Message msg = Message.obtain();
+                msg.what = 1;
+                msg.obj = userInfo;
+                handler.sendMessage(msg);
+                Log.d(TAG, "获取三个信息成功");
             }catch (Exception e){
                 Log.e(TAG, e.getMessage());
             }
@@ -760,8 +809,8 @@ public class MySQLModel {
                 int rowCount = resultSet.getRow();
                 resultSet.first();
                 for(int i = 0;i < rowCount;i++){
-                    Things things = new Things();
                     if(i < rowCount / 2){
+                        Things things = new Things();
                         things.thingsID = resultSet.getString("thingsID");
                         things.userID = resultSet.getString("userID");
                         things.userNicheng = resultSet.getString("userNicheng");

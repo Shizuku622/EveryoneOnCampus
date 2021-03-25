@@ -36,7 +36,6 @@ public class TuijianIndexFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentIndexTuijianBinding.inflate(inflater,container,false);
         View view = mBinding.getRoot();
-        Log.d(TAG, "重新启动");
         return view;
     }
 
@@ -56,10 +55,10 @@ public class TuijianIndexFragment extends Fragment {
     }
 
     private void initView() {
-        mAdapter = new TuiJianAdapter(mThingsList,getActivity());
-        mBinding.recThings.setAdapter(mAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mBinding.recThings.setLayoutManager(manager);
+        mAdapter = new TuiJianAdapter(mThingsList,getActivity());
+        mBinding.recThings.setAdapter(mAdapter);
 
         //设置轮播图
         List<Integer> picId = new ArrayList<>();
@@ -73,6 +72,7 @@ public class TuijianIndexFragment extends Fragment {
                 holder.imageView.setImageResource(data);
             }
         });
+
         mBinding.bannerIndexPic.setOnBannerListener(new OnBannerListener<Integer>() {
             @Override
             public void OnBannerClick(Integer data, int position) {

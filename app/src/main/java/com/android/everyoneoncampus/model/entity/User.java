@@ -1,10 +1,6 @@
 package com.android.everyoneoncampus.model.entity;
 
-import com.android.everyoneoncampus.EocApplication;
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
-import java.sql.Blob;
 
 public class User implements Serializable {
     public String userID = "";
@@ -25,7 +21,10 @@ public class User implements Serializable {
     public String followedNumber = "";
     public String userSpeci = "";
     public byte[] headPic ;
-    public String model;
+    public String model = "";
+    public String dynamicMark= "";
+    public String followMark= "";
+    public String followedMark= "";
 
     public User(){
 
@@ -70,6 +69,30 @@ public class User implements Serializable {
         userSpeci = usp;
         headPic = hp;
         model = mdl;
+    }
+
+    public User(String uid, String uname, String usno, String uphone, String usex, String uschool, String uplace, String uiden, String uauto, String ulabel, String m, String unicheng, String dn, String fn, String fedn, String usp, byte[] hp, String mdl, String dmk, String fmk, String fedmk){
+        userID = uid;
+        userName = uname;
+        userSno = usno; //学号
+        userPhone = uphone;
+        userSex = usex;
+        userSchool = uschool;
+        userPlace = uplace;
+        userIdentity = uiden;
+        userAutograph = uauto;
+        userlabel = ulabel;
+        mark = m;
+        userNicheng = unicheng;
+        dynamicNumber = dn;
+        followNumber = fn;
+        followedNumber = fedn;
+        userSpeci = usp;
+        headPic = hp;
+        model = mdl;
+        dynamicMark = dmk;
+        followMark = fmk;
+        followedMark = fedmk;
     }
 
 }

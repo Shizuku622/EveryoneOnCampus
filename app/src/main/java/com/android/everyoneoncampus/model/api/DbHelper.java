@@ -109,7 +109,7 @@ public class DbHelper {
                             "userSpeci='%s'," +
                             "headPic='%s' where userID='%s'" +
                             "",user.userName,user.userNicheng,user.userSno,user.userPhone,user.userSex, user.userSchool,user.userPlace,user.userIdentity,
-                    user.userAutograph,user.userlabel,user.dynamicNumber,user.followedNumber,user.followedNumber,user.userSpeci,EocTools.byteConvertString(user.headPic),
+                    user.userAutograph,user.userlabel,user.dynamicNumber,user.followNumber,user.followedNumber,user.userSpeci,EocTools.byteConvertString(user.headPic),
                     user.userID);
             updateDate(sql);
             Log.d(TAG, "updateExistUserInfo: 更新成功！");
