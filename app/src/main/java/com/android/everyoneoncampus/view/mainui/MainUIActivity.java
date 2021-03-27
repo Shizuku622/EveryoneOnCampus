@@ -53,7 +53,7 @@ public class MainUIActivity extends BaseActivity {
         initView();
         //查询机型是否一样
         mLoginPresenter.queryUserModelStatus();
-
+        mLoginPresenter.addAllLCUserForSQLite();
     }
 
     @Override

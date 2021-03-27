@@ -37,6 +37,7 @@ public class EOCDatabaseHelper extends SQLiteOpenHelper {
             "model text)";
 
     private String createLCUser = "create table lcuser(userID text,userChatID text,userName text,headPic text)";
+    private final String  createthings = "create table things(thingsID text,userID text,userNicheng text,event text,thingsContent text,thingsDate text,thingsimage text,headPic text,commentNum text,likeNum text)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -45,6 +46,7 @@ public class EOCDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createSelected);
         db.execSQL(createUser);
         db.execSQL(createLCUser);
+        db.execSQL(createthings);
         Log.d(TAG, "onCreate: 创建数据库表成功！");
     }
 

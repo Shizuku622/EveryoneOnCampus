@@ -34,11 +34,17 @@ public class EocTools {
 
     //byte[]转换string
     public static String byteConvertString(byte[] bytes){
+        if(bytes == null){
+            return "";
+        }
         String str = Base64.encodeToString(bytes,Base64.DEFAULT);
         return str;
     }
     //string转换byte[]
     public static byte[] stringConvertByte(String str){
+        if(str.equals("")){
+            return null;
+        }
         byte[] bytes = Base64.decode(str,Base64.DEFAULT);
         return bytes;
     }

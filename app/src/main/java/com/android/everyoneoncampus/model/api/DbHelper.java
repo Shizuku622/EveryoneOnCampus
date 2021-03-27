@@ -10,6 +10,7 @@ import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.model.LabelAll;
+import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.model.entity.User;
 
 import java.util.ArrayList;
@@ -36,6 +37,63 @@ public class DbHelper {
     * 最新的方法
     *
     * */
+
+
+    /**
+     * @param things 网络的数据
+     * 保存事件数据
+     */
+    public void saveSQLiteThings(List<Things> things){
+        deleteData("delete from things");
+        for(Things t : things){
+            String img = EocTools.byteConvertString(t.Thingsimage);
+            String headpic = EocTools.byteConvertString(t.headPic);
+            String sql = String.format("insert into things(thingsID,userID,userNicheng,event,thingsContent,thingsDate,thingsimage,headPic,commentNum,likeNum) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+                    t.thingsID,t.userID,t.userNicheng,t.event,t.thingsContent,t.thingsDate,img,headpic,t.commentNum,t.likeNum);
+            insertData(sql);
+        }
+    }
+
+    /**
+     * @param dataListener 回调things数据
+     * 该方法获取sqlite里的事件数据
+     */
+    public void getSQLiteAllThings(DataListener<List<Things>> dataListener){
+        String sql = "select * from things";
+        Cursor cursor = selectData(sql);
+        List<Things> allThings = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do{
+                Things things = new Things();
+                things.thingsID = cursor.getString(cursor.getColumnIndex("thingsID"));
+                things.userID = cursor.getString(cursor.getColumnIndex("userID"));
+                things.userNicheng = cursor.getString(cursor.getColumnIndex("userNicheng"));
+                things.event = cursor.getString(cursor.getColumnIndex("event"));
+                things.thingsContent = cursor.getString(cursor.getColumnIndex("thingsContent"));
+                things.thingsDate = cursor.getString(cursor.getColumnIndex("thingsDate"));
+                byte[] img = EocTools.stringConvertByte(cursor.getString(cursor.getColumnIndex("thingsimage")));
+                things.Thingsimage = img;
+                byte[] headpic = EocTools.stringConvertByte(cursor.getString(cursor.getColumnIndex("headPic")));
+                things.headPic = headpic;
+                things.commentNum = cursor.getString(cursor.getColumnIndex("commentNum"));
+                things.likeNum = cursor.getString(cursor.getColumnIndex("likeNum"));
+                allThings.add(things);
+            }while (cursor.moveToNext());
+        }
+        dataListener.onComplete(allThings);
+    }
+
+    /**
+     * @return 返回查询的记录数
+     * 查询本地数据库里是否有数据
+     */
+    public int selectThingsCount(){
+        String sql = "select * from things";
+        Cursor cursor = selectData(sql);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
 
     public void selectAllLCUserInfo(DataListener<List<User>> dataListener){
         String sql = String.format("select * from lcuser");

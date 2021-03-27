@@ -93,7 +93,7 @@ public class TuijianIndexFragment extends Fragment {
     }
 
 
-    public void refreshTuijian(List<Things> list){
+    public void updateTuijian(List<Things> list){
         mThingsList.clear();
         mThingsList.addAll(list);
         mAdapter.notifyDataSetChanged();

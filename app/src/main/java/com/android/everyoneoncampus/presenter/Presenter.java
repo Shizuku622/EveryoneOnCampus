@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.fragment.app.Fragment;
 
 import com.android.everyoneoncampus.allinterface.DataListener;
+import com.android.everyoneoncampus.model.api.DbHelper;
 import com.android.everyoneoncampus.model.api.MySQLModel;
 import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.model.api.SPModel;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Presenter {
     private MySQLModel mMySQLModel = new MySQLModel();
     private SPModel mSPModel = new SPModel();
+    private DbHelper mDbHelper = new DbHelper();
     private TuijianIndexFragment mTuijianIndexFragmentView;
     private ReleaseDynamicActivity mReleaseDynamicActivity;
 
@@ -27,16 +29,30 @@ public class Presenter {
         mReleaseDynamicActivity = (ReleaseDynamicActivity)activity;
     }
 
+
     //获得新鲜事
     public void getThingsAll(){
-        mTuijianIndexFragmentView.startRefresh();
-        mMySQLModel.getThingsApi(new DataListener<List<Things>>() {
-            @Override
-            public void onComplete(List<Things> result) {
-                mTuijianIndexFragmentView.refreshTuijian(result);
-                mTuijianIndexFragmentView.stopRefresh();
-            }
-        });
+        //先从sqlite 获取事件
+        if(mDbHelper.selectThingsCount() != 0){
+            mDbHelper.getSQLiteAllThings(new DataListener<List<Things>>() {
+                @Override
+                public void onComplete(List<Things> result) {
+                    mTuijianIndexFragmentView.updateTuijian(result);
+                }
+            });
+        }else{
+            mTuijianIndexFragmentView.startRefresh();
+            mMySQLModel.getThingsApi(new DataListener<List<Things>>() {
+                @Override
+                public void onComplete(List<Things> result) {
+                    mDbHelper.saveSQLiteThings(result);
+                    mTuijianIndexFragmentView.updateTuijian(result);
+                    mTuijianIndexFragmentView.stopRefresh();
+                }
+            });
+        }
+
+
     }
 
     //发送
