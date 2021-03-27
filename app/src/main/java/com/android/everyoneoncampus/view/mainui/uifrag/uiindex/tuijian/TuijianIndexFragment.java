@@ -1,5 +1,6 @@
 package com.android.everyoneoncampus.view.mainui.uifrag.uiindex.tuijian;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,6 +51,13 @@ public class TuijianIndexFragment extends Fragment {
     private void initListener() {
         mBinding.swpTuijian.setOnRefreshListener(()->{
             mPresenter.getThingsAll();
+        });
+        mBinding.llayoutSchool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),GaodeMapActivity.class);
+                startActivity(intent);
+            }
         });
 
     }

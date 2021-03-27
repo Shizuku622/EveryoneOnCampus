@@ -31,11 +31,11 @@ android {
         viewBinding true
     }
 
-    sourceSets{
-        main{
-            jniLibs.srcDirs=['libs']
-        }
-    }
+//    sourceSets{
+//        main{
+//            jniLibs.srcDirs=['libs']
+//        }
+//    }
 
 }
 
@@ -64,6 +64,7 @@ dependencies {
 
     //加载图片
     implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation files('libs\\AMap3DMap_7.8.0_AMapSearch_7.7.0_AMapLocation_5.3.0_20210317.jar')
 
 
     testImplementation 'junit:junit:4.+'
