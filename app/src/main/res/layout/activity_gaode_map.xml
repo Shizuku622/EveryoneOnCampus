@@ -1,18 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/dl_map_menu"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.android.everyoneoncampus.custom.CustomTitle
-        android:id="@+id/gaode_title"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
 
-    <com.amap.api.maps.MapView
-        android:id="@+id/mv_gaode"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <com.android.everyoneoncampus.custom.CustomTitle
+            android:id="@+id/gaode_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-</LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.amap.api.maps.MapView
+                android:id="@+id/mv_gaode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <RadioGroup
+                android:background="@drawable/gb_map_background"
+                android:id="@+id/rg_map_type"
+                android:layout_margin="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rb_map_nav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="导航地图"/>
+                <RadioButton
+                    android:id="@+id/rb_map_night"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="夜间地图"/>
+                <RadioButton
+                    android:id="@+id/rb_map_satellite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="卫星地图"/>
+            </RadioGroup>
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="end"
+        android:layout_width="260dp"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123"/>
+
+    </LinearLayout>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
+
