@@ -23,4 +23,5 @@
     <color name="view_background">#dfdfdf</color>
     <color name="color_backgroudn_red">#E14545</color>
     <color name="color_transparent">#00ffffff</color>
+    <color name="tran_red">#eeCF3C3C</color>
 </resources>

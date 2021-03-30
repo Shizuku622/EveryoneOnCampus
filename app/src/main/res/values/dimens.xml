@@ -15,4 +15,5 @@
     <dimen name="headpic_size_mid">80dp</dimen>
     <dimen name="eoc_margin_left">15dp</dimen>
     <dimen name="headpic_size_small">60dp</dimen>
+    <dimen name="build_info_right_exit">25dp</dimen>
 </resources>

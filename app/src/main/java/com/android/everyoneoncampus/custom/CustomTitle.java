@@ -14,6 +14,7 @@ public class CustomTitle extends RelativeLayout {
     private ImageView mImgLeftExit;
     private TextView mTxtTitle;
     private ImageView mImgMenu;
+    private View mView;
 
     public CustomTitle(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -21,6 +22,15 @@ public class CustomTitle extends RelativeLayout {
         mImgLeftExit = findViewById(R.id.imgbtn_custom_leftexit);
         mTxtTitle = findViewById(R.id.txt_custom_title);
         mImgMenu = findViewById(R.id.imgbtn_custom_menu);
+        mView = findViewById(R.id.view_custom_title);
+    }
+
+    public void showBottomView(boolean isShow){
+        if(isShow){
+            mView.setVisibility(View.VISIBLE);
+        }else{
+            mView.setVisibility(View.GONE);
+        }
     }
 
     public void setMenuEnable(boolean set){

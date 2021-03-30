@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"/>
 
         <FrameLayout
+            android:id="@+id/flayout_map"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -28,9 +29,17 @@
             <RadioGroup
                 android:background="@drawable/gb_map_background"
                 android:id="@+id/rg_map_type"
-                android:layout_margin="15dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="58dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rb_map_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="标准地图"/>
 
                 <RadioButton
                     android:id="@+id/rb_map_nav"

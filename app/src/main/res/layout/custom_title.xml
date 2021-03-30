@@ -2,10 +2,12 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="50dp">
 
     <ImageView
+        android:layout_centerVertical="true"
         android:id="@+id/imgbtn_custom_leftexit"
+        android:padding="10dp"
         android:src="@drawable/eoc_leftexit"
         style="@style/img_left_exit" />
 
@@ -25,6 +27,14 @@
         android:textColor="@color/eoc_text_color_drak"
         android:layout_centerInParent="true"
         android:text=""/>
+
+    <View
+        android:id="@+id/view_custom_title"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/view_linear"/>
 
 
 </RelativeLayout>

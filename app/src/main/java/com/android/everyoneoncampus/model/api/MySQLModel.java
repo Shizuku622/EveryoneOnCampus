@@ -15,6 +15,7 @@ import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.allinterface.ReturnSQL;
 import com.android.everyoneoncampus.model.LabelAll;
 import com.android.everyoneoncampus.model.entity.Comment;
+import com.android.everyoneoncampus.model.entity.LoseTake;
 import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.model.entity.User;
 
@@ -59,6 +60,48 @@ public class MySQLModel {
     * 最上面是最新的方法
     *
     * */
+
+    public void  getLoseTakeThingsApi(DataListener<LoseTake> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dataListener.onComplete((LoseTake)msg.obj);
+            }
+        };
+
+        String sql = "SELECT things.*,`user`.userNicheng,`user`.headPic FROM `things`  " +
+                "join `user` " +
+                "ON (things.`event` = '丢失' or things.`event` = '拾到') AND things.userID = `user`.userID ";
+        new Thread(()->{
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
+                ResultSet resultSet = ps.executeQuery();
+                LoseTake temp = new LoseTake();
+                if(resultSet.first()){
+                    do{
+                        String thingsID = resultSet.getString("thingsID");
+                        String userID = resultSet.getString("userID");
+                        String userNicheng = resultSet.getString("userNicheng");
+                        String event = resultSet.getString("event");
+                        String thingsContent = resultSet.getString("thingsContent");
+                        String thingsDate = resultSet.getString("thingsDate");
+                        byte[] thingsImage = resultSet.getBytes("thingsImage");
+                        byte[] headPic = resultSet.getBytes("headPic");
+                        if(event.equals("丢失")){
+                            temp.getLose().add(new Things(thingsID,userID,userNicheng,event, thingsContent,thingsDate,thingsImage,headPic));
+                        }else{
+                            temp.getTake().add(new Things(thingsID,userID,userNicheng,event, thingsContent,thingsDate,thingsImage,headPic));
+                        }
+                    }while(resultSet.next());
+                }
+                Message msg = Message.obtain();
+                msg.obj = temp;
+                handler.sendMessage(msg);
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }).start();
+    }
 
     public void userExitLoginApi(){
         String sql = String.format("update `user` set model = '' where userID = %s", mSPModel.readUserID());

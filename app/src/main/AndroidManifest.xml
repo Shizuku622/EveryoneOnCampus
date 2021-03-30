@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.android.everyoneoncampus">
-
     <!-- 外网权限 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 访问网络状态权限 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 访问WIFI状态权限 -->
@@ -14,7 +13,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
-
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- 用于申请获取蓝牙信息进行室内定位 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -27,17 +25,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".view.mainui.uifrag.uiindex.tuijian.GaodeMapActivity">
-
-        </activity>
+        <activity android:name=".view.mainui.uifrag.uiindex.tuijian.LoseTakeActivity"></activity>
+        <activity android:name=".view.mainui.uifrag.uiindex.tuijian.BuildInfoActivity" />
+        <activity android:name=".view.mainui.uifrag.uiindex.tuijian.GaodeMapActivity"></activity>
         <activity android:name=".view.setting.SettingActivity" />
         <activity android:name=".view.comment.CommentActivity" /> <!-- 配置高德地图的key -->
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="118432dfeec0ec4b6a9ea6b81dfdb42e" /> <!-- 设置定位 -->
-<!--        <service android:name="com.amap.api.location.APSService" /> &lt;!&ndash; 启动封面 &ndash;&gt;-->
-
+        <!-- <service android:name="com.amap.api.location.APSService" /> &lt;!&ndash; 启动封面 &ndash;&gt; -->
         <activity android:name=".view.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

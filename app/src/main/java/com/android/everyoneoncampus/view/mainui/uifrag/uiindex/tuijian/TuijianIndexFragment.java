@@ -60,6 +60,14 @@ public class TuijianIndexFragment extends Fragment {
             }
         });
 
+        mBinding.llayoutLosetake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),LoseTakeActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void initView() {

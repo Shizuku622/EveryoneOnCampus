@@ -7,24 +7,45 @@ import androidx.core.view.GravityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.widget.ZoomControls;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapOptions;
+import com.amap.api.maps.CameraUpdate;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.MapsInitializer;
+import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.CustomMapStyleOptions;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.ActivityGaodeMapBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GaodeMapActivity extends BaseActivity {
     private ActivityGaodeMapBinding mBinding;
     private static final String TAG = "GaodeMapActivity";
     private AMap mAMap;
+    private List<String> mMarkerIdList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +68,78 @@ public class GaodeMapActivity extends BaseActivity {
     }
 
     private void initView(Bundle savedInstanceState) {
+        mapSetting(savedInstanceState);
+        mBinding.gaodeTitle.setTxtTitle("学校地图");
+    }
+
+    private void mapSetting(Bundle savedInstanceState) {
+
         mBinding.mvGaode.onCreate(savedInstanceState);
         mAMap = mBinding.mvGaode.getMap();
-        mAMap.showIndoorMap(true);
+        //初始化旋转 倾斜位置。
+        LatLng latLng = new LatLng(39.058928,117.297806);                           //90  215
+        mAMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng,17.4f,60,212)));
 
-        MyLocationStyle myLocationStyle = new MyLocationStyle();
-        myLocationStyle.interval(2000);
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
-        myLocationStyle.showMyLocation(true);
-        mAMap.setMyLocationStyle(myLocationStyle);
-        mAMap.setMyLocationEnabled(true);
+        UiSettings mUiSettings = mAMap.getUiSettings();
+        mUiSettings.setCompassEnabled(true);    //显示指南针
+        mUiSettings.setScaleControlsEnabled(true);  //显示比例
+//        mUiSettings.setMyLocationButtonEnabled(true);
+
+        Log.d(TAG, mAMap.getCameraPosition().toString());
+
+        //同时设置以下就不行了。
+//        MyLocationStyle myLocationStyle = new MyLocationStyle();
+//        myLocationStyle.interval(2000); //蓝点的刷新
+//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_SHOW); //蓝点的状态
+//        myLocationStyle.showMyLocation(true); //显示位置按钮
+//        mAMap.setMyLocationStyle(myLocationStyle);
+//        mAMap.setMyLocationEnabled(true);   //显示位置
+
+
+        mAMap.showIndoorMap(true);  //显示室内
+        //mAMap.setMapLanguage(AMap.ENGLISH);
+
         //获得定位按钮
-        mAMap.getUiSettings().setMyLocationButtonEnabled(true);
+//        mAMap.setCustomMapStyle(new CustomMapStyleOptions().setEnable(true).setStyleId("a7542c98d3c1766ba447bf14deea8e2c"));
+
+
+        //设置范围
+
+//        LatLng southwestlatLng = new LatLng(39.066034,117.288697);
+//        LatLng northeastlatLng = new LatLng(39.052271,117.300456);
+//        LatLngBounds latLngBounds = new LatLngBounds(southwestlatLng,northeastlatLng);
+//        mAMap.setMapStatusLimits(latLngBounds);
+//
+        LatLng ll_A = new LatLng(39.058736,117.297291);
+        LatLng ll_B = new LatLng(39.059777,117.297398);
+        LatLng ll_C = new LatLng(39.05922,117.298583);
+        final Marker marker_a = mAMap.addMarker(new MarkerOptions().position(ll_A).title("主教学楼(A教)"));
+        final Marker marker_b = mAMap.addMarker(new MarkerOptions().position(ll_B).title("第二教学楼(B教)"));
+        final Marker marker_c = mAMap.addMarker(new MarkerOptions().position(ll_C).title("第三教学楼(C教)"));
+        mMarkerIdList.add(marker_a.getId());
+        mMarkerIdList.add(marker_b.getId());
+        mMarkerIdList.add(marker_c.getId());
+    }
+
+    private void initListener() {
+        mAMap.addOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                //设置marker点击事件
+                if(marker.getId().equals(mMarkerIdList.get(0))){
+                    Intent intent = new Intent(GaodeMapActivity.this,BuildInfoActivity.class);
+                    startActivity(intent);
+                }
+                if(marker.getId().equals(mMarkerIdList.get(1))){
+                    Toast.makeText(GaodeMapActivity.this, "B教", Toast.LENGTH_SHORT).show();
+                }
+                if(marker.getId().equals(mMarkerIdList.get(2))){
+                    Toast.makeText(GaodeMapActivity.this, "C教", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+
         mAMap.addOnMyLocationChangeListener(new AMap.OnMyLocationChangeListener() {
             @Override
             public void onMyLocationChange(Location location) {
@@ -66,10 +147,6 @@ public class GaodeMapActivity extends BaseActivity {
             }
         });
 
-        mBinding.gaodeTitle.setTxtTitle("学校地图");
-    }
-
-    private void initListener() {
         mBinding.gaodeTitle.setImgBtnOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +164,9 @@ public class GaodeMapActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
+                    case R.id.rb_map_normal:
+                        mAMap.setMapType(AMap.MAP_TYPE_NORMAL);
+                        break;
                     case R.id.rb_map_nav:
                         mAMap.setMapType(AMap.MAP_TYPE_NAVI);
                         break;
@@ -99,7 +179,7 @@ public class GaodeMapActivity extends BaseActivity {
                 }
             }
         });
-        mBinding.rbMapNav.setChecked(true);
+        mBinding.rbMapNormal.setChecked(true);
     }
 
     @Override
