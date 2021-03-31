@@ -39,6 +39,7 @@ public class LoseTakeActivity extends BaseActivity {
         mBinding.ctLosetake.showBottomView(true);
         mBinding.ctLosetake.setMenuEnable(false);
         mBinding.ctLosetake.setTxtTitle("丢失物品");
+
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(this);
         mBinding.recLoseTake.setLayoutManager(layoutManager1);
         mLoseTakeAdapter = new LoseTakeAdapter(mLoseTakeThings);
@@ -60,11 +61,13 @@ public class LoseTakeActivity extends BaseActivity {
                 mLoseTakeThings.clear();
                 if(cutLoseTake){
                     mLoseTakeThings.addAll(mLoseTake.getLose());
+
                     mBinding.fabLostTake.setImageResource(R.drawable.eoc_rightexit);
                     cutLoseTake = false;
                     mBinding.ctLosetake.setTxtTitle("丢失物品");
                 }else{
                     mLoseTakeThings.addAll(mLoseTake.getTake());
+
                     mBinding.fabLostTake.setImageResource(R.drawable.eoc_leftexit);
                     cutLoseTake = true;
                     mBinding.ctLosetake.setTxtTitle("拾到物品");

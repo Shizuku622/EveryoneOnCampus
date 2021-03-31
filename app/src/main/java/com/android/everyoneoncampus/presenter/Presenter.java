@@ -31,17 +31,18 @@ public class Presenter {
 
 
     //获得新鲜事
-    public void getThingsAll(){
+    public void getThingsAll(int getWhere){
         //先从sqlite 获取事件
-        if(mDbHelper.selectThingsCount() != 0){
+        mTuijianIndexFragmentView.startRefresh();
+        if(mDbHelper.selectThingsCount() != 0 && getWhere == 1){
             mDbHelper.getSQLiteAllThings(new DataListener<List<Things>>() {
                 @Override
                 public void onComplete(List<Things> result) {
                     mTuijianIndexFragmentView.updateTuijian(result);
+                    mTuijianIndexFragmentView.stopRefresh();
                 }
             });
         }else{
-            mTuijianIndexFragmentView.startRefresh();
             mMySQLModel.getThingsApi(new DataListener<List<Things>>() {
                 @Override
                 public void onComplete(List<Things> result) {

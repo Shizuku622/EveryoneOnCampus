@@ -27,7 +27,7 @@ public class UIIndexPresenter {
                 mGuanzhuIndexFragment.stopSwipRefreash();
                 if(result != null){
                     mGuanzhuIndexFragment.setThingsList(result);
-                    Toast.makeText(EocApplication.getContext(), "获取动态成功！", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(EocApplication.getContext(), "获取动态成功！", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(EocApplication.getContext(), "暂无动态！", Toast.LENGTH_SHORT).show();
                 }

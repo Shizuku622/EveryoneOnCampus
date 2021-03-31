@@ -19,7 +19,6 @@ public class TalkIndexFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBindg = FragmentIndexTalkBinding.inflate(inflater,container,false);
         View view = mBindg.getRoot();
-
         return view;
     }
 }

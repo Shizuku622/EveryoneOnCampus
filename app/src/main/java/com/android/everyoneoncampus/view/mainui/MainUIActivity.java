@@ -100,9 +100,9 @@ public class MainUIActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 RadioButton radioButton;
-                if(position>1){
+                if(position > 1){
                     radioButton = (RadioButton)mBinding.rgMainuiNav.getChildAt(position+1);
-                }else {
+                }else{
                     radioButton = (RadioButton)mBinding.rgMainuiNav.getChildAt(position);
                 }
                 radioButton.setChecked(true);

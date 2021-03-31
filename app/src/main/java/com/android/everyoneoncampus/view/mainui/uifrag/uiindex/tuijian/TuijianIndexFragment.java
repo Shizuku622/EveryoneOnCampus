@@ -45,12 +45,12 @@ public class TuijianIndexFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initView();
         initListener();
-        mPresenter.getThingsAll();
+        mPresenter.getThingsAll(1);
     }
 
     private void initListener() {
         mBinding.swpTuijian.setOnRefreshListener(()->{
-            mPresenter.getThingsAll();
+            mPresenter.getThingsAll(2);
         });
         mBinding.llayoutSchool.setOnClickListener(new View.OnClickListener() {
             @Override
