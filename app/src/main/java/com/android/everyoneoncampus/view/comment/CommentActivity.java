@@ -51,12 +51,13 @@ public class CommentActivity extends BaseActivity {
     }
 
     private void initListener() {
-        mBinding.imgbtnLeftexit.setOnClickListener(new View.OnClickListener() {
+        mBinding.cttComment.setImgBtnOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        mBinding.cttComment.setMenuEnable(false);
         mBinding.btnAddCommentSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +97,7 @@ public class CommentActivity extends BaseActivity {
         Bundle intentThings = intent.getBundleExtra("things");
         mIntentThings = (Things)intentThings.getSerializable("things");
         if(mIntentThings != null){
-            mBinding.txtCommentTitle.setText(mIntentThings.event);
+            mBinding.cttComment.setTxtTitle(mIntentThings.event);
             mBinding.imgUserHeadpic.setImageBitmap(EocTools.convertBitmap(mIntentThings.headPic));
             mBinding.txtThingsText.setText(mIntentThings.thingsContent);
             mBinding.txtReleaseDate.setText(mIntentThings.thingsDate);

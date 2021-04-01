@@ -18,14 +18,14 @@
             android:textSize="16dp"
             android:textColor="@color/black"/>
 
-        <TextView
+        <ImageView
             android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:textSize="30dp"
-            android:text=">"/>
+            android:src="@drawable/eoc_rightexit"/>
 
     </RelativeLayout>
     <View

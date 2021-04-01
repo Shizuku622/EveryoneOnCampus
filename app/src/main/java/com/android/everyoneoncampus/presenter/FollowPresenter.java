@@ -34,7 +34,6 @@ public class FollowPresenter {
             mDbHelper.insertLCUserInfo(user);
             CustomUserProvider.addLCUser(user);
         }
-
     }
 
     //获取我关注的
@@ -42,15 +41,6 @@ public class FollowPresenter {
         mMySQLModel.getTwoFollowList(1, new DataListener<List<User>>() {
             @Override
             public void onComplete(List<User> result) {
-//                new Thread(()->{
-//                    for(User user : result){
-//                        Bitmap bitmap = EocTools.convertBitmap(user.headPic);
-//                        String path = EocTools.saveBitmapFile(bitmap,user.userID+EocTools.HEADPIC);
-//                        LCChatKitUser temp = new LCChatKitUser(EocApplication.USER_MARK+user.userID,user.userName,path);
-//                        CustomUserProvider.addChatUser(temp);
-//                    }
-//                    Log.d(TAG, "添加完成");
-//                }).start();
                 mFollowListActivity.refreshFollowList(result);
             }
         });
@@ -61,22 +51,22 @@ public class FollowPresenter {
         mMySQLModel.getTwoFollowList(2, new DataListener<List<User>>() {
             @Override
             public void onComplete(List<User> result) {
-//                new Thread(()->{
-//                    for(User user : result){
-//                        Bitmap bitmap = EocTools.convertBitmap(user.headPic);
-//                        String path = EocTools.saveBitmapFile(bitmap,user.userID+EocTools.HEADPIC);
-//                        LCChatKitUser temp = new LCChatKitUser(EocApplication.USER_MARK+user.userID,user.userName,path);
-//                        CustomUserProvider.addChatUser(temp);
-//                    }
-//                }).start();
                 mFollowListActivity.refreshFollowList(result);
             }
         });
     }
 
     //获取followinfo
-    public void getFollowInfo(User user){
-        mFollowInfoActivity.setFollowInfo(user);
+    public void getFollowInfo(String userID){
+        mMySQLModel.queryUserIDInfo(userID, new DataListener<User>() {
+            @Override
+            public void onComplete(User result) {
+                saveLCInfo(result);
+                mFollowInfoActivity.setFollowInfo(result);
+                mFollowInfoActivity.hideLoading();
+                mFollowInfoActivity.showUserInfo();
+            }
+        });
     }
 
 }

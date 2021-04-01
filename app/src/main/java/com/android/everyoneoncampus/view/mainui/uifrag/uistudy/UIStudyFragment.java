@@ -32,6 +32,22 @@ public class UIStudyFragment extends Fragment {
         View view = mBinding.getRoot();
         return view;
     }
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBinding.dlSign.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mBinding.dlSign.closeDrawer(GravityCompat.START);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBinding.vpIndex.setCurrentItem(1);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

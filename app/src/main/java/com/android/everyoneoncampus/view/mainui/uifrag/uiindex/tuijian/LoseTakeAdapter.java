@@ -1,29 +1,46 @@
 package com.android.everyoneoncampus.view.mainui.uifrag.uiindex.tuijian;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
+import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.model.entity.Things;
+import com.android.everyoneoncampus.view.follow.FollowInfoActivity;
 
 import java.util.List;
 
+import cn.leancloud.chatkit.activity.LCIMConversationActivity;
+import cn.leancloud.chatkit.utils.LCIMConstants;
 import io.reactivex.internal.schedulers.ImmediateThinScheduler;
 
 public class LoseTakeAdapter extends RecyclerView.Adapter<LoseTakeAdapter.LoseTakeViewHolder> {
 
     private List<Things> mLostTakeThingsList;
+    private Activity mActivity;
+    private DataListener<Things> mThingsDataListener;
 
-    public LoseTakeAdapter(List<Things> list){
+    public LoseTakeAdapter(List<Things> list, Activity activity){
         mLostTakeThingsList = list;
+        mActivity = activity;
+    }
+
+    public LoseTakeAdapter(List<Things> list, Activity activity,DataListener<Things> dataListener){
+        mLostTakeThingsList = list;
+        mActivity = activity;
+        mThingsDataListener = dataListener;
     }
 
     @NonNull
@@ -63,7 +80,13 @@ public class LoseTakeAdapter extends RecyclerView.Adapter<LoseTakeAdapter.LoseTa
         holder.img_lt_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(!mLostTakeThingsList.get(position).userID.equals(EocApplication.getUserID())){
+                    Intent intent = new Intent(mActivity,FollowInfoActivity.class);
+                    intent.putExtra("userID",mLostTakeThingsList.get(position).userID);
+                    mActivity.startActivity(intent);
+                }else{
+                    Toast.makeText(mActivity, "不能跟自己私聊", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

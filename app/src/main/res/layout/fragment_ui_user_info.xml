@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/swip_user_info"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swip_user_info"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:background="@color/white"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/ui_background">
+        android:layout_height="match_parent">
 
 
         <RelativeLayout
@@ -47,6 +47,7 @@
             android:layout_margin="@dimen/material_margin"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
             android:layout_width="match_parent"
+            app:cardElevation="2dp"
             android:layout_height="wrap_content">
             <RelativeLayout
                 android:layout_width="match_parent"

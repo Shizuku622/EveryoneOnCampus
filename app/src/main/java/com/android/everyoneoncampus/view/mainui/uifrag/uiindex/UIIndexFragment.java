@@ -38,6 +38,24 @@ public class UIIndexFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBinding.vpIndex.setCurrentItem(1);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBinding.dlSign.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mBinding.dlSign.closeDrawer(GravityCompat.START);
+    }
+
     private void initListener() {
         mBinding.imgDrawerMove.setOnClickListener(new View.OnClickListener() {
             @Override

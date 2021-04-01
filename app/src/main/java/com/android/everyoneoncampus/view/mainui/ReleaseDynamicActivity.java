@@ -42,7 +42,6 @@ public class ReleaseDynamicActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +56,10 @@ public class ReleaseDynamicActivity extends BaseActivity {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},CHOSSE_PHOTO);
         }
+    }
+
+    public void sendSuccessFinish(){
+        finish();
     }
 
     private void initListeners() {
@@ -79,7 +82,8 @@ public class ReleaseDynamicActivity extends BaseActivity {
             String content = mBinding.editSendContent.getText().toString();
             if(!content.trim().isEmpty()){
                 Toast.makeText(EocApplication.getContext(),"正在发送...",Toast.LENGTH_SHORT).show();
-
+                mBinding.editSendContent.setText("");
+                mBinding.imgPic.setImageBitmap(null);
                 if(mFilePathName.equals("")){
                     mPresenter.sendNewSomething(mMainTitle,content,null);
                 }else{
@@ -138,8 +142,8 @@ public class ReleaseDynamicActivity extends BaseActivity {
                 case "lose":
                     mBinding.txtTitle.setText("丢失");
                     break;
-                case "sign":
-                    mBinding.txtTitle.setText("签到");
+                case "take":
+                    mBinding.txtTitle.setText("拾到");
                     break;
                 default:
                     mBinding.txtTitle.setText("空");

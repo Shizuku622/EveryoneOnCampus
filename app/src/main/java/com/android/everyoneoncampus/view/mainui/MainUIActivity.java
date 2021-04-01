@@ -85,7 +85,6 @@ public class MainUIActivity extends BaseActivity {
             public Fragment getItem(int position) {
                 return fragmentList.get(position);
             }
-
             @Override
             public int getCount() {
                 return fragmentList.size();
@@ -94,9 +93,7 @@ public class MainUIActivity extends BaseActivity {
         //设置事件
         mBinding.vpMianUi.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
             @Override
             public void onPageSelected(int position) {
                 RadioButton radioButton;
@@ -118,10 +115,10 @@ public class MainUIActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
                     case R.id.radiobtn_index:
-                        mBinding.vpMianUi.setCurrentItem(0);
+                        mBinding.vpMianUi.setCurrentItem(0,false);
                         break;
                     case R.id.radiobtn_study:
-                        mBinding.vpMianUi.setCurrentItem(1);
+                        mBinding.vpMianUi.setCurrentItem(1,false);
                         break;
                     case R.id.radiobtn_add_dynamic:
                         startActivity(new Intent(MainUIActivity.this, ChooseDynamicActivity.class));
@@ -129,16 +126,16 @@ public class MainUIActivity extends BaseActivity {
                         Log.d(TAG, "不出现");
                         break;
                     case R.id.radiobtn_message:
-                        mBinding.vpMianUi.setCurrentItem(2);
+                        mBinding.vpMianUi.setCurrentItem(2,false);
                         break;
                     case R.id.radiobtn_userinfo:
-                        mBinding.vpMianUi.setCurrentItem(3);
+                        mBinding.vpMianUi.setCurrentItem(3,false);
                         break;
                 }
             }
         });
         mBinding.vpMianUi.setOffscreenPageLimit(fragmentList.size());
         mBinding.radiobtnIndex.setChecked(true);
+        mBinding.vpMianUi.setCanSwipe(false);
     }
-
 }

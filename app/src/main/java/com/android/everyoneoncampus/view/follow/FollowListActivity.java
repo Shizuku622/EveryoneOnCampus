@@ -31,7 +31,7 @@ public class FollowListActivity extends BaseActivity {
     }
 
     private void initListener() {
-        mBinding.imgbtnLeftexit.setOnClickListener(v->{
+        mBinding.cttFollowList.setImgBtnOnClickListener(v->{
             finish();
         });
     }
@@ -39,10 +39,10 @@ public class FollowListActivity extends BaseActivity {
     private void initView() {
         chooseFollow = (UIUserInfoFragment.Choose)getIntent().getSerializableExtra(UIUserInfoFragment.CHOOSE_FOLLOW);
         if(chooseFollow == UIUserInfoFragment.Choose.FOLLOW){
-            mBinding.txtFollowTitle.setText("我的关注");
+            mBinding.cttFollowList.setTxtTitle("我的关注");
             mFollowPresenter.getMyFollowList();
         }else{
-            mBinding.txtFollowTitle.setText("关注我的");
+            mBinding.cttFollowList.setTxtTitle("关注我的");
             mFollowPresenter.getMyFansList();
         }
 

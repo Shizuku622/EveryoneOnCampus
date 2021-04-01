@@ -101,7 +101,9 @@ public class LoginPresenter {
 
     //查询是否有帐号登陆过
     public void queryUserLoginStauts(){
-        if(!mSpModel.readUserID().equals(SPModel.NO_INFO)){
+        String userID = mSpModel.readUserID();
+        if(!userID.equals(SPModel.NO_INFO)){
+            EocApplication.setUserID(userID);
             mLaunchActivity.LoginMainUI();
         }else{
             mLaunchActivity.loginLoginUI();

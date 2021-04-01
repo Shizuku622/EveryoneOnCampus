@@ -28,7 +28,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initListener() {
-        mBinding.imgbtnLeftexit.setOnClickListener(new View.OnClickListener() {
+        mBinding.cttSetting.setImgBtnOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -48,6 +48,6 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initView() {
-
+        mBinding.cttSetting.setTxtTitle("设置");
     }
 }

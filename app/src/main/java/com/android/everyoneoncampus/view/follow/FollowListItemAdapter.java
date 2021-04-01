@@ -44,9 +44,10 @@ public class FollowListItemAdapter extends RecyclerView.Adapter<FollowListItemAd
         holder.mQianMing.setText(temp.userAutograph);
         holder.itemView.setOnClickListener(v->{
             Intent intent = new Intent(mActivity,FollowInfoActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(GET_FOLLOW_USER_INFO,temp);
-            intent.putExtras(bundle);
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable(GET_FOLLOW_USER_INFO,temp);
+//            intent.putExtras(bundle);
+            intent.putExtra("userID",temp.userID);
             mActivity.startActivity(intent);
         });
     }

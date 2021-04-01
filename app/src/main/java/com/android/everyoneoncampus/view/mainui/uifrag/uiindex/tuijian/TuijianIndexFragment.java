@@ -108,7 +108,6 @@ public class TuijianIndexFragment extends Fragment {
 
     }
 
-
     public void updateTuijian(List<Things> list){
         mThingsList.clear();
         mThingsList.addAll(list);

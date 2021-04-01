@@ -8,7 +8,4 @@ public class ThingsPresenter {
     public ThingsPresenter(ReleaseDynamicActivity releaseDynamicActivity){
         mReleaseDynamicActivity = releaseDynamicActivity;
     }
-
-
-
 }

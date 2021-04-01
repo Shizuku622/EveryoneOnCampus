@@ -6,59 +6,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.viewpager.widget.ViewPager
+    <com.android.everyoneoncampus.custom.NoSwipeViewPager
         android:id="@+id/vp_mian_ui"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <RadioGroup
-        android:id="@+id/rg_mainui_nav"
-        android:paddingTop="4dp"
-        android:background="@color/nav_back_color"
-        android:gravity="center"
-        android:orientation="horizontal"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/view_linear"/>
 
-        <RadioButton
-            android:textSize="13dp"
-            android:id="@+id/radiobtn_index"
-            android:background="@color/color_transparent"
-            android:drawableTop="@drawable/main_ui_index_selector"
-            android:text="首页"
-            style="@style/RadioGroupButtonStyle"/>
-        <RadioButton
-            android:textSize="13dp"
-            android:background="@color/color_transparent"
-            android:id="@+id/radiobtn_study"
-            android:drawableTop="@drawable/main_ui_study_selector"
-            android:text="学吧"
-            style="@style/RadioGroupButtonStyle"/>
+        <RadioGroup
+            android:id="@+id/rg_mainui_nav"
+            android:paddingTop="4dp"
+            android:background="@color/nav_back_color"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
 
-        <RadioButton
-            android:background="@color/color_transparent"
-            android:id="@+id/radiobtn_add_dynamic"
-            android:drawableTop="@drawable/eoc_nvc_add_pic"
-            style="@style/RadioGroupButtonStyle"/>
+            <RadioButton
+                android:textSize="13dp"
+                android:id="@+id/radiobtn_index"
+                android:background="@color/color_transparent"
+                android:drawableTop="@drawable/main_ui_index_selector"
+                android:text="首页"
+                style="@style/RadioGroupButtonStyle"/>
+            <RadioButton
+                android:textSize="13dp"
+                android:background="@color/color_transparent"
+                android:id="@+id/radiobtn_study"
+                android:drawableTop="@drawable/main_ui_study_selector"
+                android:text="学吧"
+                style="@style/RadioGroupButtonStyle"/>
 
-        <RadioButton
-            android:textSize="13dp"
-            android:background="@color/color_transparent"
-            android:id="@+id/radiobtn_message"
-            android:drawableTop="@drawable/main_ui_message_selector"
-            android:text="消息"
-            style="@style/RadioGroupButtonStyle"/>
-        <RadioButton
-            android:textSize="13dp"
-            android:background="@color/color_transparent"
-            android:id="@+id/radiobtn_userinfo"
-            android:drawableTop="@drawable/main_ui_my_selector"
-            android:text="我的"
-            style="@style/RadioGroupButtonStyle"/>
+            <RadioButton
+                android:background="@color/color_transparent"
+                android:id="@+id/radiobtn_add_dynamic"
+                android:drawableTop="@drawable/eoc_nvc_add_pic"
+                style="@style/RadioGroupButtonStyle"/>
+
+            <RadioButton
+                android:textSize="13dp"
+                android:background="@color/color_transparent"
+                android:id="@+id/radiobtn_message"
+                android:drawableTop="@drawable/main_ui_message_selector"
+                android:text="消息"
+                style="@style/RadioGroupButtonStyle"/>
+            <RadioButton
+                android:textSize="13dp"
+                android:background="@color/color_transparent"
+                android:id="@+id/radiobtn_userinfo"
+                android:drawableTop="@drawable/main_ui_my_selector"
+                android:text="我的"
+                style="@style/RadioGroupButtonStyle"/>
 
 
-    </RadioGroup>
+        </RadioGroup>
+
+    </LinearLayout>
 
 
 

@@ -61,6 +61,59 @@ public class MySQLModel {
     *
     * */
 
+    /**
+     * @param userID 用户的ID
+     * @param dataListener 回调User对象
+     */
+    public void queryUserIDInfo(String userID,DataListener<User> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 1:
+                        dataListener.onComplete((User)msg.obj);
+                        break;
+                }
+            }
+        };
+        new Thread(()->{
+            String SQL = String.format("select * from user where userID = '%s'",userID);
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
+                ResultSet resultSet = ps.executeQuery();
+                Message message = Message.obtain();
+                User userInfo = new User();
+                if(resultSet.next()){
+                    userInfo.userID = resultSet.getString("userID");
+                    userInfo.userName = resultSet.getString("userName");
+                    userInfo.userSno = resultSet.getString("userSno");
+                    userInfo.userPhone = resultSet.getString("userPhone");
+                    userInfo.userSex = resultSet.getString("userSex");
+                    userInfo.userSchool = resultSet.getString("userSchool");
+                    userInfo.userPlace = resultSet.getString("userPlace");
+                    userInfo.userIdentity = resultSet.getString("userIdentity");
+                    userInfo.userAutograph = resultSet.getString("userAutograph");
+                    userInfo.userlabel = resultSet.getString("userlabel");
+                    userInfo.mark = resultSet.getString("mark");
+                    userInfo.userNicheng = resultSet.getString("userNicheng");
+                    userInfo.userSpeci = resultSet.getString("userSpeci");
+                    userInfo.headPic = resultSet.getBytes("headPic");
+                    userInfo.model = resultSet.getString("model");
+                    userInfo.followMark = resultSet.getString("followMark");
+                    userInfo.followedMark = resultSet.getString("followedMark");
+                    userInfo.dynamicMark = resultSet.getString("dynamicMark");
+                }
+                Log.e(TAG,"获取user信息成功！");
+                message.what = 1;
+                message.obj = userInfo;
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
+
     public void  getLoseTakeThingsApi(DataListener<LoseTake> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
@@ -643,6 +696,7 @@ public class MySQLModel {
                     count ++;
                 }
                 Log.e(TAG,"user登录成功");
+                EocApplication.setUserInfo(userInfo);
                 message.what = 1;
                 message.obj = userInfo;
                 handler.sendMessage(message);
@@ -828,7 +882,7 @@ public class MySQLModel {
         };
 
 //        String sql = String.format("SELECT things.thingsID,things.userID,`user`.userNicheng,things.`event`,things.thingsContent,things.thingsDate,things.thingsImage,`user`.headPic  FROM `things` inner JOIN `user` on things.userID = `user`.userID ");
-        String sql = String.format("SELECT things.*,`user`.userNicheng,`user`.headPic, COUNT(things.thingsID) as commentNum " +
+        String sql = "SELECT things.*,`user`.userNicheng,`user`.headPic, COUNT(things.thingsID) as commentNum " +
                 "from `Comment` " +
                 "RIGHT JOIN  things  " +
                 "on things.thingsID = `Comment`.thingsID " +
@@ -842,7 +896,7 @@ public class MySQLModel {
                 "on things.thingsID = thingslike.thingsID " +
                 "INNER JOIN `user` " +
                 "on `user`.userID = things.userID " +
-                "GROUP BY things.thingsID ");
+                "GROUP BY things.thingsID ";
         new Thread(()->{
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
                 ResultSet resultSet = ps.executeQuery();
@@ -887,26 +941,28 @@ public class MySQLModel {
     }
 
     //发送
-    public void sendNewSomethingApi(String sql,byte[] thingsImage){
+    public void sendNewSomethingApi(String sql,byte[] thingsImage,DataListener<Integer> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
                 if(msg.what == 1){
-                    Toast.makeText(EocApplication.getContext(),"发送成功!",Toast.LENGTH_SHORT).show();
+                    dataListener.onComplete(1);
                 }else {
-                    Toast.makeText(EocApplication.getContext(), "发送失败，请重试！", Toast.LENGTH_SHORT).show();
+                    dataListener.onComplete(2);
                 }
             }
         };
         new Thread(()->{
+            Message msg = Message.obtain();
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql)){
-                Blob imageBlob = conn.createBlob();
-                imageBlob.setBytes(1,thingsImage);
+                Blob imageBlob = null;
+                if(thingsImage != null){
+                    imageBlob  = conn.createBlob();
+                    imageBlob.setBytes(1,thingsImage);
+                }
                 ps.setBlob(1,imageBlob);
-
                 int resultSet = ps.executeUpdate();
-                Message msg = Message.obtain();
                 if(resultSet != 0){
                     msg.what = 1;
                     Log.d(TAG, "插入事件影响" + resultSet + "条");
@@ -916,8 +972,10 @@ public class MySQLModel {
                 }
                 handler.sendMessage(msg);
             }catch (Exception e){
+                msg.what = 2;
                 Log.d(TAG, e.getMessage());
                 Log.d(TAG, "插入事件失败！");
+                handler.sendMessage(msg);
             }
         }).start();
     }

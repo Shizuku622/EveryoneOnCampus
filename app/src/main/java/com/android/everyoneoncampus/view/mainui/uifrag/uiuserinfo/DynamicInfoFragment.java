@@ -55,7 +55,7 @@ public class DynamicInfoFragment extends Fragment {
     private void initView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mBinding.recUserDynamic.setLayoutManager(layoutManager);
-        mAdapter = new TuiJianAdapter(mThingList);
+        mAdapter = new TuiJianAdapter(mThingList,getActivity());
         mBinding.recUserDynamic.setAdapter(mAdapter);
     }
 
@@ -72,6 +72,5 @@ public class DynamicInfoFragment extends Fragment {
     public void hideRefreshDynamic(){
         mBinding.swipUserDynamic.setRefreshing(false);
     }
-
 
 }

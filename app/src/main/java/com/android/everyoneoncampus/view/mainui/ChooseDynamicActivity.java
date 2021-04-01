@@ -18,6 +18,12 @@ public class ChooseDynamicActivity extends BaseActivity {
         initListeners();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
     private void initListeners() {
         mBinding.imgExit.setOnClickListener(v->{
             finish();
@@ -32,8 +38,9 @@ public class ChooseDynamicActivity extends BaseActivity {
             ReleaseDynamicActivity.actionActivity(this,"lose");
         });
         mBinding.llayoutSign.setOnClickListener(v->{
-            ReleaseDynamicActivity.actionActivity(this,"sign");
+            ReleaseDynamicActivity.actionActivity(this,"take");
         });
+
     }
 
     private void initViews() {

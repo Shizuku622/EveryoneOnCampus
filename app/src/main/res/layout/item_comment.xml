@@ -24,7 +24,6 @@
             android:id="@+id/rlayout_namedate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img_comment_user_headpic">
 
@@ -34,12 +33,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="星辰大海"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textColor="#3A3939" />
 
             <TextView
                 android:text="2021-3-4"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:layout_marginTop="4dp"
                 android:id="@+id/txt_comment_date"
                 android:layout_width="wrap_content"
@@ -54,7 +53,7 @@
         android:id="@+id/txt_comment_content"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

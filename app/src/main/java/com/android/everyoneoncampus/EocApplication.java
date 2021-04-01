@@ -18,7 +18,7 @@ public class EocApplication extends Application {
 
     private static User EocUser = new User();
 
-    //设置ui
+
     public static User getUserInfo() {
         return EocUser;
     }
@@ -41,6 +41,14 @@ public class EocApplication extends Application {
         EocUser.followNumber= user.followNumber;
         EocUser.followedNumber= user.followedNumber;
         EocUser.userSpeci= user.userSpeci;
+    }
+
+    public static String getUserID() {
+        return userID;
+    }
+
+    public static void setUserID(String userID) {
+        EocApplication.userID = userID;
     }
 
     @Override

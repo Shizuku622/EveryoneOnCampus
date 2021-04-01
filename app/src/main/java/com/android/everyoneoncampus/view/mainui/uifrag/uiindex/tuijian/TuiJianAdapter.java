@@ -1,6 +1,7 @@
 package com.android.everyoneoncampus.view.mainui.uifrag.uiindex.tuijian;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,15 +11,18 @@ import android.widget.Button;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.view.comment.CommentActivity;
+import com.android.everyoneoncampus.view.follow.FollowInfoActivity;
 
 import org.w3c.dom.Text;
 
@@ -44,8 +48,7 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tuijian_info,parent,false);
-        MyViewHolder myViewHolder = new MyViewHolder(view);
-        return myViewHolder;
+        return new MyViewHolder(view);
     }
 
     private static final String TAG = "TuiJianAdapter";
@@ -92,6 +95,19 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
                 }
             }
         });
+
+        holder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String targetUserID = mThingsList.get(position).userID;
+                String userID = EocApplication.getUserID();
+                if(!targetUserID.equals(userID)){
+                    Intent intent = new Intent(mActivity, FollowInfoActivity.class);
+                    intent.putExtra("userID",targetUserID);
+                    mActivity.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -110,6 +126,7 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
         LinearLayout llayoutComment;
         TextView commentNum;
         TextView likeNum;
+        RelativeLayout mRelativeLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             userNicheng = itemView.findViewById(R.id.txt_user_name);
@@ -122,6 +139,7 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
             llayoutComment = itemView.findViewById(R.id.llayout_comment);
             commentNum = itemView.findViewById(R.id.txt_comment_num);
             likeNum = itemView.findViewById(R.id.txt_like_num);
+            mRelativeLayout = itemView.findViewById(R.id.rlayout_touxiang_info);
         }
     }
 

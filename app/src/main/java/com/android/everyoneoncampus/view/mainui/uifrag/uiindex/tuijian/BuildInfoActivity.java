@@ -19,8 +19,6 @@ public class BuildInfoActivity extends BaseActivity {
         setContentView(mBinding.getRoot());
         initView();
         initListener();
-
-
     }
 
     private void initView() {

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
+    app:cardElevation="2dp"
     android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,17 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:orientation="vertical">
             <RelativeLayout
+                android:id="@+id/rlayout_touxiang_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_user_headpic"

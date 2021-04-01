@@ -44,7 +44,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
 
         holder.txtCommentUserName.setText(comment.userNicheng);
-        holder.txtCommentDate.setText(comment.CDate);
+        holder.txtCommentDate.setText(comment.CDate.substring(5,16));
         holder.txtCommentContent.setText(comment.CContent);
 
     }

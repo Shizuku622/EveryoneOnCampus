@@ -13,15 +13,16 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
+                app:cardElevation="3dp"
                 android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
+                app:cardCornerRadius="7dp"
                 android:layout_height="270dp">
                 <LinearLayout
                     android:orientation="vertical"
@@ -31,8 +32,7 @@
                         android:id="@+id/banner_index_pic"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        app:banner_loop_time="2000"
-                        app:banner_radius="5dp"/>
+                        app:banner_loop_time="2000"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -142,7 +142,6 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_margin="5dp"
                 android:nestedScrollingEnabled="false"
                 android:id="@+id/rec_things"
                 android:layout_width="match_parent"

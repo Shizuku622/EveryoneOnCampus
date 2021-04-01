@@ -22,6 +22,7 @@ public class FollowInfoActivity extends BaseActivity {
     private ActivityFollowInfoBinding mBinding;
     private FollowPresenter mFollowPresenter;
     private User mFollowUser;
+    private String mUserID = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,18 +35,19 @@ public class FollowInfoActivity extends BaseActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         mFollowUser = (User)bundle.getSerializable(FollowListItemAdapter.GET_FOLLOW_USER_INFO);
-        mFollowPresenter.getFollowInfo(mFollowUser);
-        mFollowPresenter.saveLCInfo(mFollowUser);
+        mUserID = intent.getStringExtra("userID");
+        //获取id
+        mFollowPresenter.getFollowInfo(mUserID);
     }
 
     private void initListener() {
-        mBinding.imgbtnLeftexit.setOnClickListener(v->{
+        mBinding.cttFollowInfo.setImgBtnOnClickListener(v->{
             finish();
         });
         mBinding.btnFollowSendMessage.setOnClickListener(v->{
-            if(mFollowUser != null){
+            if(mUserID != null){
                 Intent intent = new Intent(FollowInfoActivity.this, LCIMConversationActivity.class);
-                intent.putExtra(LCIMConstants.PEER_ID, EocApplication.USER_MARK+mFollowUser.userID);
+                intent.putExtra(LCIMConstants.PEER_ID, EocApplication.USER_MARK+mUserID);
                 startActivity(intent);
             }
         });
@@ -53,6 +55,7 @@ public class FollowInfoActivity extends BaseActivity {
 
     private void initView() {
         mBinding.btnFollowSendMessage.setVisibility(View.GONE);
+        mBinding.cttFollowInfo.setTxtTitle("信息");
     }
 
     public void setFollowInfo(User user){
@@ -68,5 +71,13 @@ public class FollowInfoActivity extends BaseActivity {
         mBinding.txtFollowSp.setText("专业："+user.userSpeci);
         mBinding.txtFollowIden.setText("身份："+user.userIdentity);
         mBinding.btnFollowSendMessage.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoading(){
+        mBinding.rlayoutFollowInfoLoading.setVisibility(View.GONE);
+    }
+
+    public void showUserInfo(){
+        mBinding.llayoutFollowInfo.setVisibility(View.VISIBLE);
     }
 }

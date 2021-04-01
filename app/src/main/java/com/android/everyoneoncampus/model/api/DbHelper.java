@@ -1,15 +1,23 @@
 package com.android.everyoneoncampus.model.api;
 
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.provider.ContactsContract;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
+
+import androidx.annotation.NonNull;
 
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.model.LabelAll;
+import com.android.everyoneoncampus.model.entity.LoseTake;
 import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.model.entity.User;
 
@@ -33,10 +41,76 @@ public class DbHelper {
     public SQLiteDatabase getSQLiteDatabase(){
         return mDbHelper.getWritableDatabase();
     }
-    /*
+    /**
     * 最新的方法
     *
     * */
+    public void getLoseTakeThings(DataListener<LoseTake> dataListener){
+
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dataListener.onComplete((LoseTake)msg.obj);
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql = "select * from losetake";
+                Cursor cursor = selectData(sql);
+                List<Things> loseThings = new ArrayList<>();
+                List<Things> takeThings = new ArrayList<>();
+                if(cursor.moveToFirst()){
+                    do{
+                        Things things = new Things();
+                        things.thingsID = cursor.getString(cursor.getColumnIndex("thingsID"));
+                        things.userID = cursor.getString(cursor.getColumnIndex("userID"));
+                        things.userNicheng = cursor.getString(cursor.getColumnIndex("userNicheng"));
+                        things.event = cursor.getString(cursor.getColumnIndex("event"));
+                        things.thingsContent = cursor.getString(cursor.getColumnIndex("thingsContent"));
+                        things.thingsDate = cursor.getString(cursor.getColumnIndex("thingsDate"));
+                        byte[] img = EocTools.stringConvertByte(cursor.getString(cursor.getColumnIndex("thingsimage")));
+                        things.Thingsimage = img;
+                        byte[] headpic = EocTools.stringConvertByte(cursor.getString(cursor.getColumnIndex("headPic")));
+                        things.headPic = headpic;
+                        if(things.event.equals("丢失")){
+                            loseThings.add(things);
+                        }else{
+                            takeThings.add(things);
+                        }
+                    }while (cursor.moveToNext());
+                }
+                LoseTake loseTake = new LoseTake();
+                loseTake.setLose(loseThings);
+                loseTake.setTake(takeThings);
+                Message message = Message.obtain();
+                message.obj = loseTake;
+                handler.sendMessage(message);
+            }
+        }).start();
+    }
+
+    public void saveLoseTakeThings(LoseTake loseTake){
+        deleteData("delete from losetake");
+        //插入拾取事件
+        for(Things t : loseTake.getTake()){
+            String img = EocTools.byteConvertString(t.Thingsimage);
+            String headpic = EocTools.byteConvertString(t.headPic);
+            String sql = String.format("insert into losetake(thingsID,userID,userNicheng,event,thingsContent,thingsDate,thingsimage,headPic) values('%s','%s','%s','%s','%s','%s','%s','%s')",
+                    t.thingsID,t.userID,t.userNicheng,t.event,t.thingsContent,t.thingsDate,img,headpic);
+            insertData(sql);
+        }
+        //插入丢失事件
+        for(Things t : loseTake.getLose()){
+            String img = EocTools.byteConvertString(t.Thingsimage);
+            String headpic = EocTools.byteConvertString(t.headPic);
+            String sql = String.format("insert into losetake(thingsID,userID,userNicheng,event,thingsContent,thingsDate,thingsimage,headPic) values('%s','%s','%s','%s','%s','%s','%s','%s')",
+                    t.thingsID,t.userID,t.userNicheng,t.event,t.thingsContent,t.thingsDate,img,headpic);
+            insertData(sql);
+        }
+    }
 
 
     /**
@@ -59,28 +133,41 @@ public class DbHelper {
      * 该方法获取sqlite里的事件数据
      */
     public void getSQLiteAllThings(DataListener<List<Things>> dataListener){
-        String sql = "select * from things";
-        Cursor cursor = selectData(sql);
-        List<Things> allThings = new ArrayList<>();
-        if(cursor.moveToFirst()){
-            do{
-                Things things = new Things();
-                things.thingsID = cursor.getString(cursor.getColumnIndex("thingsID"));
-                things.userID = cursor.getString(cursor.getColumnIndex("userID"));
-                things.userNicheng = cursor.getString(cursor.getColumnIndex("userNicheng"));
-                things.event = cursor.getString(cursor.getColumnIndex("event"));
-                things.thingsContent = cursor.getString(cursor.getColumnIndex("thingsContent"));
-                things.thingsDate = cursor.getString(cursor.getColumnIndex("thingsDate"));
-                byte[] img = EocTools.stringConvertByte(cursor.getString(cursor.getColumnIndex("thingsimage")));
-                things.Thingsimage = img;
-                byte[] headpic = EocTools.stringConvertByte(cursor.getString(cursor.getColumnIndex("headPic")));
-                things.headPic = headpic;
-                things.commentNum = cursor.getString(cursor.getColumnIndex("commentNum"));
-                things.likeNum = cursor.getString(cursor.getColumnIndex("likeNum"));
-                allThings.add(things);
-            }while (cursor.moveToNext());
-        }
-        dataListener.onComplete(allThings);
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dataListener.onComplete((List<Things>)msg.obj);
+            }
+        };
+
+        new Thread(()->{
+            String sql = "select * from things";
+            Cursor cursor = selectData(sql);
+            List<Things> allThings = new ArrayList<>();
+            if(cursor.moveToFirst()){
+                do{
+                    Things things = new Things();
+                    things.thingsID = cursor.getString(cursor.getColumnIndex("thingsID"));
+                    things.userID = cursor.getString(cursor.getColumnIndex("userID"));
+                    things.userNicheng = cursor.getString(cursor.getColumnIndex("userNicheng"));
+                    things.event = cursor.getString(cursor.getColumnIndex("event"));
+                    things.thingsContent = cursor.getString(cursor.getColumnIndex("thingsContent"));
+                    things.thingsDate = cursor.getString(cursor.getColumnIndex("thingsDate"));
+                    byte[] img = EocTools.stringConvertByte(cursor.getString(cursor.getColumnIndex("thingsimage")));
+                    things.Thingsimage = img;
+                    byte[] headpic = EocTools.stringConvertByte(cursor.getString(cursor.getColumnIndex("headPic")));
+                    things.headPic = headpic;
+                    things.commentNum = cursor.getString(cursor.getColumnIndex("commentNum"));
+                    things.likeNum = cursor.getString(cursor.getColumnIndex("likeNum"));
+                    allThings.add(things);
+                }while (cursor.moveToNext());
+            }
+            Message message = Message.obtain();
+            message.obj = allThings;
+            handler.sendMessage(message);
+        }).start();
+
     }
 
     /**

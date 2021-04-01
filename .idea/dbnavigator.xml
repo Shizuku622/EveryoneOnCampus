@@ -23,25 +23,21 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="6eccd148-9c22-4f99-81c0-c53cf1802aae">
-        <schema name="main" object-types="table, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="6eccd148-9c22-4f99-81c0-c53cf1802aae">
-      <console name="Connection 1" type="STANDARD" schema="main" session="Main" />
+    <connection id="45fbd70f-e2ec-4a0d-83ef-3d81270186d4">
+      <console name="Connection" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="6eccd148-9c22-4f99-81c0-c53cf1802aae" />
+    <connection id="45fbd70f-e2ec-4a0d-83ef-3d81270186d4" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="6eccd148-9c22-4f99-81c0-c53cf1802aae" dataset="main.things" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="45fbd70f-e2ec-4a0d-83ef-3d81270186d4" dataset="main.losetake" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -69,9 +65,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="6eccd148-9c22-4f99-81c0-c53cf1802aae" active="true">
+      <connection id="45fbd70f-e2ec-4a0d-83ef-3d81270186d4" active="true">
         <database>
-          <name value="Connection 1" />
+          <name value="Connection" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
@@ -84,7 +80,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="C:\Users\Kaneki\Desktop\EocDB323" schema="main" />
+            <file path="C:\Users\Kaneki\Desktop\EocDB12323" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
