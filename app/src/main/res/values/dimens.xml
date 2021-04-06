@@ -16,4 +16,9 @@
     <dimen name="eoc_margin_left">15dp</dimen>
     <dimen name="headpic_size_small">60dp</dimen>
     <dimen name="build_info_right_exit">25dp</dimen>
+    <dimen name="main_size_12sp">12sp</dimen>
+    <dimen name="mian_ui_size">30dp</dimen>
+    <dimen name="main_tuijian_text_size">13sp</dimen>
+    <dimen name="main_tuijian_content_size">14sp</dimen>
+    <dimen name="main_bottom_nav_size">12sp</dimen>
 </resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.android.everyoneoncampus.custom.CustomTitle
+        android:id="@+id/ctt_library"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_choose_floor"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <View
+            android:layout_width="0.5dp"
+            android:background="@color/view_linear"
+            android:layout_height="match_parent"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_floor_info"
+            android:orientation="vertical"
+            android:overScrollMode="always"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="match_parent"/>
+
+        
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

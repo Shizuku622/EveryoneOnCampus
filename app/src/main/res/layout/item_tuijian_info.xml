@@ -29,8 +29,7 @@
                     android:id="@+id/img_user_headpic"
                     android:src="@drawable/eoc_pic"
                     android:layout_alignParentLeft="true"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"/>
+                    style="@style/tuijian_headpic_size" />
 
                 <RelativeLayout
                     android:id="@+id/rlayout_namedate"
@@ -54,20 +53,20 @@
 
                     <TextView
                         android:id="@+id/txt_user_name"
-                        android:text="星辰大海"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="星辰大海"
                         android:textColor="#3A3939"
-                        android:layout_margin="2dp"/>
+                        android:textSize="@dimen/main_tuijian_text_size" />
 
                     <TextView
                         android:text="2021-3-4"
+                        android:textSize="@dimen/main_size_12sp"
                         android:layout_marginTop="4dp"
                         android:id="@+id/txt_release_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/txt_user_name"
-                        android:textColor="#3A3939"/>
+                        android:layout_below="@+id/txt_user_name" />
 
                 </RelativeLayout>
 
@@ -102,7 +101,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="8dp"
                 android:textColor="@color/black"
-                android:textSize="15dp"
+                android:textSize="@dimen/main_tuijian_content_size"
                 android:layout_height="wrap_content"/>
 
             <ImageView

@@ -25,9 +25,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".view.mainui.uifrag.uiindex.tuijian.LoseTakeActivity"></activity>
+        <activity android:name=".view.schoolactivity.SchoolActivity">
+
+        </activity>
+        <activity android:name=".view.library.LibraryActivity"></activity>
+        <activity android:name=".view.canteen.CanteenActivity" />
+        <activity android:name=".BnvTestActivity" />
+        <activity android:name=".view.mainui.uifrag.uiindex.tuijian.LoseTakeActivity" />
         <activity android:name=".view.mainui.uifrag.uiindex.tuijian.BuildInfoActivity" />
-        <activity android:name=".view.mainui.uifrag.uiindex.tuijian.GaodeMapActivity"></activity>
+        <activity android:name=".view.mainui.uifrag.uiindex.tuijian.GaodeMapActivity" />
         <activity android:name=".view.setting.SettingActivity" />
         <activity android:name=".view.comment.CommentActivity" /> <!-- 配置高德地图的key -->
         <meta-data

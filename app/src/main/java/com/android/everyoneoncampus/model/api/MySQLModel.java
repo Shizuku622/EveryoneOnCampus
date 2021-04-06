@@ -61,6 +61,47 @@ public class MySQLModel {
     *
     * */
 
+    public void getNewProblemThingsApi(String event, DataListener<List<Things>> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dataListener.onComplete((List<Things>)msg.obj);
+            }
+        };
+        new Thread(()->{
+            String SQL = String.format("SELECT things.*,`user`.userNicheng,`user`.headPic " +
+                    "from things  " +
+                    "JOIN `user` " +
+                    "ON things.userID = `user`.userID AND things.`event` = '%s'",event);
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
+                ResultSet resultSet = ps.executeQuery();
+                Message message = Message.obtain();
+                List<Things> thingsList = new ArrayList<>();
+                while(resultSet.next()){
+                    Things things = new Things();
+                    things.thingsID = resultSet.getString("thingsID");
+                    things.userID = resultSet.getString("userID");
+                    things.userNicheng = resultSet.getString("userNicheng");
+                    things.event = resultSet.getString("event");
+                    things.thingsContent = resultSet.getString("thingsContent");
+                    things.thingsDate = resultSet.getString("thingsDate");
+                    things.Thingsimage = resultSet.getBytes("thingsImage");
+                    things.headPic = resultSet.getBytes("headPic");
+                    things.commentMark = resultSet.getString("commentMark");
+                    things.likeMark = resultSet.getString("likeMark");
+                    thingsList.add(things);
+                }
+                message.obj = thingsList;
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+        }).start();
+
+    }
+
+
     /**
      * @param userID 用户的ID
      * @param dataListener 回调User对象
@@ -926,6 +967,16 @@ public class MySQLModel {
                     }
                     resultSet.next();
                 }
+
+                for(Things t : thingsList){
+                    if(t.likeMark.equals("0")){
+                        t.likeNum = "0";
+                    }
+                    if(t.commentMark.equals("0")){
+                        t.commentNum = "0";
+                    }
+                }
+
                 Message msg = Message.obtain();
                 if(thingsList.isEmpty()){
                     msg.what = 2;

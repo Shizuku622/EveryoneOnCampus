@@ -14,23 +14,30 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
+import com.android.everyoneoncampus.allinterface.DLInfo;
 import com.android.everyoneoncampus.databinding.FragmentUiIndexHomeBinding;
+import com.android.everyoneoncampus.model.entity.User;
+import com.android.everyoneoncampus.presenter.MainDrawablePrensenter;
+import com.android.everyoneoncampus.view.NullFragment;
+import com.android.everyoneoncampus.view.mainui.ChooseDynamicActivity;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UIUserInfoFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UserInfoActivity;
 import com.android.everyoneoncampus.view.setting.SettingActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UIStudyFragment extends Fragment {
+public class UIStudyFragment extends Fragment implements DLInfo {
     private FragmentUiIndexHomeBinding mBinding;
-
+    private MainDrawablePrensenter mMainDrawablePrensenter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentUiIndexHomeBinding.inflate(inflater,container,false);
-        View view = mBinding.getRoot();
-        return view;
+        return mBinding.getRoot();
     }
     @Override
     public void onPause() {
@@ -52,6 +59,7 @@ public class UIStudyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mMainDrawablePrensenter = new MainDrawablePrensenter(this);
         initListener();
         initView();
     }
@@ -93,10 +101,18 @@ public class UIStudyFragment extends Fragment {
         //禁止侧滑
         mBinding.dlSign.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-
+        mMainDrawablePrensenter.setDrawableInfo();
     }
 
     private void initListener() {
+        mBinding.llayoutDlUserInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                intent.putExtra(UIUserInfoFragment.CHOOSE_USERINFO_DYNAMIC, UIUserInfoFragment.Choose.INFO);
+                startActivity(intent);
+            }
+        });
         mBinding.imgDrawerMove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,5 +160,16 @@ public class UIStudyFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void setDLInfo(User user) {
+        mBinding.txtDlNicheng.setText(user.userNicheng);
+        mBinding.imgDlHeadpic.setImageBitmap(EocTools.convertBitmap(user.headPic));
+    }
+
+    @Override
+    public void openDetailUserInfo() {
+
     }
 }

@@ -16,7 +16,6 @@ public class ThingsConvert {
     }
 
     public static String convertString(String s){
-        return mStringMap.get("s");
+        return mStringMap.get(s);
     }
-
 }

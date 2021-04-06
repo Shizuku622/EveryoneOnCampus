@@ -1,8 +1,10 @@
 package com.android.everyoneoncampus.presenter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.LongDef;
 import androidx.fragment.app.Fragment;
 
 import com.android.everyoneoncampus.EocApplication;
@@ -39,7 +41,6 @@ public class Presenter {
     //获得新鲜事
     public void getThingsAll(int getWhere){
         //先从sqlite 获取事件
-
         mTuijianIndexFragmentView.startRefresh();
         if(mDbHelper.selectThingsCount() != 0 && getWhere == 1){
             mDbHelper.getSQLiteAllThings(new DataListener<List<Things>>() {
@@ -62,19 +63,18 @@ public class Presenter {
                     mDbHelper.saveSQLiteThings(temp);
                     mTuijianIndexFragmentView.updateTuijian(temp);
                     mTuijianIndexFragmentView.stopRefresh();
-
                 }
             });
         }
-
-
     }
 
+    private static final String TAG = "Presenter";
     //发送
     public void sendNewSomething(String t, String content, byte[] thingsImage){
 
         String sql1 = String.format("insert into things(userID,event,thingsContent,thingsImage) " +
                 "values('%s','%s','%s',?)",mSPModel.readUserID(),ThingsConvert.convertString(t),content);
+        Log.d(TAG, ThingsConvert.convertString(t));
         mMySQLModel.sendNewSomethingApi(sql1, thingsImage, new DataListener<Integer>() {
             @Override
             public void onComplete(Integer result) {

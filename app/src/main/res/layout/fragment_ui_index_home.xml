@@ -82,20 +82,68 @@
 
     <RelativeLayout
         android:clickable="true"
-        android:layout_width="250dp"
-        android:layout_height="match_parent"
+        android:layout_width="280dp"
         android:layout_gravity="start"
+        android:layout_height="match_parent"
         android:background="@color/white">
+
 
         <ImageView
             android:id="@+id/img_dl_cha"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="12dp"
-            android:layout_width="36dp"
+            android:layout_margin="10dp"
+            android:layout_width="30dp"
             android:padding="10dp"
-            android:layout_height="36dp"
+            android:layout_height="30dp"
             android:src="@drawable/eoc_cha"/>
+
+        <LinearLayout
+            android:id="@+id/llayout_dl_user_info"
+            android:layout_below="@+id/img_dl_cha"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_dl_headpic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="15dp"
+                android:src="@drawable/eoc_pic"/>
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_dl_nicheng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:text="星辰大海"/>
+
+                <TextView
+                    android:layout_margin="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="快来展示更好的自己吧"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_gravity="center"
+                android:src="@drawable/eoc_rightexit"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_alignParentLeft="true"

@@ -73,6 +73,10 @@ public class MainUIActivity extends BaseActivity {
     }
 
     private void initView() {
+
+//        mBinding.rlayoutMainAdd.bringToFront();
+//        mBinding.imgAddDynamic.bringToFront();
+
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new UIIndexFragment());
         fragmentList.add(new UIStudyFragment());

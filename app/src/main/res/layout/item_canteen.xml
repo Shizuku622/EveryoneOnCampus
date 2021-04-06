@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        app:cardElevation="3dp"
+        app:cardCornerRadius="6dp"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        style="@style/default_margin">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/eoc_canteen_pic3"/>
+
+
+                <TextView
+                    android:id="@+id/txt_canteen_name"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="第一餐厅"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:paddingLeft="15dp"
+                android:layout_margin="3dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="地点："/>
+                <TextView
+                    android:id="@+id/txt_canteen_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="西区自动化东楼对面"/>
+
+            </LinearLayout>
+
+            <com.youth.banner.Banner
+                app:banner_auto_loop="false"
+                android:id="@+id/ban_canteen_pic"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:banner_loop_time="1500"
+                android:layout_margin="15dp"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

@@ -15,8 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.databinding.FragmentIndexTuijianBinding;
+import com.android.everyoneoncampus.model.entity.Canteen;
 import com.android.everyoneoncampus.model.entity.Things;
 import com.android.everyoneoncampus.presenter.Presenter;
+import com.android.everyoneoncampus.view.canteen.CanteenActivity;
+import com.android.everyoneoncampus.view.library.LibraryActivity;
+import com.android.everyoneoncampus.view.schoolactivity.SchoolActivity;
 import com.youth.banner.adapter.BannerAdapter;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
@@ -49,6 +53,21 @@ public class TuijianIndexFragment extends Fragment {
     }
 
     private void initListener() {
+        mBinding.llayoutSchoolActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SchoolActivity.class);
+                startActivity(intent);
+            }
+        });
+        mBinding.llayoutLibrary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LibraryActivity.class);
+                startActivity(intent);
+            }
+        });
+
         mBinding.swpTuijian.setOnRefreshListener(()->{
             mPresenter.getThingsAll(2);
         });
@@ -64,6 +83,14 @@ public class TuijianIndexFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),LoseTakeActivity.class);
+                startActivity(intent);
+            }
+        });
+        //餐厅
+        mBinding.llayoutCanting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CanteenActivity.class);
                 startActivity(intent);
             }
         });

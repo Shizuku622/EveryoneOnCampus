@@ -13,29 +13,41 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.R;
+import com.android.everyoneoncampus.allinterface.DLInfo;
 import com.android.everyoneoncampus.databinding.FragmentUiIndexHomeBinding;
+import com.android.everyoneoncampus.model.entity.User;
+import com.android.everyoneoncampus.presenter.MainDrawablePrensenter;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.guanzhu.GuanzhuIndexFragment;
-import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.viewpages.TalkIndexFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UIUserInfoFragment;
+import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UserInfoActivity;
+import com.android.everyoneoncampus.view.talk.TalkIndexFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiindex.tuijian.TuijianIndexFragment;
 import com.android.everyoneoncampus.view.setting.SettingActivity;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.PipedReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UIIndexFragment extends Fragment {
+public class UIIndexFragment extends Fragment implements DLInfo {
 
     private FragmentUiIndexHomeBinding mBinding;
-
+    private MainDrawablePrensenter mMainDrawablePrensenter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentUiIndexHomeBinding.inflate(inflater,container,false);
-        View view = mBinding.getRoot();
+        return mBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mMainDrawablePrensenter = new MainDrawablePrensenter(this);
         initListener();
         initView();
-        return view;
     }
 
     @Override
@@ -102,6 +114,14 @@ public class UIIndexFragment extends Fragment {
 
             }
         });
+        mBinding.llayoutDlUserInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                intent.putExtra(UIUserInfoFragment.CHOOSE_USERINFO_DYNAMIC, UIUserInfoFragment.Choose.INFO);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView() {
@@ -110,7 +130,6 @@ public class UIIndexFragment extends Fragment {
         fragments.add(new GuanzhuIndexFragment());
         fragments.add(new TuijianIndexFragment());
         fragments.add(new TalkIndexFragment());
-//        fragments.add(new HuatiIndexFragment());
         for(int i =0;i <titles.length;i++){
             mBinding.tabIndex.addTab(mBinding.tabIndex.newTab().setText(titles[i]));
         }
@@ -136,5 +155,19 @@ public class UIIndexFragment extends Fragment {
         mBinding.tabIndex.setupWithViewPager(mBinding.vpIndex,false);
         mBinding.vpIndex.setOffscreenPageLimit(fragments.size());
         mBinding.vpIndex.setCurrentItem(1);
+
+        mMainDrawablePrensenter.setDrawableInfo();
     }
+
+    @Override
+    public void setDLInfo(User user){
+        mBinding.imgDlHeadpic.setImageBitmap(EocTools.convertBitmap(user.headPic));
+        mBinding.txtDlNicheng.setText(user.userNicheng);
+    }
+
+    @Override
+    public void openDetailUserInfo() {
+
+    }
+
 }

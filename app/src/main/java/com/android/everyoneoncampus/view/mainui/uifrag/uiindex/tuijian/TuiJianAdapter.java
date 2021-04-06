@@ -59,18 +59,19 @@ public class TuiJianAdapter extends RecyclerView.Adapter<TuiJianAdapter.MyViewHo
         holder.thingsContent.setText(things.thingsContent);
         holder.thingsDate.setText(things.thingsDate.substring(5,16));
         holder.event.setText(things.event);
-
-        if(things.likeMark.equals("0")){
-            holder.likeNum.setText("0");
-        }else{
-            holder.likeNum.setText(things.likeNum);
-        }
-
-        if(things.commentMark.equals("0")){
-            holder.commentNum.setText("0");
-        }else{
-            holder.commentNum.setText(things.commentNum);
-        }
+        holder.likeNum.setText(things.likeNum);
+        holder.commentNum.setText(things.commentNum);
+//        if(things.likeMark.equals("0")){
+//            holder.likeNum.setText("0");
+//        }else{
+//            holder.likeNum.setText(things.likeNum);
+//        }
+//
+//        if(things.commentMark.equals("0")){
+//            holder.commentNum.setText("0");
+//        }else{
+//            holder.likeNum.setText(things.likeNum);
+//        }
 
 
         //设置头像

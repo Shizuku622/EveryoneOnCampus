@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:background="@color/white"
+<LinearLayout android:background="@color/white"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.android.everyoneoncampus.custom.NoSwipeViewPager
         android:id="@+id/vp_mian_ui"
@@ -16,10 +16,12 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/view_linear"/>
+            android:background="@color/view_linear"
+            android:layout_height="0.5dp"/>
+
 
         <RadioGroup
             android:id="@+id/rg_mainui_nav"
@@ -28,17 +30,18 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="48dp">
 
             <RadioButton
-                android:textSize="13dp"
+                android:textSize="@dimen/main_bottom_nav_size"
                 android:id="@+id/radiobtn_index"
                 android:background="@color/color_transparent"
                 android:drawableTop="@drawable/main_ui_index_selector"
                 android:text="首页"
                 style="@style/RadioGroupButtonStyle"/>
+
             <RadioButton
-                android:textSize="13dp"
+                android:textSize="@dimen/main_bottom_nav_size"
                 android:background="@color/color_transparent"
                 android:id="@+id/radiobtn_study"
                 android:drawableTop="@drawable/main_ui_study_selector"
@@ -52,22 +55,52 @@
                 style="@style/RadioGroupButtonStyle"/>
 
             <RadioButton
-                android:textSize="13dp"
+                android:textSize="@dimen/main_bottom_nav_size"
                 android:background="@color/color_transparent"
                 android:id="@+id/radiobtn_message"
                 android:drawableTop="@drawable/main_ui_message_selector"
                 android:text="消息"
                 style="@style/RadioGroupButtonStyle"/>
             <RadioButton
-                android:textSize="13dp"
+                android:textSize="@dimen/main_bottom_nav_size"
                 android:background="@color/color_transparent"
                 android:id="@+id/radiobtn_userinfo"
                 android:drawableTop="@drawable/main_ui_my_selector"
                 android:text="我的"
                 style="@style/RadioGroupButtonStyle"/>
-
-
         </RadioGroup>
+
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp">-->
+
+<!--            <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--                android:id="@+id/bnv_main_nav"-->
+<!--                android:background="@color/white"-->
+<!--                app:labelVisibilityMode="labeled"-->
+<!--                app:itemIconTint="@color/color_selector"-->
+<!--                app:itemTextColor="@color/color_selector"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:itemBackground="@color/white"-->
+<!--                app:menu="@menu/main_ui_nav"/>-->
+
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/rlayout_main_add"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/img_add_dynamic"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:elevation="2dp"-->
+<!--                    android:src="@drawable/eoc_nvc_add_pic"/>-->
+
+<!--            </RelativeLayout>-->
+
+<!--        </FrameLayout>-->
 
     </LinearLayout>
 

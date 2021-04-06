@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_main_ui_index"
+        android:title="首页"
+        android:icon="@drawable/eoc_nvc_index_pic_select_false" />
+
+    <item android:id="@+id/menu_main_ui_study"
+        android:title="学吧"
+        android:icon="@drawable/eoc_nvc_study_pic_select_false"/>
+
+    <item android:id="@+id/menu_main_ui_adddynamic"
+        android:icon="@null"
+        android:title="@null" />
+
+    <item android:id="@+id/menu_main_ui_message"
+        android:icon="@drawable/eoc_nvc_message_pic_select_false"
+        android:title="消息"/>
+
+    <item android:id="@+id/menu_main_ui_my"
+        android:icon="@drawable/eoc_nvc_my_pic_select_false"
+        android:title="我的"/>
+
+</menu>

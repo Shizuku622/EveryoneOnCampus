@@ -40,4 +40,31 @@
         <item name="android:textColor">@color/eoc_grey</item>
         <item name="android:textStyle">normal</item>
     </style>
+
+    <style name="main_ui_size">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+    </style>
+
+    <style name="tuijian_headpic_size">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
+    <style name="bnv_normal">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="default_margin">
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="view_widthmatch_height1dp">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/view_linear</item>
+    </style>
 </resources>

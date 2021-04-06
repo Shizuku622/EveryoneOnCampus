@@ -23,7 +23,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
                 app:cardCornerRadius="7dp"
-                android:layout_height="270dp">
+                android:layout_height="260dp">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -55,8 +55,7 @@
                                 <ImageView
                                     android:layout_gravity="center"
                                     android:src="@drawable/eoc_schoolmap"
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"/>
+                                    style="@style/main_ui_size"/>
 
                                 <TextView
                                     android:layout_marginTop="5dp"
@@ -64,10 +63,12 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
+                                    android:textSize="@dimen/main_size_12sp"
                                     android:text="学校地图"/>
 
                             </LinearLayout>
                             <LinearLayout
+                                android:id="@+id/llayout_school_activity"
                                 android:orientation="vertical"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
@@ -76,19 +77,20 @@
                                 <ImageView
                                     android:layout_gravity="center"
                                     android:src="@drawable/eoc_newactivity"
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"/>
+                                    style="@style/main_ui_size" />
 
                                 <TextView
+                                    android:textSize="@dimen/main_size_12sp"
                                     android:layout_marginTop="5dp"
                                     android:layout_gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
-                                    android:text="最新活动"/>
+                                    android:text="校内活动"/>
 
                             </LinearLayout>
                             <LinearLayout
+                                android:id="@+id/llayout_library"
                                 android:orientation="vertical"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
@@ -97,10 +99,10 @@
                                 <ImageView
                                     android:layout_gravity="center"
                                     android:src="@drawable/eoc_libary"
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"/>
+                                    style="@style/main_ui_size"/>
 
                                 <TextView
+                                    android:textSize="@dimen/main_size_12sp"
                                     android:layout_marginTop="5dp"
                                     android:layout_gravity="center"
                                     android:layout_width="wrap_content"
@@ -119,10 +121,10 @@
                                 <ImageView
                                     android:layout_gravity="center"
                                     android:src="@drawable/eoc_lose"
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"/>
+                                    style="@style/main_ui_size"/>
 
                                 <TextView
+                                    android:textSize="@dimen/main_size_12sp"
                                     android:layout_marginTop="5dp"
                                     android:layout_gravity="center"
                                     android:layout_width="wrap_content"
@@ -132,6 +134,28 @@
 
                             </LinearLayout>
 
+                            <LinearLayout
+                                android:id="@+id/llayout_canting"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/eoc_canting"
+                                    style="@style/main_ui_size"/>
+
+                                <TextView
+                                    android:textSize="@dimen/main_size_12sp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:text="餐厅特色"/>
+
+                            </LinearLayout>
                         </LinearLayout>
 
                     </LinearLayout>
