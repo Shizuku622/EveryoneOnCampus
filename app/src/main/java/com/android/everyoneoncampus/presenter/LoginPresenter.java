@@ -104,9 +104,9 @@ public class LoginPresenter {
         String userID = mSpModel.readUserID();
         if(!userID.equals(SPModel.NO_INFO)){
             EocApplication.setUserID(userID);
-            mLaunchActivity.LoginMainUI();
+            mLaunchActivity.gotoMainUI();
         }else{
-            mLaunchActivity.loginLoginUI();
+            mLaunchActivity.gotoLoginUI();
         }
     }
 

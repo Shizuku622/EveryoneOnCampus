@@ -38,7 +38,7 @@ public class MainUIActivity extends BaseActivity {
     /**
      * 设置退出时间
      */
-    private final long BACK_TIME = 1000;
+    private final long BACK_TIME = 1600;
     /**
      * 上次按退出的时间
      */
@@ -63,7 +63,7 @@ public class MainUIActivity extends BaseActivity {
             super.onBackPressed();
         }else{
             lastTime = currentTime;
-            Toast.makeText(this, "快速双击退出", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -51,6 +51,8 @@ public class UIUserInfoFragment extends Fragment {
         mUIUserInfoPresenter.getFollowDynamic();
     }
 
+
+
     public void setFollowDynamicNum(List<String> n){
         mBinding.txtFollow.setText(n.get(0));
         mBinding.txtFollowed.setText(n.get(1));

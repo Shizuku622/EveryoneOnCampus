@@ -44,12 +44,12 @@ public class LaunchActivity extends BaseActivity {
                 }).start();
     }
 
-    public void loginLoginUI(){
+    public void gotoLoginUI(){
         Intent intent = new Intent(LaunchActivity.this, UserLoginActivity.class);
         startActivity(intent);
     }
 
-    public void LoginMainUI(){
+    public void gotoMainUI(){
         Intent intent = new Intent(LaunchActivity.this, MainUIActivity.class);
         startActivity(intent);
     }

@@ -25,8 +25,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".view.modifInfo.ModifInfoActivity"></activity>
-        <activity android:name=".view.schoolactivity.SchoolActivity"></activity>
+        <activity android:name=".view.forgetpasswd.ForgetPasswdActivity"></activity>
+        <activity android:name=".view.modifInfo.ModifInfoActivity" />
+        <activity android:name=".view.schoolactivity.SchoolActivity" />
         <activity android:name=".view.library.LibraryActivity" />
         <activity android:name=".view.canteen.CanteenActivity" />
         <activity android:name=".BnvTestActivity" />

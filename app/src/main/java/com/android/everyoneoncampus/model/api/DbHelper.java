@@ -182,8 +182,12 @@ public class DbHelper {
         return count;
     }
 
+    /**
+     * @param dataListener
+     * 获取所有的lc关于用户
+     */
     public void selectAllLCUserInfo(DataListener<List<User>> dataListener){
-        String sql = String.format("select * from lcuser");
+        String sql = String.format("select * from lcuser where userID = %s",mSPModel.readUserID());
         Cursor cursor = selectData(sql);
         List<User> userList = new ArrayList<>();
         while(cursor.moveToNext()){
@@ -208,12 +212,9 @@ public class DbHelper {
      * @return true表示有该用户，false表示无该用户
      */
     public boolean selectLCUserInfo(String userID){
-        String sql = String.format("select * from lcuser where userID = '%s'",userID);
+        String sql = String.format("select * from lcuser where  userChatID = '%s' and userID = '%s'",userID,mSPModel.readUserID());
         Cursor cursor = selectData(sql);
-        if(cursor.moveToNext()){
-            return true;
-        }
-        return false;
+        return cursor.moveToNext();
     }
 
     /**
@@ -221,7 +222,7 @@ public class DbHelper {
      * 更新已有的信息，通过ID查询
      */
     public void updateLCUserInfo(User user){
-        String sql = String.format("update lcuser set userName='%s',headPic='%s' where userChatID='%s' and userID='%s'",user.userName,user.headPic,user.userID,mSPModel.readUserID());
+        String sql = String.format("update lcuser set userName='%s',headPic='%s' where userChatID='%s' and userID='%s'",user.userName,EocTools.byteConvertString(user.headPic),user.userID,mSPModel.readUserID());
         updateDate(sql);
     }
 
@@ -229,10 +230,9 @@ public class DbHelper {
      * 保存lc信息
      */
     public void insertLCUserInfo(User user){
-        String sql = String.format("INSERT INTO lcuser(userID,userChatID,userName,headPic) VALUES('%s','%s','%s','%s')",mSPModel.readUserID(),user.userID, user.userName,user.headPic);
+        String sql = String.format("INSERT INTO lcuser(userID,userChatID,userName,headPic) VALUES('%s','%s','%s','%s')",mSPModel.readUserID(),user.userID, user.userName,EocTools.byteConvertString(user.headPic));
         insertData(sql);
     }
-
 
     //更新用户信息
     public void updateExistUserInfo(User user){

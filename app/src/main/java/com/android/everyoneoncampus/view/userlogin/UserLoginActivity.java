@@ -13,6 +13,7 @@ import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.databinding.ActivityUserloginBinding;
 import com.android.everyoneoncampus.presenter.LoginPresenter;
+import com.android.everyoneoncampus.view.forgetpasswd.ForgetPasswdActivity;
 import com.android.everyoneoncampus.view.mainui.MainUIActivity;
 import com.android.everyoneoncampus.view.writepersoninfo.PersoninfoActivity;
 import com.android.everyoneoncampus.view.register.RegisterActivity;
@@ -24,6 +25,10 @@ public class UserLoginActivity extends BaseActivity {
     private ActivityUserloginBinding mBinding;
     private LoginPresenter mLoginPresenter;
     private static final String TAG = "UserLoginActivity";
+
+    private long lastBackTime = 0;
+    private final long SET_BACK_TIME = 1600;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +65,21 @@ public class UserLoginActivity extends BaseActivity {
         mBinding.txtRegister.setOnClickListener(v->{
             startActivity(new Intent(this, RegisterActivity.class));
         });
+
+        mBinding.txtForgetPasswd.setOnClickListener(v->{
+            startActivity(new Intent(this, ForgetPasswdActivity.class));
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+        if(currentTime - lastBackTime < SET_BACK_TIME){
+            super.onBackPressed();
+        }else{
+            Toast.makeText(this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
+            lastBackTime = currentTime;
+        }
     }
 
     private void initViews(){

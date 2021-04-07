@@ -2,6 +2,7 @@ package com.android.everyoneoncampus;
 
 import android.graphics.Bitmap;
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.everyoneoncampus.model.api.DbHelper;
 import com.android.everyoneoncampus.model.api.MySQLModel;
@@ -20,7 +21,7 @@ public class CustomUserProvider implements LCChatProfileProvider {
 
     private static CustomUserProvider customUserProvider;
     private static List<LCChatKitUser> allUser = new ArrayList<>();
-
+    private static final String TAG = "CustomUserProvider";
     public synchronized static CustomUserProvider getInstance(){
         if(null == customUserProvider){
             customUserProvider = new CustomUserProvider();
@@ -40,6 +41,7 @@ public class CustomUserProvider implements LCChatProfileProvider {
         String headPic = Base64.encodeToString(headPicByte,Base64.DEFAULT);
         LCChatKitUser lcChatKitUser = new LCChatKitUser(userID,userName,headPic);
         allUser.add(lcChatKitUser);
+        Log.d(TAG, user.userID + ","+user.userName);
     }
 
     public static void updateLCUser(User user){

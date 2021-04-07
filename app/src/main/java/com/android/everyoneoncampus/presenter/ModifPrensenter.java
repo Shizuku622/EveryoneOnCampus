@@ -2,6 +2,9 @@ package com.android.everyoneoncampus.presenter;
 
 import android.widget.Toast;
 
+import com.android.everyoneoncampus.CustomUserProvider;
+import com.android.everyoneoncampus.EocApplication;
+import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.model.api.DbHelper;
 import com.android.everyoneoncampus.model.api.MySQLModel;
@@ -21,9 +24,6 @@ public class ModifPrensenter {
      * 修改用户信息
      */
     public void modifUserInfo(User user,boolean headpic){
-
-        mDbHelper.updateLCUserInfo(user);
-
         //保存在网络
         mMySQLModel.updateModifUserApi(user, headpic, new DataListener<Integer>() {
             @Override

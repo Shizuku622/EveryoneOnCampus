@@ -31,11 +31,6 @@ public class FollowInfoActivity extends BaseActivity {
         mFollowPresenter = new FollowPresenter(this);
         initView();
         initListener();
-
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        mFollowUser = (User)bundle.getSerializable(FollowListItemAdapter.GET_FOLLOW_USER_INFO);
-        mUserID = intent.getStringExtra("userID");
         //获取id
         mFollowPresenter.getFollowInfo(mUserID);
     }
@@ -54,6 +49,11 @@ public class FollowInfoActivity extends BaseActivity {
     }
 
     private void initView() {
+        Intent intent = getIntent();
+//        Bundle bundle = intent.getExtras();
+//        mFollowUser = (User)bundle.getSerializable(FollowListItemAdapter.GET_FOLLOW_USER_INFO);
+        mUserID = intent.getStringExtra("userID");
+
         mBinding.btnFollowSendMessage.setVisibility(View.GONE);
         mBinding.cttFollowInfo.setTxtTitle("信息");
     }

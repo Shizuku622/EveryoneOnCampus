@@ -24,24 +24,24 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="61c82111-382b-48b9-81eb-d9a9a030aa0d">
-        <schema name="main" object-types="view, table" />
+      <connection connection-id="482fcf17-5943-4add-80b8-bfa9f48ab56f">
+        <schema name="main" object-types="view, column, dataset trigger, table, constraint, index" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="61c82111-382b-48b9-81eb-d9a9a030aa0d">
-      <console name="Connection 1" type="STANDARD" schema="main" session="Main" />
+    <connection id="482fcf17-5943-4add-80b8-bfa9f48ab56f">
+      <console name="Connection" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="61c82111-382b-48b9-81eb-d9a9a030aa0d" />
+    <connection id="482fcf17-5943-4add-80b8-bfa9f48ab56f" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="61c82111-382b-48b9-81eb-d9a9a030aa0d" dataset="main.lcuser" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="482fcf17-5943-4add-80b8-bfa9f48ab56f" dataset="main.lcuser" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -69,9 +69,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="61c82111-382b-48b9-81eb-d9a9a030aa0d" active="true">
+      <connection id="482fcf17-5943-4add-80b8-bfa9f48ab56f" active="true">
         <database>
-          <name value="Connection 1" />
+          <name value="Connection" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
@@ -84,7 +84,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="C:\Users\Kaneki\Desktop\EocDBqqq" schema="main" />
+            <file path="C:\Users\Kaneki\Desktop\ddbdbdbd" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
