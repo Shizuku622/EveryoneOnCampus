@@ -45,6 +45,19 @@ public class UIUserInfoPresenter {
     }
 
 
+    /**
+     * 获得关注、被关注和动态
+     */
+    public void getFollowDynamic(){
+        mMySQLModel.getFollowDynamic(new DataListener<List<String>>() {
+            @Override
+            public void onComplete(List<String> result) {
+                mUiUserInfoFragment.setFollowDynamicNum(result);
+            }
+        });
+    }
+
+
     //下面的个人信息
     public void getSQliteBottomDetailUserInfo(){
         mDbHelper.readCurrentUserInfo(new DataListener<User>() {
@@ -99,7 +112,6 @@ public class UIUserInfoPresenter {
                     mDbHelper.updateExistUserInfo(result);
                     //同步跟新到界面
                     getSQliteMainUserInfo();
-                    mUiUserInfoFragment.stopRefresh();
                     Log.d(TAG, "onComplete: 停止刷新");
                 }
             }

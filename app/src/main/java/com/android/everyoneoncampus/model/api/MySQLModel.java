@@ -61,6 +61,36 @@ public class MySQLModel {
     *
     * */
 
+    public void getFollowDynamic(DataListener<List<String>> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                dataListener.onComplete((List<String>)msg.obj);
+            }
+        };
+        new Thread(()->{
+            String SQL = String.format("SELECT count(*) as num FROM `follow` WHERE userID = %s " +
+                    "UNION all " +
+                    "SELECT count(*) as num FROM `follow` WHERE userIDed = %s " +
+                    "UNION all " +
+                    "SELECT count(*) as num FROM `things` WHERE userID = %s",mSPModel.readUserID(),mSPModel.readUserID(),mSPModel.readUserID());
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
+                ResultSet resultSet = ps.executeQuery();
+                Message message = Message.obtain();
+                List<String> numList = new ArrayList<>();
+                while(resultSet.next()){
+                    String num = resultSet.getString("num");
+                    numList.add(num);
+                }
+                message.obj = numList;
+                handler.sendMessage(message);
+            }catch (Exception e){
+                Log.e(TAG, e.getMessage());
+            }
+        }).start();
+    }
+
     public void updateModifUserApi(User user,boolean h,DataListener<Integer> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
@@ -807,26 +837,10 @@ public class MySQLModel {
         };
         new Thread(()->{
 //            String SQL = String.format("select * from user where userID='%s'",mSPModel.readUserID());
-            String SQL = String.format("select `user`.*,school.*,count(`user`.userID) as follow " +
-                    "                    from `user` " +
-                    "                    join follow " +
-                    "  join school " +
-                    "                    on `user`.userID = follow.userID and `user`.userID = '%s'  and `user`.userSchool = school.schoolID " +
-                    "                    GROUP BY `user`.userID " +
-                    "                    UNION ALL " +
-                    "select `user`.*,school.*,count(`user`.userID) as followed " +
-                    "                    from `user`  " +
-                    "                    join follow " +
-                    "join school " +
-                    "                    on `user`.userID = follow.userIDed and `user`.userID = '%s' and `user`.userSchool = school.schoolID " +
-                    "                    GROUP BY `user`.userID " +
-                    "                    UNION ALL " +
-                    "select `user`.*,school.*,count(`user`.userID) as followed " +
-                    "                    from `user`  " +
-                    "                    join things " +
-                    " join school " +
-                    "                    on `user`.userID = things.userID and `user`.userID = '%s' and `user`.userSchool = school.schoolID " +
-                    "                    GROUP BY `user`.userID  ",mSPModel.readUserID(),mSPModel.readUserID(),mSPModel.readUserID());
+            String SQL = String.format("SELECT `user`.*,school.* " +
+                    "FROM `user` " +
+                    "JOIN school " +
+                    "on `user`.userSchool = school.schoolID and `user`.userID = %s",mSPModel.readUserID());
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
                 ResultSet resultSet = ps.executeQuery();
                 User userInfo = new User();
@@ -843,7 +857,6 @@ public class MySQLModel {
                     userInfo.userlabel = resultSet.getString("userlabel");
                     userInfo.mark = resultSet.getString("mark");
                     userInfo.userNicheng = resultSet.getString("userNicheng");
-                    userInfo.followNumber = resultSet.getString("follow");
                     userInfo.userSpeci = resultSet.getString("userSpeci");
                     userInfo.headPic = resultSet.getBytes("headPic");
                     userInfo.model = resultSet.getString("model");
@@ -851,14 +864,6 @@ public class MySQLModel {
                     userInfo.followMark = resultSet.getString("followMark");
                     userInfo.followedMark = resultSet.getString("followedMark");
                     Log.d(TAG, "follow获取成功");
-                }
-                if(resultSet.next()){
-                    userInfo.followedNumber = resultSet.getString("follow");
-                    Log.d(TAG, "followed获取成功");
-                }
-                if(resultSet.next()){
-                    userInfo.dynamicNumber = resultSet.getString("follow");
-                    Log.d(TAG, "dynamic获取成功");
                 }
                 Message msg = Message.obtain();
                 msg.what = 1;

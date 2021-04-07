@@ -19,6 +19,8 @@ import com.android.everyoneoncampus.presenter.UIUserInfoPresenter;
 import com.android.everyoneoncampus.view.follow.FollowListActivity;
 import com.android.everyoneoncampus.view.setting.SettingActivity;
 
+import java.util.List;
+
 public class UIUserInfoFragment extends Fragment {
     private FragmentUiUserInfoBinding mBinding;
     private UIUserInfoPresenter mUIUserInfoPresenter;
@@ -36,22 +38,30 @@ public class UIUserInfoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentUiUserInfoBinding.inflate(inflater,container,false);
-        View view = mBinding.getRoot();
+        return mBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mUIUserInfoPresenter = new UIUserInfoPresenter(this);
         initView();
         initListener();
-        return view;
+        mUIUserInfoPresenter.getSQliteMainUserInfo();
+        mUIUserInfoPresenter.getFollowDynamic();
+    }
+
+    public void setFollowDynamicNum(List<String> n){
+        mBinding.txtFollow.setText(n.get(0));
+        mBinding.txtFollowed.setText(n.get(1));
+        mBinding.txtDynamic.setText(n.get(2));
     }
 
     private void initView() {
 
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mUIUserInfoPresenter.getSQliteMainUserInfo();
-    }
+
 
     @Override
     public void onResume() {
@@ -64,6 +74,8 @@ public class UIUserInfoFragment extends Fragment {
             public void onRefresh() {
                 //刷新
                 mUIUserInfoPresenter.getCurrentUserInfo();
+                mUIUserInfoPresenter.getFollowDynamic();
+                stopRefresh();
             }
         });
         mBinding.rlayoutInfo.setOnClickListener(v->{
@@ -115,15 +127,9 @@ public class UIUserInfoFragment extends Fragment {
         mBinding.txtJianjie.setText("简介："+info.userAutograph);
         //头像
         mBinding.imgHeadpic.setImageBitmap(EocTools.convertBitmap(info.headPic));
-        if(info.dynamicNumber.equals("")){
-            mBinding.txtDynamic.setText("0");
 
-        }else{
-            mBinding.txtDynamic.setText(info.dynamicNumber);
-        }
-        mBinding.txtFollow.setText(info.followNumber);
-        mBinding.txtFollowed.setText(info.followedNumber);
     }
+
 
 
 }
