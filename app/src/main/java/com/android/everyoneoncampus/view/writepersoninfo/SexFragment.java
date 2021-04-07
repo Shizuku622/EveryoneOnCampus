@@ -1,4 +1,4 @@
-package com.android.everyoneoncampus.view.personinfo;
+package com.android.everyoneoncampus.view.writepersoninfo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

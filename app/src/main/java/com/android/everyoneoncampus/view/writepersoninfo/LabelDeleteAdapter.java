@@ -1,8 +1,5 @@
-package com.android.everyoneoncampus.view.personinfo;
+package com.android.everyoneoncampus.view.writepersoninfo;
 
-import android.content.Intent;
-import android.text.Layout;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.everyoneoncampus.R;
 import com.android.everyoneoncampus.allinterface.OperateMethod;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

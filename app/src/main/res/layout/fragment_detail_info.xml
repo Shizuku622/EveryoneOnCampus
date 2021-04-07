@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/rlayout_base_userinfo"
         android:layout_width="match_parent"
         android:layout_height="45dp">
 
@@ -22,8 +23,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:textSize="30dp"
             android:src="@drawable/eoc_rightexit"/>
 

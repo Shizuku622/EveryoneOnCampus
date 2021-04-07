@@ -1,5 +1,6 @@
 package com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.android.everyoneoncampus.databinding.FragmentDetailInfoBinding;
 import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.presenter.UIUserInfoPresenter;
+import com.android.everyoneoncampus.view.modifInfo.ModifInfoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +28,24 @@ public class UserInfoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentDetailInfoBinding.inflate(inflater,container,false);
-        View view = mBinding.getRoot();
-        mUIUserInfoPresenter = new UIUserInfoPresenter(this);
-        return view;
+        return mBinding.getRoot();
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mUIUserInfoPresenter = new UIUserInfoPresenter(this);
         initView();
+        initListener();
+    }
+
+    private void initListener() {
+        mBinding.rlayoutBaseUserinfo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ModifInfoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView() {

@@ -2,7 +2,6 @@ package com.android.everyoneoncampus;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -23,7 +22,7 @@ import android.widget.Toast;
 
 import com.android.everyoneoncampus.allinterface.DataListener;
 import com.android.everyoneoncampus.model.api.MySQLModel;
-import com.android.everyoneoncampus.view.personinfo.FileUtil;
+import com.android.everyoneoncampus.view.writepersoninfo.FileUtil;
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;

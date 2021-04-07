@@ -42,7 +42,7 @@ public class Presenter {
     public void getThingsAll(int getWhere){
         //先从sqlite 获取事件
         mTuijianIndexFragmentView.startRefresh();
-        if(mDbHelper.selectThingsCount() != 0 && getWhere == 1){
+        if(mDbHelper.selectThingsCount() != 0 && getWhere == 1 && EocApplication.getLoginUpdate() == 0){
             mDbHelper.getSQLiteAllThings(new DataListener<List<Things>>() {
                 @Override
                 public void onComplete(List<Things> result) {

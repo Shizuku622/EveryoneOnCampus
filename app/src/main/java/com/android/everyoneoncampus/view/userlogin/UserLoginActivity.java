@@ -2,7 +2,6 @@ package com.android.everyoneoncampus.view.userlogin;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -12,11 +11,10 @@ import android.widget.Toast;
 
 import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.EocApplication;
-import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.databinding.ActivityUserloginBinding;
 import com.android.everyoneoncampus.presenter.LoginPresenter;
 import com.android.everyoneoncampus.view.mainui.MainUIActivity;
-import com.android.everyoneoncampus.view.personinfo.PersoninfoActivity;
+import com.android.everyoneoncampus.view.writepersoninfo.PersoninfoActivity;
 import com.android.everyoneoncampus.view.register.RegisterActivity;
 
 import java.io.File;

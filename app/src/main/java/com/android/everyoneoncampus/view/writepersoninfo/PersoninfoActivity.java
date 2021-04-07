@@ -1,13 +1,11 @@
-package com.android.everyoneoncampus.view.personinfo;
+package com.android.everyoneoncampus.view.writepersoninfo;
 
 import androidx.fragment.app.Fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.android.everyoneoncampus.BaseActivity;
 import com.android.everyoneoncampus.allinterface.OperateMethod;

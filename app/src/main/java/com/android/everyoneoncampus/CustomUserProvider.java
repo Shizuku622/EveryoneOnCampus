@@ -44,7 +44,7 @@ public class CustomUserProvider implements LCChatProfileProvider {
 
     public static void updateLCUser(User user){
         for(LCChatKitUser lc : allUser){
-            if(lc.getUserId().equals("EOC"+user.userID)){
+            if(lc.getUserId().equals(EocApplication.USER_MARK+user.userID)){
                 lc.setName(user.userName);
                 String headPic = Base64.encodeToString(user.headPic,Base64.DEFAULT);
                 lc.setAvatarUrl(headPic);

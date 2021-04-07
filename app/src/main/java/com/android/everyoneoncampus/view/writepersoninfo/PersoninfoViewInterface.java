@@ -1,9 +1,8 @@
-package com.android.everyoneoncampus.view.personinfo;
+package com.android.everyoneoncampus.view.writepersoninfo;
 
 import com.android.everyoneoncampus.model.LabelAll;
 
 import java.util.List;
-import java.util.Map;
 
 public interface PersoninfoViewInterface {
     //设置标题和内容

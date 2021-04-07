@@ -12,7 +12,7 @@ import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.DynamicInfoFra
 import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UIUserInfoFragment;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UserInfoActivity;
 import com.android.everyoneoncampus.view.mainui.uifrag.uiuserinfo.UserInfoFragment;
-import com.android.everyoneoncampus.view.personinfo.PersonInfoFragment;
+import com.android.everyoneoncampus.view.writepersoninfo.PersonInfoFragment;
 
 import java.util.List;
 

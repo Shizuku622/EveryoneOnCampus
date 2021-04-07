@@ -115,7 +115,12 @@ public class UIUserInfoFragment extends Fragment {
         mBinding.txtJianjie.setText("简介："+info.userAutograph);
         //头像
         mBinding.imgHeadpic.setImageBitmap(EocTools.convertBitmap(info.headPic));
-        mBinding.txtDynamic.setText(info.dynamicNumber);
+        if(info.dynamicNumber.equals("")){
+            mBinding.txtDynamic.setText("0");
+
+        }else{
+            mBinding.txtDynamic.setText(info.dynamicNumber);
+        }
         mBinding.txtFollow.setText(info.followNumber);
         mBinding.txtFollowed.setText(info.followedNumber);
     }

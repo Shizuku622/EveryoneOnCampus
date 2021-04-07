@@ -188,7 +188,7 @@ public class DbHelper {
         List<User> userList = new ArrayList<>();
         while(cursor.moveToNext()){
             User temp = new User();
-            temp.userID = cursor.getString(cursor.getColumnIndex("userID"));
+            temp.userID = cursor.getString(cursor.getColumnIndex("userChatID"));
             temp.userName = cursor.getString(cursor.getColumnIndex("userName"));
             byte[] heapic = Base64.decode(cursor.getString(cursor.getColumnIndex("headPic")),Base64.DEFAULT);
             temp.headPic = heapic;

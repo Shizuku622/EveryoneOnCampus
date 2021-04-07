@@ -15,6 +15,7 @@ public class CustomTitle extends RelativeLayout {
     private TextView mTxtTitle;
     private ImageView mImgMenu;
     private View mView;
+    private TextView mText;
 
     public CustomTitle(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -23,6 +24,23 @@ public class CustomTitle extends RelativeLayout {
         mTxtTitle = findViewById(R.id.txt_custom_title);
         mImgMenu = findViewById(R.id.imgbtn_custom_menu);
         mView = findViewById(R.id.view_custom_title);
+        mText = findViewById(R.id.txt_custom_text);
+    }
+
+    public void setTxtbtnName(String name){
+        mText.setText(name);
+    }
+
+    public void setOnTxtBtnClickListener(View.OnClickListener onClickListener){
+        mText.setOnClickListener(onClickListener);
+    }
+
+    public void showTxtBtn(boolean isShow){
+        if(isShow){
+            mText.setVisibility(View.VISIBLE);
+        }else{
+            mText.setVisibility(View.GONE);
+        }
     }
 
     public void showBottomView(boolean isShow){

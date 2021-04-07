@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -23,7 +22,7 @@ import com.android.everyoneoncampus.EocTools;
 import com.android.everyoneoncampus.databinding.ActivityReleaseBinding;
 import com.android.everyoneoncampus.presenter.Presenter;
 import com.android.everyoneoncampus.presenter.ThingsPresenter;
-import com.android.everyoneoncampus.view.personinfo.FileUtil;
+import com.android.everyoneoncampus.view.writepersoninfo.FileUtil;
 
 import java.io.File;
 

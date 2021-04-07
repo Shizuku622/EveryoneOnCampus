@@ -1,4 +1,4 @@
-package com.android.everyoneoncampus.view.personinfo;
+package com.android.everyoneoncampus.view.writepersoninfo;
 
 import android.Manifest;
 import android.content.Intent;
@@ -40,20 +40,48 @@ public class PersonInfoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentPersoninfoBinding.inflate(inflater,container,false);
-        View view = mBinding.getRoot();
-        mPresenter = new WriteInfoPresenter(this);
-        mUIUserInfoPresenter = new UIUserInfoPresenter(this);
-//        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},CHOOSE_PHOTO_CODE);
-//        }
-
-        return view;
+        return mBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mBinding.editNichen.addTextChangedListener(new TextWatcher() {
+        mPresenter = new WriteInfoPresenter(this);
+        mUIUserInfoPresenter = new UIUserInfoPresenter(this);
+        initView();
+        initListenter();
+    }
+
+    private void initView() {
+
+    }
+
+    private void initListenter() {
+        mBinding.imgMofTouxiang.setOnClickListener(v->{
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},CHOOSE_PHOTO_CODE);
+            }else{
+                openPhoto();
+            }
+        });
+
+        mBinding.editZhuanye.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                mSpModel.writeZhuanYe(s.toString());
+                EocApplication.getUserInfo().userSpeci = s.toString();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mBinding.editQianming.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -61,10 +89,9 @@ public class PersonInfoFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                mSpModel.writeNiCheng(s.toString());
-                EocApplication.getUserInfo().userNicheng = s.toString();
+//                mSpModel.writeQianMing(s.toString());
+                EocApplication.getUserInfo().userAutograph = s.toString();
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -89,7 +116,8 @@ public class PersonInfoFragment extends Fragment {
             }
         });
 
-        mBinding.editQianming.addTextChangedListener(new TextWatcher() {
+
+        mBinding.editNichen.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -97,38 +125,14 @@ public class PersonInfoFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                mSpModel.writeQianMing(s.toString());
-                EocApplication.getUserInfo().userAutograph = s.toString();
+//                mSpModel.writeNiCheng(s.toString());
+                EocApplication.getUserInfo().userNicheng = s.toString();
             }
+
             @Override
             public void afterTextChanged(Editable s) {
 
             }
-        });
-
-        mBinding.editZhuanye.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                mSpModel.writeZhuanYe(s.toString());
-                EocApplication.getUserInfo().userSpeci = s.toString();
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        mBinding.imgMofTouxiang.setOnClickListener(v->{
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},CHOOSE_PHOTO_CODE);
-            }else{
-                openPhoto();
-            }
-
         });
     }
 
@@ -146,7 +150,6 @@ public class PersonInfoFragment extends Fragment {
                 Uri uri = data.getData(); // uri
                 //获得图片路径
                 String filePathName = FileUtil.getFilePathByUri(getActivity(),uri);
-
                 //复制图片到本地
 //              CopyFile.copySigleFile(filePathName,getActivity().getExternalFilesDir("").getAbsolutePath()+File.separator+getPathName(filePathName));
                 //上传头像

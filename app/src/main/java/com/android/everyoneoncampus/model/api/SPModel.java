@@ -21,6 +21,8 @@ public class SPModel {
         return mWriteInfo;
     }
 
+    //设置重新登录之后，之后获取最新的。
+
     //清除用户ID
     public void clearUserID(){
         SharedPreferences.Editor editor = mUserInfo.edit();

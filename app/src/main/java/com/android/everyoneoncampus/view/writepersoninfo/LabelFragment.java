@@ -1,4 +1,4 @@
-package com.android.everyoneoncampus.view.personinfo;
+package com.android.everyoneoncampus.view.writepersoninfo;
 
 import android.content.Intent;
 import android.os.Bundle;

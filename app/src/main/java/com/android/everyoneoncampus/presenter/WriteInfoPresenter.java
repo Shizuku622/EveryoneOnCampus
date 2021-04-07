@@ -8,8 +8,8 @@ import com.android.everyoneoncampus.EocApplication;
 import com.android.everyoneoncampus.model.api.DbHelper;
 import com.android.everyoneoncampus.model.api.MySQLModel;
 import com.android.everyoneoncampus.model.api.SPModel;
-import com.android.everyoneoncampus.view.personinfo.LabelFragment;
-import com.android.everyoneoncampus.view.personinfo.PersonInfoFragment;
+import com.android.everyoneoncampus.view.writepersoninfo.LabelFragment;
+import com.android.everyoneoncampus.view.writepersoninfo.PersonInfoFragment;
 
 import java.util.List;
 

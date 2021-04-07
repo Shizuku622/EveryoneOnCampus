@@ -25,10 +25,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".view.schoolactivity.SchoolActivity">
-
-        </activity>
-        <activity android:name=".view.library.LibraryActivity"></activity>
+        <activity android:name=".view.modifInfo.ModifInfoActivity"></activity>
+        <activity android:name=".view.schoolactivity.SchoolActivity"></activity>
+        <activity android:name=".view.library.LibraryActivity" />
         <activity android:name=".view.canteen.CanteenActivity" />
         <activity android:name=".BnvTestActivity" />
         <activity android:name=".view.mainui.uifrag.uiindex.tuijian.LoseTakeActivity" />
@@ -55,7 +54,7 @@
         <activity android:name=".view.mainui.ChooseDynamicActivity" />
         <activity android:name=".view.mainui.ReleaseDynamicActivity" />
         <activity android:name=".view.mainui.MainUIActivity" /> <!-- <receiver android:name=".view.personinfo.LabelContentFragment$MofFragmentAdapter" -->
-        <activity android:name=".view.personinfo.PersoninfoActivity" />
+        <activity android:name=".view.writepersoninfo.PersoninfoActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".view.register.RegisterActivity" />
         <activity

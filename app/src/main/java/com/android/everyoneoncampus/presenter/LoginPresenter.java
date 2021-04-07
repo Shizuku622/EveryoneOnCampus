@@ -21,7 +21,7 @@ import com.android.everyoneoncampus.model.api.SPModel;
 import com.android.everyoneoncampus.model.entity.User;
 import com.android.everyoneoncampus.view.LaunchActivity;
 import com.android.everyoneoncampus.view.mainui.MainUIActivity;
-import com.android.everyoneoncampus.view.personinfo.PersoninfoViewInterface;
+import com.android.everyoneoncampus.view.writepersoninfo.PersoninfoViewInterface;
 import com.android.everyoneoncampus.view.register.RegisterViewInterface;
 import com.android.everyoneoncampus.view.userlogin.UserLoginActivity;
 
@@ -144,7 +144,7 @@ public class LoginPresenter {
     //登录
     public void userLogin(String user,String passwd){
         mUserLoginActivity.showProgressLogin();
-        mMySQLModel.getUserLogin(user, passwd, new DataListener<User>() {
+        mMySQLModel.UserLoginApi(user, passwd, new DataListener<User>() {
             @Override
             public void onComplete(User result) {
                 if(result != null){
@@ -152,6 +152,8 @@ public class LoginPresenter {
                     loginLeanCloud(result);
                     //保存用户ID到sp
                     mSpModel.saveUserID(result.userID);
+                    //设置更新标志
+                    EocApplication.setLoginUpdate(1);
                     if(mDbHelper.selectUserExist(result.userID)){
                         //更新用户信息就可以
                         Log.d(TAG, "onComplete: 更新");

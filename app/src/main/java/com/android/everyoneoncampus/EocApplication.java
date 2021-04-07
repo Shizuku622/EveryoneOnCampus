@@ -11,6 +11,7 @@ public class EocApplication extends Application {
     private static Context context;
     private static String userID;
     public static String USER_MARK = "EOC";
+    private static int loginUpdate = 0;
 
     private final String APP_ID = "LmuXlj2lu5JzK1ynPyKwngml-gzGzoHsz";
     private final String APP_KEY = "v4njrqhhEREfqnKj1V3VNyVT";
@@ -49,6 +50,14 @@ public class EocApplication extends Application {
 
     public static void setUserID(String userID) {
         EocApplication.userID = userID;
+    }
+
+    public static int getLoginUpdate() {
+        return loginUpdate;
+    }
+
+    public static void setLoginUpdate(int loginUpdate) {
+        EocApplication.loginUpdate = loginUpdate;
     }
 
     @Override

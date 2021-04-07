@@ -1,4 +1,4 @@
-package com.android.everyoneoncampus.view.personinfo;
+package com.android.everyoneoncampus.view.writepersoninfo;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

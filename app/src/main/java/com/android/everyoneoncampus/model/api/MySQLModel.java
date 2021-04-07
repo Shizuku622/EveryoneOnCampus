@@ -61,6 +61,48 @@ public class MySQLModel {
     *
     * */
 
+    public void updateModifUserApi(User user,boolean h,DataListener<Integer> dataListener){
+        Handler handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                if(msg.what == 1){
+                    dataListener.onComplete(1);
+                }else{
+                    dataListener.onComplete(2);
+                }
+            }
+        };
+        new Thread(()->{
+            String sql;
+            if(h){
+                sql = String.format("update user set userNicheng='%s',userSex='%s',userAutograph='%s',userPhone='%s',userPlace='%s',headPic=? where userID = '%s'",user.userNicheng,user.userSex,user.userAutograph,user.userPhone,user.userPlace,mSPModel.readUserID());
+            }else{
+                sql = String.format("update user set userNicheng='%s',userSex='%s',userAutograph='%s',userPhone='%s',userPlace='%s' where userID = '%s'",user.userNicheng,user.userSex,user.userAutograph,user.userPhone,user.userPlace,mSPModel.readUserID());
+            }
+            try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(sql))
+            {
+                if(h){
+                    Blob blob = conn.createBlob();
+                    blob.setBytes(1,user.headPic);
+                    ps.setBlob(1,blob);
+                }
+                int i = ps.executeUpdate();
+                Message msg = Message.obtain();
+                if(i == 1){
+                    msg.what = 1;
+                }else{
+                    msg.what = 0;
+                }
+                handler.sendMessage(msg);
+                Log.d(TAG, "updateModifUserApi: "+i);
+            }catch (Exception e){
+                Log.d(TAG, "updateModifUserApi: "+e.getMessage());
+            }
+        }).start();
+    }
+
+
     public void getNewProblemThingsApi(String event, DataListener<List<Things>> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
@@ -669,7 +711,7 @@ public class MySQLModel {
     }
 
     //登录
-    public void getUserLogin(String user,String passwd,DataListener<User> dataListener){
+    public void UserLoginApi(String user, String passwd, DataListener<User> dataListener){
         Handler handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -685,23 +727,26 @@ public class MySQLModel {
             }
         };
         new Thread(()->{
-            String SQL = String.format("select `user`.*,count(`user`.userID) as follow " +
-                    "from `user` " +
-                    "join follow " +
-                    "on `user`.userID = follow.userID and `user`.userSno = '%s' and `user`.userPassword = '%s' " +
-                    "GROUP BY `user`.userID " +
-                    "UNION ALL " +
-                    "select `user`.*,count(`user`.userID) as followed " +
-                    "from `user`  " +
-                    "join follow " +
-                    "on `user`.userID = follow.userIDed and `user`.userSno = '%s' and `user`.userPassword = '%s' " +
-                    "GROUP BY `user`.userID " +
-                    "UNION ALL " +
-                    "select `user`.*,count(`user`.userID) as followed " +
-                    "from `user`  " +
-                    "join things " +
-                    "on `user`.userID = things.userID and `user`.userSno = '%s' and `user`.userPassword = '%s' " +
-                    "GROUP BY `user`.userID ",user,passwd,user,passwd,user,passwd);
+            String SQL = String.format("select `user`.*,school.*,count(`user`.userID) as follow " +
+                    "                    from `user` " +
+                    "                    join follow " +
+                    "  join school " +
+                    "                    on `user`.userID = follow.userID and `user`.userSno = '%s' and `user`.userPassword = '%s' and `user`.userSchool = school.schoolID " +
+                    "                    GROUP BY `user`.userID " +
+                    "                    UNION ALL " +
+                    "select `user`.*,school.*,count(`user`.userID) as followed " +
+                    "                    from `user`  " +
+                    "                    join follow " +
+                    "join school " +
+                    "                    on `user`.userID = follow.userIDed and `user`.userSno ='%s' and `user`.userPassword = '%s' and `user`.userSchool = school.schoolID " +
+                    "                    GROUP BY `user`.userID " +
+                    "                    UNION ALL " +
+                    "select `user`.*,school.*,count(`user`.userID) as followed " +
+                    "                    from `user`  " +
+                    "                    join things " +
+                    " join school " +
+                    "                    on `user`.userID = things.userID and `user`.userSno =  '%s' and `user`.userPassword = '%s' and `user`.userSchool = school.schoolID " +
+                    "                    GROUP BY `user`.userID  ",user,passwd,user,passwd,user,passwd);
 
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
                 ResultSet resultSet = ps.executeQuery();
@@ -715,7 +760,7 @@ public class MySQLModel {
                         userInfo.userSno = resultSet.getString("userSno");
                         userInfo.userPhone = resultSet.getString("userPhone");
                         userInfo.userSex = resultSet.getString("userSex");
-                        userInfo.userSchool = resultSet.getString("userSchool");
+                        userInfo.userSchool = resultSet.getString("schoolName");
                         userInfo.userPlace = resultSet.getString("userPlace");
                         userInfo.userIdentity = resultSet.getString("userIdentity");
                         userInfo.userAutograph = resultSet.getString("userAutograph");
@@ -762,23 +807,26 @@ public class MySQLModel {
         };
         new Thread(()->{
 //            String SQL = String.format("select * from user where userID='%s'",mSPModel.readUserID());
-            String SQL = String.format("select `user`.*,count(`user`.userID) as follow " +
-                    "from `user` " +
-                    "join follow " +
-                    "on `user`.userID = follow.userID and `user`.userID = '%s' " +
-                    "GROUP BY `user`.userID " +
-                    "UNION ALL " +
-                    "select `user`.*,count(`user`.userID) as followed " +
-                    "from `user`  " +
-                    "join follow " +
-                    "on `user`.userID = follow.userIDed and `user`.userID = '%s' " +
-                    "GROUP BY `user`.userID " +
-                    "UNION ALL " +
-                    "select `user`.*,count(`user`.userID) as followed " +
-                    "from `user` " +
-                    "join things " +
-                    "on `user`.userID = things.userID and `user`.userID = '%s' " +
-                    "GROUP BY `user`.userID",mSPModel.readUserID(),mSPModel.readUserID(),mSPModel.readUserID());
+            String SQL = String.format("select `user`.*,school.*,count(`user`.userID) as follow " +
+                    "                    from `user` " +
+                    "                    join follow " +
+                    "  join school " +
+                    "                    on `user`.userID = follow.userID and `user`.userID = '%s'  and `user`.userSchool = school.schoolID " +
+                    "                    GROUP BY `user`.userID " +
+                    "                    UNION ALL " +
+                    "select `user`.*,school.*,count(`user`.userID) as followed " +
+                    "                    from `user`  " +
+                    "                    join follow " +
+                    "join school " +
+                    "                    on `user`.userID = follow.userIDed and `user`.userID = '%s' and `user`.userSchool = school.schoolID " +
+                    "                    GROUP BY `user`.userID " +
+                    "                    UNION ALL " +
+                    "select `user`.*,school.*,count(`user`.userID) as followed " +
+                    "                    from `user`  " +
+                    "                    join things " +
+                    " join school " +
+                    "                    on `user`.userID = things.userID and `user`.userID = '%s' and `user`.userSchool = school.schoolID " +
+                    "                    GROUP BY `user`.userID  ",mSPModel.readUserID(),mSPModel.readUserID(),mSPModel.readUserID());
             try(Connection conn = getConnector();PreparedStatement ps = conn.prepareStatement(SQL)) {
                 ResultSet resultSet = ps.executeQuery();
                 User userInfo = new User();
@@ -788,7 +836,7 @@ public class MySQLModel {
                     userInfo.userSno = resultSet.getString("userSno");
                     userInfo.userPhone = resultSet.getString("userPhone");
                     userInfo.userSex = resultSet.getString("userSex");
-                    userInfo.userSchool = resultSet.getString("userSchool");
+                    userInfo.userSchool = resultSet.getString("schoolName");
                     userInfo.userPlace = resultSet.getString("userPlace");
                     userInfo.userIdentity = resultSet.getString("userIdentity");
                     userInfo.userAutograph = resultSet.getString("userAutograph");
