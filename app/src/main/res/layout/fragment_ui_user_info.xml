@@ -323,6 +323,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/llayout_school_n"
                 android:visibility="gone"
                 android:orientation="vertical"
                 android:layout_width="match_parent"

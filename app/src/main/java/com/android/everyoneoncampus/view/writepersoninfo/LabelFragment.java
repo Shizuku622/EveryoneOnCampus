@@ -95,7 +95,7 @@ public class LabelFragment extends Fragment {
         mBinding.btnComplete.setOnClickListener(v->{
             if(mWriteInfoPresenter.infoComplete()){
                 getActivity().finish();
-                getActivity().startActivity(new Intent(EocApplication.getContext(), MainUIActivity.class));
+                startActivity(new Intent(getActivity(), MainUIActivity.class));
             }
         });
 

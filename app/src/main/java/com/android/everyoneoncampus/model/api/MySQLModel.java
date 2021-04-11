@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.util.Pair;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -38,7 +37,7 @@ public class MySQLModel {
     private final String DRIVER = "com.mysql.jdbc.Driver";
     private final String USER = "rrxymysql";
     private final String PASSWD = "RRXY@mysql0204";
-    private final String IP = "49.235.216.56";
+    private final String IP = "124.70.97.206";
     private final String DBNAME = "rrxy";
     //&characterEncoding=utf8&useUnicode=true
     private final String OTHER = "?useSSL=false&serverTimezone=UTC";

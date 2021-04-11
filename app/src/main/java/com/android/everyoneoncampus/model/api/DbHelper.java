@@ -1,12 +1,10 @@
 package com.android.everyoneoncampus.model.api;
 
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.ContactsContract;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
@@ -47,11 +45,11 @@ public class DbHelper {
     * */
     public void getLoseTakeThings(DataListener<LoseTake> dataListener){
 
-        Handler handler = new Handler(Looper.myLooper()){
+        Handler handler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                dataListener.onComplete((LoseTake)msg.obj);
+                dataListener.onComplete((LoseTake) msg.obj);
             }
         };
 

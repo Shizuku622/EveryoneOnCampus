@@ -34,7 +34,7 @@ public class MainUIActivity extends BaseActivity {
     private ActivityMainUseruiBinding mBinding;
     private LoginPresenter mLoginPresenter;
     private static final String TAG = "MainUIActivity";
-
+    private static final String LOGIN_FLAG = "LOGIN";
     /**
      * 设置退出时间
      */
@@ -51,7 +51,14 @@ public class MainUIActivity extends BaseActivity {
         setContentView(view);
         mLoginPresenter = new LoginPresenter(this);
         initView();
-        //查询机型是否一样
+        //登录操作
+        otherCode();
+    }
+
+    private void otherCode() {
+        Intent intent = getIntent();
+        int chooseLogin = intent.getIntExtra("LOGIN_FLAG",0);
+        mLoginPresenter.chooseLogin(chooseLogin);
         mLoginPresenter.queryUserModelStatus();
         mLoginPresenter.addAllLCUserForSQLite();
     }
@@ -74,8 +81,8 @@ public class MainUIActivity extends BaseActivity {
 
     private void initView() {
 
-//        mBinding.rlayoutMainAdd.bringToFront();
-//        mBinding.imgAddDynamic.bringToFront();
+
+
 
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new UIIndexFragment());

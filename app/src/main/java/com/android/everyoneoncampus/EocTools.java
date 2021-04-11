@@ -7,21 +7,15 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.LongDef;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.Locale;
 
 public class EocTools {
-
+    private String s = "ss";
     private static final String TAG = "EocTools";
     public static final String HEADPIC = "HEADPIC";
 

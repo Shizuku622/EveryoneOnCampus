@@ -64,9 +64,18 @@ public class LoginPresenter {
     }
     public LoginPresenter(MainUIActivity mainUIActivity){
         mMainUIActivity = mainUIActivity;
+
     }
 
     private static final String TAG = "LoginPresenter";
+
+    /**
+     * @param chooseLogin 登录code
+     * 选择登录，1是填写之后登录，2是直接登录
+     */
+    public void chooseLogin(int chooseLogin) {
+
+    }
 
 
     public void addAllLCUserForSQLite(){
@@ -148,22 +157,6 @@ public class LoginPresenter {
             @Override
             public void onComplete(User result) {
                 if(result != null){
-                    //登陆leanclound
-                    loginLeanCloud(result);
-                    //保存用户ID到sp
-                    mSpModel.saveUserID(result.userID);
-                    //设置更新标志
-                    EocApplication.setLoginUpdate(1);
-                    if(mDbHelper.selectUserExist(result.userID)){
-                        //更新用户信息就可以
-                        Log.d(TAG, "onComplete: 更新");
-                        mDbHelper.updateExistUserInfo(result);
-                    }else{
-                        //保存用户信息到数据库
-                        mDbHelper.saveCurrentUserInfo(result);
-                    }
-                    //记录云端机型
-                    mMySQLModel.writeModelInfoApi();
                     //查询是否新用户
                     if(result.mark.trim().equals("0")){
                         //清除
@@ -171,8 +164,24 @@ public class LoginPresenter {
                         mDbHelper.clearSelectedLabel();
                         //跳转到填写信息
                         mUserLoginActivity.userWriteUserInfo();
-                    }else{
-                        //跳转到主界面
+                    }else{//跳转到主界面
+                        //登陆leanclound
+                        loginLeanCloud(result);
+                        //保存用户ID到sp
+                        mSpModel.saveUserID(result.userID);
+                        //设置更新标志
+                        EocApplication.setLoginUpdate(1);
+                        if(mDbHelper.selectUserExist(result.userID)){
+                            //更新用户信息就可以
+                            Log.d(TAG, "onComplete: 更新");
+                            mDbHelper.updateExistUserInfo(result);
+                        }else{
+                            //保存用户信息到数据库
+                            mDbHelper.saveCurrentUserInfo(result);
+                        }
+                        //记录云端机型
+                        mMySQLModel.writeModelInfoApi();
+
                         mUserLoginActivity.loginMainUI();
                     }
                 }else{
@@ -235,6 +244,7 @@ public class LoginPresenter {
     public void selectLabel(String labelName){
         mDbHelper.SelectLable(labelName);
     }
+
 
 }
 

@@ -2,10 +2,6 @@ package com.android.everyoneoncampus;
 
 import android.app.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.everyoneoncampus.databinding.ActivitySettingBinding;
-
 import java.util.ArrayList;
 import java.util.List;
 

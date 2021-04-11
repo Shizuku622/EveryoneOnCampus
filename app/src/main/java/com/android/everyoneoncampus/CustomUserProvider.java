@@ -1,23 +1,20 @@
 package com.android.everyoneoncampus;
 
-import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 
-import com.android.everyoneoncampus.model.api.DbHelper;
-import com.android.everyoneoncampus.model.api.MySQLModel;
 import com.android.everyoneoncampus.model.entity.User;
-import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.leancloud.chatkit.LCChatKit;
 import cn.leancloud.chatkit.LCChatKitUser;
 import cn.leancloud.chatkit.LCChatProfileProvider;
 import cn.leancloud.chatkit.LCChatProfilesCallBack;
 
 public class CustomUserProvider implements LCChatProfileProvider {
+
+    
 
     private static CustomUserProvider customUserProvider;
     private static List<LCChatKitUser> allUser = new ArrayList<>();
@@ -37,8 +34,11 @@ public class CustomUserProvider implements LCChatProfileProvider {
         String userID = EocApplication.USER_MARK + user.userID;
         String userName = user.userName;
         byte[] headPicByte = user.headPic;
-        //转成base64
-        String headPic = Base64.encodeToString(headPicByte,Base64.DEFAULT);
+        String headPic = "";
+        if(headPicByte != null){
+            //转成base64
+            headPic = Base64.encodeToString(headPicByte,Base64.DEFAULT);
+        }
         LCChatKitUser lcChatKitUser = new LCChatKitUser(userID,userName,headPic);
         allUser.add(lcChatKitUser);
         Log.d(TAG, user.userID + ","+user.userName);
